@@ -1,0 +1,22 @@
+button {
+  padding: 1em 2em 1em 2em;
+  text-decoration: none;
+  border: none;
+  font-weight: bold;
+  border-radius: 3em;
+  cursor: pointer;
+  display: inline-block;
+}
+
+#SignIn {
+  width: fit-content;
+  font-size: 1em;
+  background-color: #212323;
+  color: white;
+  margin: 1em;
+}
+
+#SignIn:hover {
+  background-color: #A7D8D7;
+  color: #212323;
+}

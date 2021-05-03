@@ -1,0 +1,30 @@
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #A7D8D7;
+}
+
+#Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+@media (min-width: 500px) {
+  #Login {
+    padding: 1em 2em 1em 2em;
+  }
+}
+
+#Login img {
+  width: 30vh;
+  max-width: 100%;
+}

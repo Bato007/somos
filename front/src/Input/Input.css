@@ -1,0 +1,23 @@
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+input {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  display: inline-block;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  padding: 1em 2em 1em 2em;
+  font-size: 2vh;
+  margin: 1em;
+}
+
+@media (min-width: 800px) {
+  input {
+    font-size: 2.5vh;
+  }
+}
+
+.InputLogin {
+  font-family: 'Helvetica Neue', Helvetica, FontAwesome;
+  color: black;
+}

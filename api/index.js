@@ -10,6 +10,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/authentication', authenticationRouter)
+app.use('/authentication/signin', authenticationRouter)
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
