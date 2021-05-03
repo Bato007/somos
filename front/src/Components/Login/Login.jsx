@@ -1,4 +1,7 @@
 import React, {useState} from 'react'
+import { useHistory } from 'react-router-dom'
+import authentication from '../Authentication'
+
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import Somos from './images/logo.png'
@@ -7,17 +10,19 @@ import './Login.css'
 /* Error al ingresar usuario o contrasena */
 const Error = ({error}) => {
   const style = {
-    color: 'red'
+    color: 'red',
+    fontSize: '2vh'
   }
   return <h5 id="Error" style={style}>{error}</h5> 
 }
 
 /* Form para ingresar a los recursos */
 const Login = () => {
+  const history = useHistory()
   const [account, setAccount] = useState({username: '', password: ''})
   const [error, setError] = useState('')
 
-  //Leyendo el valor actual del input
+  // Leyendo el valor actual del input
   const handleChange = (event) => {
     setAccount({
       ...account,
@@ -25,7 +30,7 @@ const Login = () => {
     })
   }
 
-  //Revisando que la cuenta exista
+  // Revisando que la cuenta exista
   const existingAccounts = async () => {
     const username = account.username
     const password = account.password
@@ -36,8 +41,7 @@ const Login = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({username, password}),
-    })
-    .then((res) => res.json())
+    }).then((res) => res.json())
 
     if (json.username === 'ERROR 101') {
       setError('Incorrect username')
@@ -45,6 +49,10 @@ const Login = () => {
       setError('Incorrect password')
     } else {
       setError('')
+      if (!json.isSomos) {
+        localStorage.setItem('isAuth', authentication.onAuthentication())
+        history.push('/home')
+      }
     }
   }
 
