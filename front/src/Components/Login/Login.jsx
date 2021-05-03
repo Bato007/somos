@@ -36,13 +36,12 @@ const Login = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({username, password}),
-    }).then(response => {
-      return response.text()
     })
+    .then((res) => res.json())
 
-    if (json === 'ERROR 101') {
+    if (json.username === 'ERROR 101') {
       setError('Incorrect username')
-    } else if (json === 'ERROR 102') {
+    } else if (json.username === 'ERROR 102') {
       setError('Incorrect password')
     } else {
       setError('')
