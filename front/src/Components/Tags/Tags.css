@@ -12,6 +12,7 @@
   background-color: #bdecec;
   border-radius: 1em;
   text-transform: uppercase;
+  font-size: 0.8em;
 }
 .tag button {
   margin-left: 1em;
@@ -23,9 +24,16 @@
   border-radius: 100%;
   font-size: x-small;
   padding: 0;
-  opacity: 0;
 }
 
-.tag button:hover {
-  opacity: 1;
+@media (min-width: 800px) {
+  .tag {
+    font-size: 1em;
+  }
+  .tag button {
+    opacity: 0;
+  }
+  .tag button:hover {
+    opacity: 1;
+  }
 }

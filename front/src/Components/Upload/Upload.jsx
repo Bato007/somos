@@ -19,10 +19,10 @@ const Upload = () => {
         <h3>Para</h3>
         <SearchBarTo />
         <h3>Descripcion del archivo</h3>
-        <textarea name="description" rows="8" cols="90"></textarea>
-        <h3>Fecha limite de disponibilidad</h3>
+        <textarea name="description"></textarea>
+        <h3>Disponible hasta</h3>
         <div className="UploadEnd">          
-          <Input type="date" name="date" placeholder="Fecha de vigencia" />
+          <Input className="titleInput" type="date" name="date" placeholder="Fecha de vigencia" />
           <Button name="Subir" id="UploadButton" />
         </div>
       </div>

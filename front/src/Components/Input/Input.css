@@ -9,16 +9,12 @@ input {
   margin: 1em;
 }
 
-.titleInput {
-  width: 47vw;
+.InputLogin {
+  color: black;
 }
 
 @media (min-width: 800px) {
   input {
     font-size: 2.5vh;
   }
-}
-
-.InputLogin {
-  color: black;
 }

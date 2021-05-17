@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   padding: 3em 0 3em 0;
+  max-width: 100vw;
 }
 
 #Upload {
@@ -13,26 +14,47 @@
   width: fit-content;
   justify-content: center;
   background-color: white;
-  padding: 3em;
   border-radius: 0.5em;
-  margin: 0 !important;
+  padding: 1em;
 }
 
 #Upload h1 {
   text-align: center;
+  font-size: 1em;
 }
 
 #Upload h3 {
   margin: 1.5em 0 0 1em;
+  font-size: 0.8em;
 }
 
 #Upload textarea {
   resize: none;
   border-radius: 0.5em;
   margin: 1em;
+  max-width: 95%;
+  height: 50px;
 }
 
 #Upload .UploadEnd {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+@media (min-width: 800px) {
+  #Upload {
+    padding: 3em;
+  }
+  #Upload .UploadEnd {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #Upload h1 {
+    font-size: 2em;
+  }
+  #Upload h3 {
+    font-size: 1em;
+  }
 }

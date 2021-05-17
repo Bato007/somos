@@ -24,7 +24,7 @@
 }
 
 .list li > p {
-  padding: 1em 0 1em 1em;
+  padding: 0.3em 0 0.3em 0.3em;
   margin: 0;
   width: 100%;
 }
@@ -50,4 +50,10 @@
 
 .list li#return > button {
   margin-left: 1em;
+}
+
+@media (min-width: 800px) {
+  .list li > p {
+    padding: 1em 0 1em 1em;
+  }
 }
