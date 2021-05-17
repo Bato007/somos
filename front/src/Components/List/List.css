@@ -1,0 +1,53 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.list li {
+  width: 100%;
+  cursor: context-menu;
+  height: fit-content;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#return {
+  justify-content: left;
+}
+
+.list li:not(#return) {
+  justify-content: space-between;
+}
+
+.list li > p {
+  padding: 1em 0 1em 1em;
+  margin: 0;
+  width: 100%;
+}
+
+.list li:hover {
+  background-color: #bdecec;
+}
+
+.list li > button {
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  font-size: x-small;
+  padding: 0;
+  color: #bdecec;
+  background-color: #707070;
+}
+
+.list li:not(#return) > button {
+  margin-right: 1em;
+}
+
+.list li#return > button {
+  margin-left: 1em;
+}

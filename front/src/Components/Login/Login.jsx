@@ -50,19 +50,21 @@ const Login = () => {
     } else {
       setError('')
       if (!json.isSomos) {
-        localStorage.setItem('isAuth', authentication.onAuthentication())
+        authentication.onAuthentication()
         history.push('/home')
       }
     }
   }
 
   return(
-    <div id="Login">
-      <img src={Somos} alt="Somos Logo" />
-      <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange}/>
-      <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange}/>
-      <Button id="SignIn" name="Sign In" onClick={existingAccounts} />
-      <Error error={error} />
+    <div id="Home">
+      <div id="Login">
+        <img src={Somos} alt="Somos Logo" />
+        <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange}/>
+        <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange}/>
+        <Button id="SignIn" name="Sign In" onClick={existingAccounts} />
+        <Error error={error} />
+      </div>
     </div>
   )
 }

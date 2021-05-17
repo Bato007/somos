@@ -3,12 +3,12 @@ button {
   text-decoration: none;
   border: none;
   font-weight: bold;
-  border-radius: 3em;
   cursor: pointer;
-  display: inline-block;
 }
 
-#SignIn {
+#SignIn, #UploadButton  {
+  display: inline-block;
+  border-radius: 3em;
   width: fit-content;
   font-size: 1em;
   background-color: #212323;
@@ -16,7 +16,23 @@ button {
   margin: 1em;
 }
 
-#SignIn:hover {
+#SignIn:hover, #UploadButton:hover {
   background-color: #A7D8D7;
   color: #212323;
+}
+
+#ChooseFile {
+  display: inline-block;
+  background-color: #A7D8D7;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 1.5em;
+}
+
+#ChooseFile:hover {
+  background-color: white;
+  color: black;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #A7D8D7;
 }

@@ -1,0 +1,31 @@
+.tags {
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2em 0.7em  0.2em 0.7em;
+  margin: 0.3em 0.3em 0 0.3em;
+  background-color: #bdecec;
+  border-radius: 1em;
+  text-transform: uppercase;
+}
+.tag button {
+  margin-left: 1em;
+  background-color: #707070;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  font-size: x-small;
+  padding: 0;
+  opacity: 0;
+}
+
+.tag button:hover {
+  opacity: 1;
+}

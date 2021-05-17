@@ -1,0 +1,60 @@
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.searchbarTo {
+  margin: 1em;
+  width: fit-content;
+  height: fit-content;
+}
+
+.searchbarTo:hover {
+  cursor: text;
+}
+
+.searchbarTo #typeableArea {
+  width: 70vw;
+  padding: 1em;
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #E8E8E8;
+  border-width: 1px;
+}
+
+.searchbarTo #typeableArea .tags {
+  display: inline;
+}
+
+.searchbarTo input {
+  display:inline;
+  border-radius: 0;
+  width: fit-content;
+  margin: 0 0 0 8px;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.searchbarTo li:not(.tag) {
+  width: 100%;
+}
+
+#searchCategories {
+  width: 55px;
+  font-size: 1.2em;
+  font-family: 'Helvetica Neue', Helvetica, FontAwesome;
+  background-color: #E8E8E8;
+  border-radius: 0;
+}
+
+.searchBarElements {
+  display: flex;
+}
+
+@media (min-width: 800px) {
+  .searchbarTo #typeableArea {
+    width: 40vw;
+  }
+  .searchbarTo #searchCategories {
+    font-size: 1em;
+  }
+}
