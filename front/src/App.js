@@ -1,6 +1,7 @@
 import Login from './Components/Login/Login'
 import Home from './Components/Home/Home'
 import Upload from './Components/Upload/Upload'
+import Create from './Components/CreateAccount/Info'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 // import ProtectedRoute from './Components/ProtectedRoutes'
 
@@ -21,6 +22,7 @@ const App = () => (
       <Route path='/upload' component={Upload} />
       <Route path='/home' component={Home} />
       <Route path='/' component={Login} />
+      <Route path='/createaccount' component={Create} />
     </Switch>
   </Router>
 )
