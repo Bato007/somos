@@ -1,0 +1,34 @@
+#Navbar {
+  display: flex;
+  padding: 3em 0 3em 0;
+  width: 100%;
+  justify-content: space-between;
+  background-color: #212323;
+  flex-direction: column;
+}
+
+#Navbar img {
+  cursor: pointer;
+}
+
+#Navbar .icons > img:last-child {
+  padding-right: 4em;
+}
+
+#Navbar .icons > img {
+  width: 50px;
+  height: 50px;
+  padding: 0 1em 0 1em;
+}
+
+#Navbar .logo {
+  height: 70px;
+  width: 200px;
+  padding: 0 1em 0 5em;
+}
+
+@media (min-width: 800px) {
+  #Navbar {
+    flex-direction: row;
+  }
+}

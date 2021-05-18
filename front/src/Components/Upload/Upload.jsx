@@ -1,16 +1,14 @@
 import React from 'react'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
+import NavBar from '../NavBar/NavBar'
 import SearchBarTo from '../SearchbarTo/SearchbarTo'
 import './Upload.css'
 
 const Upload = () => {
-  const HandleChange = () => {
-
-  }
-
   return (
     <div className="Upload">
+      <NavBar />
       <div id="Upload">      
         <h1>Subir recurso</h1>
         <Button name="Cargar archivo" id="ChooseFile" />
