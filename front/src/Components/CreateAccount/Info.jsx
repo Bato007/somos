@@ -23,7 +23,7 @@ const Create = () => {
         <div id= "info">
             <div className="prueba">
             <div className="left">
-                <img src={logo} alt="somos logo" width="350px" min-width="30px"/>
+                <img src={logo} alt="somos logo" width="350px" min-width="30px" />
                 <div className="containerC">
                     <img src={pre} alt="pre" width="25px"/>
                     &nbsp; Información de cuenta

@@ -29,34 +29,34 @@ body {
     background-color: #A7D8D7;
     min-width:500px;
     width: auto;
-    float: left;
     padding-top: 65px;
     padding-bottom: 35px;
-    align-content: flex-start;
+    align-content: center;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: column;
     display: inline-flex;
     flex-wrap: nowrap;
     margin-left: 0px;
     margin-right: 20px;
-    padding-right: 2px;
-    padding-left: 2px;
+    padding-right: 0px;
+    padding-left: 20px;
     box-shadow: 1px 1px 1px 2px #A7D8D7, 4px 4px 4px 4px rgb(102, 102, 102);
 }
 
 .right{
-    margin-top: 7px;
     background-color: whitesmoke;
     margin-left: auto;
     margin-right: auto;
     max-width: 358px;
     min-width: 200px;
     padding-left: 20px;
-    padding-top: 65px;
+    padding-right: 20px;
     display: inline-block;
     width: auto;
     margin-bottom: 0px;
+    padding-top: 20px;
+    margin-top: 10px;
 }
 
 .titulo{
@@ -65,7 +65,7 @@ body {
     font-size:54px;
     font-weight:bold;
     width: auto;
-    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .right h3 {
@@ -82,5 +82,10 @@ body {
     .prueba{
         flex-direction: row;
         justify-content: space-between;
+    }
+    .left{
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: 15px;
     }
 }
