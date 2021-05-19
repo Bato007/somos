@@ -19,10 +19,10 @@ const App = () => (
 const App = () => (
   <Router>
     <Switch>
+      <Route path='/createaccount' component={Create} />
       <Route path='/upload' component={Upload} />
       <Route path='/home' component={Home} />
       <Route path='/' component={Login} />
-      <Route path='/createaccount' component={Create} />
     </Switch>
   </Router>
 )

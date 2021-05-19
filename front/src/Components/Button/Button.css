@@ -6,7 +6,7 @@ button {
   cursor: pointer;
 }
 
-#SignIn, #UploadButton  {
+#SignIn, #UploadButton #Create {
   display: inline-block;
   border-radius: 3em;
   width: fit-content;
@@ -16,7 +16,7 @@ button {
   margin: 1em;
 }
 
-#SignIn:hover, #UploadButton:hover {
+#SignIn:hover, #UploadButton:hover, #Create:hover {
   background-color: #A7D8D7;
   color: #212323;
 }
