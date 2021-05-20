@@ -6,7 +6,7 @@ button {
   cursor: pointer;
 }
 
-#SignIn, #UploadButton #Create {
+#SignIn, #UploadButton, #Create {
   display: inline-block;
   border-radius: 3em;
   width: fit-content;
