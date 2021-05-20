@@ -22,11 +22,6 @@ const Ubicacion = () => {
     const location = useLocation()
 
     /* Variables de datos */
-    const mail = location.state.mail
-    const name = location.state.name
-    const phone = location.state.phone
-    const username = location.state.username
-    const password = location.state.password
     const [job, setJob] = useState('')
     const [place, setPlace] = useState('')
     const [error, setError] = useState('')
@@ -36,7 +31,13 @@ const Ubicacion = () => {
         {
             setError('No se pueden dejar campos vacios')
         }else {
-
+            console.log(location.state.username)
+            console.log(location.state.password)
+            console.log(location.state.mail)
+            console.log(location.state.name)
+            console.log(location.state.phone)
+            console.log(job)
+            console.log(place)
         }
     }
 

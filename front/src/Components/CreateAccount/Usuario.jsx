@@ -26,8 +26,6 @@ const Usuario = () => {
     const [mail, setMail] = useState('')
     const [name, setName] = useState('')
     const [phone, setPhone] = useState(0)
-    const username = location.state.username
-    const password = location.state.password
     const [error, setError] = useState('')
 
     const nextScreen = () => {
@@ -41,7 +39,7 @@ const Usuario = () => {
         else{
             history.push({
                 pathname: '../createaccount-3',
-                state: {username: username, password: password, mail: mail, name: name, phone: phone}
+                state: {username: location.state.username, password: location.state.password, mail: mail, name: name, phone: phone}
             })
         }
     }
