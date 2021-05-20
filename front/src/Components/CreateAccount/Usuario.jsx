@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import iglesia from './images/logoSomos.png'
@@ -9,8 +9,44 @@ import pre from './images/pre.png'
 import post from './images/post.png'
 import './Create.css'
 
+/* Error al no ingresar algun campo */
+const Error = ({error}) => {
+    const style = {
+      color: 'red',
+      fontSize: '2vh'
+    }
+    return <h5 id="Error" style={style}>{error}</h5> 
+}
+
 const Usuario = () => {
     const history = useHistory()
+    const location = useLocation()
+
+    /*Variables de los datos*/
+    const [mail, setMail] = useState('')
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState(0)
+    const username = location.state.username
+    const password = location.state.password
+    const [error, setError] = useState('')
+
+    const nextScreen = () => {
+        if (mail === '' || name === '' || phone === 0)
+        {
+            setError('No se pueden dejar campos vacios')
+        }if (phone.length !== 8)
+        {
+            setError('El numero de telefono no tiene 8 digitos')
+        }
+        else{
+            history.push({
+                pathname: '../createaccount-3',
+                state: {username: username, password: password, mail: mail, name: name, phone: phone}
+            })
+        }
+    }
+
+
     return (
         <div id= "Usuario">
             <div className="division">
@@ -39,14 +75,15 @@ const Usuario = () => {
                     <div className="titulo">Agregar información</div>
                     <h2>Llena este apartado por si en algún momento se llega a olvidar la contraseña o el usuario.</h2>
                     <h3>Dirección de email</h3>
-                    <Input className="InputLogin" type="text" name="email" placeholder="Correo electrónico" />
+                    <Input className="InputLogin" type="text" name="email" placeholder="Correo electrónico" onChange={(event) => setMail(event.target.value)} />
                     <h3>Nombre</h3>
-                    <Input className="InputLogin" type="text" name="nombre" placeholder="Nombre completo" />
+                    <Input className="InputLogin" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
                     <h3>Número telefónico</h3>
-                    <Input className="InputLogin" type="number" name="teléfono" placeholder="Teléfono" />
+                    <Input className="InputLogin" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
                     <center>
-                        <Button id="Create" name="Continuar >" onClick={() => history.push('../createaccount-3')}  />
+                        <Button id="Create" name="Continuar >" onClick={nextScreen}  />
                     </center>
+                    <Error error={error} />
                 </div>
             </div>
         </div>

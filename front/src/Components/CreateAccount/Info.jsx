@@ -21,6 +21,29 @@ const Error = ({error}) => {
 /*Form para ingresar campos */
 const Create = () => {
     const history = useHistory()
+    /* Validacion de campos */
+    const [user, setUser] = useState('')
+    const [pass, setPass] = useState('')
+    const [conf, setConf] = useState('')
+    const [error, setError] = useState('')
+
+    const nextScreen = () => {
+        if (pass === '' || conf === '' || user === '')
+        {
+            setError('No se pueden dejar campos vacios')
+        }
+        if (pass !== conf) 
+        {
+            setError('Las contraseñas no coinciden')
+        }
+        if (pass === conf && pass !== '' && conf !== '' && user !== '')
+        {
+            history.push({
+                pathname: '/createaccount-2',
+                state: { username: user, password: pass }
+            })
+        }
+    }
     return (
         <div id= "info">
             <div className="division">
@@ -50,15 +73,16 @@ const Create = () => {
                 <h2>Empieza creando estos datos los cuales  ayudarán a poder
                 acceder a la cuenta.</h2>
                 <h3>Usuario</h3>
-                <Input className="InputLogin" type="text" name="username" placeholder="Usuario" />
+                <Input className="InputLogin" type="text" name="username" placeholder="Usuario" onChange={(event) => setUser(event.target.value)} />
                 <h3>Contraseña</h3>
-                <Input className="InputLogin" type="password" name="password" placeholder="Introduzca su contraseña" />
+                <Input className="InputLogin" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setPass(event.target.value)} />
                 <h3>Confirmación de contraseña</h3>
-                <Input className="InputLogin" type="password" name="password" placeholder="Introduzca su contraseña" />
+                <Input className="InputLogin" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
                 <h3>Categoría perteneciente</h3>
                 <center>
-                    <Button id="Create" name="Continuar >" onClick={() => history.push('../createaccount-2')}  />
+                    <Button id="Create" name="Continuar >" onClick={nextScreen}  />
                 </center>
+                <Error error={error} />
             </div>
             </div>
         </div>
