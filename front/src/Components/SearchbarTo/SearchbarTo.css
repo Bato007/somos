@@ -1,0 +1,57 @@
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.searchbarTo {
+  margin: 1em;
+  width: fit-content;
+  height: fit-content;
+}
+
+.searchbarTo:hover {
+  cursor: text;
+}
+
+.searchbarTo #typeableArea {
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #E8E8E8;
+  border-width: 1px;
+  width: 50vw;
+  padding: 1em;
+}
+
+.searchbarTo #typeableArea .tags {
+  display: inline;
+}
+
+.searchbarTo input {
+  display:inline;
+  border-radius: 0;
+  width: fit-content;
+  margin: 0 0 0 8px;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.searchbarTo li:not(.tag) {
+  width: 100%;
+}
+
+#searchCategories {
+  background-color: #E8E8E8;
+  border-radius: 0;
+
+  padding: 1em 2em 1em 2em;
+  font-size: 1em;
+  width: 55px;
+}
+
+.searchBarElements {
+  display: flex;
+}
+
+.searchbarTo #typeableArea {
+  width: 50vw;
+  padding: 1em;
+}

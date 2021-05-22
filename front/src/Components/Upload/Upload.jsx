@@ -1,0 +1,31 @@
+import React from 'react'
+import Button from '../Button/Button'
+import Input from '../Input/Input'
+import NavBar from '../NavBar/NavBar'
+import SearchBarTo from '../SearchbarTo/SearchbarTo'
+import './Upload.css'
+
+const Upload = () => {
+  return (
+    <div className="Upload">
+      <NavBar />
+      <div id="Upload">      
+        <h1>Subir recurso</h1>
+        <Button name="Cargar archivo" id="ChooseFile" />
+        <h3>Titulo</h3>
+        <Input className="titleInput" type="text" name="title" placeholder="Nombre del archivo" />
+        <h3>Para</h3>
+        <SearchBarTo />
+        <h3>Descripcion del archivo</h3>
+        <textarea name="description"></textarea>
+        <h3>Disponible hasta</h3>
+        <div className="UploadEnd">          
+          <Input className="titleInput" type="date" name="date" placeholder="Fecha de vigencia" />
+          <Button name="Subir" id="UploadButton" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Upload
