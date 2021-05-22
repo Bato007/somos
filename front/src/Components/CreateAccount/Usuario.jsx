@@ -3,8 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import iglesia from './images/logoSomos.png'
-import logo from './images/logo.png'
-import back from './images/back.png'
+import back from './images/home2.png'
 import pre from './images/pre.png'
 import post from './images/post.png'
 import './Create.css'
@@ -49,10 +48,7 @@ const Usuario = () => {
         <div id= "Usuario">
             <div className="division">
                 <div className="left">
-                    <div className="division">
-                        <img src={back} alt="back" width="30px" className="back" onClick={() => history.push('../createaccount')} />
-                        <img src={logo} alt="somos logo" width="350px" min-width="30px" />
-                    </div>
+                    <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../createaccount')} />
                     <div className="containerC">
                     <div className="containerText">
                         <img src={post} alt="pre" width="25px"/>
@@ -67,21 +63,24 @@ const Usuario = () => {
                         <p>Información de ubicación</p>
                     </div>
                     </div>
-                    <img src={iglesia} alt="iglesia somos" width="170px" min-width="50px"/>
+                    <img src={iglesia} alt="iglesia somos" width="170px"  className ="church"/>
                 </div>
                 <div className="right">
                     <div className="titulo">Agregar información</div>
                     <h2>Llena este apartado por si en algún momento se llega a olvidar la contraseña o el usuario.</h2>
-                    <h3>Dirección de email</h3>
-                    <Input className="InputLogin" type="text" name="email" placeholder="Correo electrónico" onChange={(event) => setMail(event.target.value)} />
-                    <h3>Nombre</h3>
-                    <Input className="InputLogin" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
-                    <h3>Número telefónico</h3>
-                    <Input className="InputLogin" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
                     <center>
-                        <Button id="Create" name="Continuar >" onClick={nextScreen}  />
+                        <h3>Dirección de email</h3>
+                        <Input className="InputCreate" type="text" name="email" placeholder="Correo electrónico" onChange={(event) => setMail(event.target.value)} />
+                        <h3>Nombre</h3>
+                        <Input className="InputCreate" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
+                        <h3>Número telefónico</h3>
+                        <Input className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
+                        <center>
+                            <Button id="Create" name="←  Regresar" onClick={() => history.push('../home')}  />
+                            <Button id="Create" name="Continuar→" onClick={nextScreen}  />
+                        </center>
+                        <Error error={error} />
                     </center>
-                    <Error error={error} />
                 </div>
             </div>
         </div>

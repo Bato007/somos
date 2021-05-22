@@ -6,11 +6,21 @@ button {
   cursor: pointer;
 }
 
-#SignIn, #UploadButton, #Create {
+#SignIn, #UploadButton {
   display: inline-block;
   border-radius: 3em;
   width: fit-content;
   font-size: 1em;
+  background-color: #212323;
+  color: white;
+  margin: 1em;
+}
+
+#Create {
+  display: inline-block;
+  border-radius: 3em;
+  width: fit-content;
+  font-size: 15px;
   background-color: #212323;
   color: white;
   margin: 1em;

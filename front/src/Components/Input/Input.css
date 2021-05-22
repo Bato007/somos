@@ -13,6 +13,13 @@ input {
   color: black;
 }
 
+.InputCreate {
+  color: black;
+  width: 100%;
+  margin: 1em 0;
+
+}
+
 @media (min-width: 800px) {
   input {
     font-size: 2.5vh;
