@@ -1,7 +1,7 @@
 const express = require('express')
 const Joi = require('joi')
 const multer = require('multer')
-const fs = require('fs')
+const hola = require('uuid-v4')
 const { bucket } = require('../DataBase/firebase')
 
 const router = express.Router()
@@ -50,10 +50,13 @@ router.post('/', upload.single('file'), (req, res) => {
   try {
     const { file } = req
 
+    // console.log(file.buffer)
+    // const hola = fs.readFile('../upload/emociones.jpeg', 'utf-8', () => console.log('hola'))
     // Guardando la imagen en firebase
-    bucket.upload('./upload/emociones.jpeg').then((data) => {
+    bucket.upload('./upload/emociones.jpeg', { metadata: { metadata: { firebaseStorageDownloadTokens: hola() } } }).then((data) => {
       console.log(data)
     })
+
     // resource.put(file).then((response) => {
     // })
   } catch (error) {
