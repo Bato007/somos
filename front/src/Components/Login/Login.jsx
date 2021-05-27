@@ -2,19 +2,11 @@ import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import authentication from '../Authentication'
 
+import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import Somos from './images/logo.png'
 import './Login.css'
-
-/* Error al ingresar usuario o contrasena */
-const Error = ({error}) => {
-  const style = {
-    color: 'red',
-    fontSize: '2vh'
-  }
-  return <h5 id="Error" style={style}>{error}</h5> 
-}
 
 /* Form para ingresar a los recursos */
 const Login = () => {
@@ -44,9 +36,9 @@ const Login = () => {
     }).then((res) => res.json())
 
     if (json.username === 'ERROR 101') {
-      setError('Incorrect username')
+      setError('Usuario incorrecto')
     } else if (json.username === 'ERROR 102') {
-      setError('Incorrect password')
+      setError('Contraseña incorrecta')
     } else {
       setError('')
       if (!json.isSomos) {

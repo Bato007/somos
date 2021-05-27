@@ -12,7 +12,7 @@ import './Tags.css'
  *  ej. a quien mandarle el recurso es eliminable, 
  *      pero una etiqueta de recursos similares a no lo es
  */
-const Tags = ({ showTags, isClosable }) => {
+const Tags = ({ showTags, isClosable, setTags }) => {
   const [actualTags, setActualTags] = useState([])
   const [updateTags, setUpdateTags] = useState(false)
 
@@ -34,9 +34,16 @@ const Tags = ({ showTags, isClosable }) => {
   useEffect(() => {
     if (updateTags) {
       setActualTags(actualTags)
+      
+      if (actualTags.length > 0) {
+        setTags([actualTags])
+      } else {
+        setTags([])
+      }
+
       setUpdateTags(false)
     }
-  }, [actualTags, updateTags])
+  }, [actualTags, setTags, updateTags])
   
   return (
     <ul className='tags'>

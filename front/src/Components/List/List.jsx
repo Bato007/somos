@@ -14,14 +14,15 @@ import './List.css'
  * 
  */
 
-const List = ({ actualSearch, showUsernames, showTypes, setTags }) => {
+const List = ({ actualSearch, showUsernames, showTypes, setTagsAccount, setTagsCategory}) => {
   const refList = useRef()
 
   const [members, setMembers] = useState([])
   const [showRequired, setShowRequired] = useState([])
   const [lastResult, setLastResult] = useState([])
   const [showReturn, setReturn] = useState(false)
-  const [sendResourceTo, setSendResourceTo] = useState([])
+  const [sendResourceToAccount, setSendResourceToAccount] = useState([])
+  const [sendResourceToCategory, setSendResourceToCategory] = useState([])
   let iteration = 0
 
   useEffect(() => {
@@ -152,8 +153,14 @@ const List = ({ actualSearch, showUsernames, showTypes, setTags }) => {
 
   // Guarda la persona seleccionada
   const saveReference = (result) => {
-    setSendResourceTo([...sendResourceTo, result])
-    setTags([...sendResourceTo, result])
+
+    if (showButton(result)) {
+      setSendResourceToCategory([...sendResourceToCategory, result])
+      setTagsCategory([...sendResourceToCategory, result])
+    } else {
+      setSendResourceToAccount([...sendResourceToAccount, result])
+      setTagsAccount([...sendResourceToAccount, result])
+    }
   }
 
   return (
@@ -178,14 +185,16 @@ List.propTypes = {
   actualSearch: PropTypes.string,
   showTypes: PropTypes.bool,
   showUsernames: PropTypes.bool,
-  setTags: PropTypes.func,
+  setTagsAccount: PropTypes.func,
+  setTagsCategory: PropTypes.func,
 }
 
 List.defaultProptypes = {
   actualSearch: '',
   showTypes: false,
   showUsernames: false,
-  setTags: () => {},
+  setTagsAccount: () => {},
+  setTagsCategory: () => {},
 }
 
 export default List
