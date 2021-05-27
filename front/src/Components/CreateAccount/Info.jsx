@@ -1,21 +1,13 @@
 import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom'
+
+import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import iglesia from './images/logoSomos.png'
 import pre from './images/pre.png'
 import back from './images/home2.png'
 import './Create.css'
-
-
-/* Error al no ingresar algun campo */
-const Error = ({error}) => {
-    const style = {
-      color: 'red',
-      fontSize: '2vh'
-    }
-    return <h5 id="Error" style={style}>{error}</h5> 
-}
 
 /*Form para ingresar campos */
 const Create = () => {

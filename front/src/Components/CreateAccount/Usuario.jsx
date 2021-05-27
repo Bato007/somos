@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+
+import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import iglesia from './images/logoSomos.png'
@@ -7,15 +9,6 @@ import back from './images/home2.png'
 import pre from './images/pre.png'
 import post from './images/post.png'
 import './Create.css'
-
-/* Error al no ingresar algun campo */
-const Error = ({error}) => {
-    const style = {
-      color: 'red',
-      fontSize: '2vh'
-    }
-    return <h5 id="Error" style={style}>{error}</h5> 
-}
 
 const Usuario = () => {
     const history = useHistory()
