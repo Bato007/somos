@@ -20,7 +20,7 @@ const Ubicacion = () => {
     const [error, setError] = useState('')
 
     const showData = () => {
-        if (job === '' || place === '')
+        if (place === '')
         {
             setError('No se pueden dejar campos vacios')
         }else {

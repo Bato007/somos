@@ -17,14 +17,14 @@ const Usuario = () => {
     /*Variables de los datos*/
     const [mail, setMail] = useState('')
     const [name, setName] = useState('')
-    const [phone, setPhone] = useState(0)
+    const [phone, setPhone] = useState()
     const [error, setError] = useState('')
 
     const nextScreen = () => {
-        if (mail === '' || name === '' || phone === 0)
+        if (mail === '' || name === '')
         {
             setError('No se pueden dejar campos vacios')
-        }if (phone.length !== 8)
+        }if (phone !== null && phone.length !== 8)
         {
             setError('El numero de telefono no tiene 8 digitos')
         }
