@@ -53,7 +53,7 @@ router.post('/', upload.single('file'), (req, res) => {
     // console.log(file.buffer)
     // const hola = fs.readFile('../upload/emociones.jpeg', 'utf-8', () => console.log('hola'))
     // Guardando la imagen en firebase
-    bucket.upload('./upload/emociones.jpeg', { metadata: { metadata: { firebaseStorageDownloadTokens: hola() } } }).then((data) => {
+    bucket.upload('./upload/sprint3.pdf', { metadata: { metadata: { firebaseStorageDownloadTokens: hola() } } }).then((data) => {
       console.log(data)
     })
 

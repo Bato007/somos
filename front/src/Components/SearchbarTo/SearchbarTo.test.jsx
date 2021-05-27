@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SearchbarTo from './SearchbarTo'
 
@@ -16,7 +16,7 @@ describe('Searchbar To tests', () => {
 
     const input = screen.getByRole('input')
 
-    fireEvent.change(input, { target: { value: 'bato' } })
+    userEvent.type(input, 'bato')
     expect(hasInputValue(input, "bato")).toBe(true)
   })
   test('Searchbar To shows contacts on button click', () => {

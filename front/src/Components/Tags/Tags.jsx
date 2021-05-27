@@ -25,7 +25,7 @@ const Tags = ({ showTags, isClosable }) => {
     var index = actualTags.indexOf(result)
 
     if (index !== -1) {
-      await actualTags.splice(index, 1)
+      actualTags.splice(index, 1)
       setUpdateTags(true)
     }
   }

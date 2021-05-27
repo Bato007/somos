@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react'
 import List from '../List/List'
@@ -35,7 +36,7 @@ const SearchbarTo = () => {
       <div className="searchBarElements">
         <div id="typeableArea">
           <Tags showTags={actualSenders} isClosable />
-          <input ref={refInput} type="text" name="actualSearch" onChange={handleChange} />
+          <input ref={refInput} type="text" role="input" name="actualSearch" onChange={handleChange} />
         </div>
         <Button id="searchCategories" name="&#xF2B9;" onClick={() => {searchCategories()}} />
       </div>
