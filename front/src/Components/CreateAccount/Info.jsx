@@ -12,21 +12,24 @@ import './Create.css'
 /*Form para ingresar campos */
 const Create = () => {
     const history = useHistory()
-    /* Validacion de campos */
+    /* Campos de ingreso */
     const [user, setUser] = useState('')
     const [pass, setPass] = useState('')
     const [conf, setConf] = useState('')
     const [error, setError] = useState('')
 
     const nextScreen = () => {
+        /* Validacion de campos no vacios */
         if (pass === '' || conf === '' || user === '')
         {
             setError('No se pueden dejar campos vacios')
         }
+        /* Validacion de contrasenas iguales */
         if (pass !== conf) 
         {
             setError('Las contraseñas no coinciden')
         }
+        /* Paso a la siguiente pantalla */
         if (pass === conf && pass !== '' && conf !== '' && user !== '')
         {
             history.push({

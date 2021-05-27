@@ -14,20 +14,20 @@ const Usuario = () => {
     const history = useHistory()
     const location = useLocation()
 
-    /*Variables de los datos*/
+    /*Campos a ingresar*/
     const [mail, setMail] = useState('')
     const [name, setName] = useState('')
     const [phone, setPhone] = useState()
     const [error, setError] = useState('')
 
     const nextScreen = () => {
+        console.log(phone)
+        /* Revision de campos vacios */
         if (mail === '' || name === '')
         {
             setError('No se pueden dejar campos vacios')
-        }if (phone !== null && phone.length !== 8)
-        {
-            setError('El numero de telefono no tiene 8 digitos')
         }
+        /* Paso a la siguiente pagina */
         else{
             history.push({
                 pathname: '../createaccount-3',
@@ -67,7 +67,7 @@ const Usuario = () => {
                         <h3>Nombre</h3>
                         <Input className="InputCreate" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
                         <h3>Número telefónico</h3>
-                        <Input className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
+                        <Input className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(parseInt(event.target.value, 10))} />
                         <center>
                             <Button id="Create" name="←  Regresar" onClick={() => history.push('../home')}  />
                             <Button id="Create" name="Continuar→" onClick={nextScreen}  />

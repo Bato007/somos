@@ -14,16 +14,19 @@ const Ubicacion = () => {
     const history = useHistory()
     const location = useLocation()
 
-    /* Variables de datos */
+    /* Campos de ingreso */
     const [job, setJob] = useState('')
     const [place, setPlace] = useState('')
     const [error, setError] = useState('')
 
     const showData = () => {
+        /* Validacion de campos vacios */
         if (place === '')
         {
             setError('No se pueden dejar campos vacios')
-        }else {
+        }
+        /* Fetch para la creacion de la cuenta */
+        else {
             console.log(location.state.username)
             console.log(location.state.password)
             console.log(location.state.mail)
