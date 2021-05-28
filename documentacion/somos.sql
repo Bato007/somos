@@ -10,12 +10,13 @@ CREATE TABLE IF NOT EXISTS somos_user (
   church VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS  resource (
+CREATE TABLE IF NOT EXISTS resource (
   id VARCHAR(50) PRIMARY KEY,
   title VARCHAR(50) NOT NULL,
   description VARCHAR(255),
   available DATE NOT NULL,
-  rute VARCHAR(100) NOT NULL
+  rute VARCHAR(100) NOT NULL,
+  token VARCHAR(100) NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS  category (

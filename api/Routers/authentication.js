@@ -101,6 +101,7 @@ router.post('/signup', async (req, res) => {
   const answer = {
     status: '',
   }
+  const client = await pool.connect()
 
   try {
     const {
@@ -113,23 +114,23 @@ router.post('/signup', async (req, res) => {
     }
 
     // Empezando a meter el usuario
-    await pool.query('BEGIN;')
+    await client.query('BEGIN;')
 
-    await pool.query(`
+    await client.query(`
       INSERT INTO somos_user VALUES
         ($1, $2, $3, $4, $5, $6, $7, $8);
     `, [username, password, email, name, phone,
       workplace, residence, church])
 
     // Agregando las
-    await pool.query(`
+    await client.query(`
       SELECT * FROM insert_categories($1, $2);
     `, [username, categories])
 
-    await pool.query('COMMIT;')
+    await client.query('COMMIT;')
     answer.status = 'DONE'
   } catch (error) {
-    await pool.query('ROLLBACK;')
+    await client.query('ROLLBACK;')
     const err = error.message
 
     // Verificando que error es

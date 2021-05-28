@@ -59,18 +59,18 @@ const Upload = () => {
     const tags = ['']
     const category = categories
     const users = accountsUsernames
-    const date = resourceInfo.date
+    const fecha = resourceInfo.date
 
-    if (upload === 'Cargar Archivo' || title === '' || description === '' || date === '' || (category.length === 0 && users.length === 0)) {
+    if (upload === 'Cargar Archivo' || title === '' || description === '' || fecha === '' || (category.length === 0 && users.length === 0)) {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
-      await fetch('http://localhost:3001/authentication/authentication', {
+      await fetch('http://localhost:3001/resources', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({upload, title, description, tags, category, users, date}),
+        body: JSON.stringify({upload, title, description, tags, category, users, date: fecha}),
       }).then((res) => res.json())
     }
   }
