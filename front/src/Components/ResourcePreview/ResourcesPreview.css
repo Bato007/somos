@@ -1,0 +1,20 @@
+.resourcePreview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-content: center;
+  text-align: center;
+}
+
+.resourcePreview .resourcesContainer {
+  justify-self: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  width: 200px;
+  margin: 2em 0 2em 0;
+}
+
+.resourcePreview .resourcesContainer img {
+  max-width: 200px;
+  max-height: 200px;
+  width: 200px;
+  height: 200px;
+}

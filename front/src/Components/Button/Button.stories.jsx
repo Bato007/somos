@@ -10,8 +10,14 @@ export default {
 
 const Template = (args) => <Button {...args} />
 
-export const Submit = Template.bind({})
-Submit.args = {
+export const SignIn = Template.bind({})
+SignIn.args = {
   id: "SignIn",
   name: "Sign In"
+}
+
+export const Submit = Template.bind({})
+Submit.args = {
+  id: "UploadButton",
+  name: "Submit"
 }

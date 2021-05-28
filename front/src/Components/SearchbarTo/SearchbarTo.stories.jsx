@@ -11,3 +11,7 @@ export default {
 const Template = (args) => <SearchbarTo {...args} />
 
 export const SearchbarToSend = Template.bind({})
+SearchbarToSend.args = {
+  setAccounts: () => {},
+  setCategories: () => {},
+}

@@ -53,6 +53,7 @@ const Upload = () => {
   }
 
   const submitResource = async () => {
+    const upload = resourceInfo.CargarArchivo
     const title = resourceInfo.title
     const description = resourceInfo.description
     const tags = ['']
@@ -60,7 +61,7 @@ const Upload = () => {
     const users = accountsUsernames
     const date = resourceInfo.date
 
-    if (title === 'Cargar Archivo' || description === '' || date === '' || (category.length === 0 && users.length === 0)) {
+    if (upload === 'Cargar Archivo' || title === '' || description === '' || date === '' || (category.length === 0 && users.length === 0)) {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
@@ -69,7 +70,7 @@ const Upload = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({title, description, tags, category, users, date}),
+        body: JSON.stringify({upload, title, description, tags, category, users, date}),
       }).then((res) => res.json())
     }
   }
