@@ -2,6 +2,7 @@ const express = require('express')
 const Joi = require('joi')
 const multer = require('multer')
 const tokenGenerator = require('uuid-v4')
+const fs = require('fs')
 const { bucket } = require('../DataBase/firebase')
 const pool = require('../DataBase/database')
 
@@ -40,9 +41,6 @@ router.post('/', upload.single('upload'), async (req, res) => {
     date: Joi.date().required(),
   })
 
-  console.log(req.body)
-  console.log(req.file)
-  // Validando que todo este correcto
   // Validar informacino
   const result = schema.validate(req.body)
   if (result.error) {
@@ -54,30 +52,48 @@ router.post('/', upload.single('upload'), async (req, res) => {
     res.status(400).json({ message: 'no se dirige a un usuario' })
   }
 
+  const client = await pool.connect()
   // Luego de validar todos los datos se pasa al try
   try {
     const {
       title, description, tags, category, users, date,
     } = req.body
     const { file } = req
-    const client = await pool.connect()
 
     // Guardando la imagen en firebase
-    const filenaPath = `./upload/${file.filename}`
+    // const filenaPath = `./upload/${file.filename}`
     const token = tokenGenerator()
-    bucket.upload(filenaPath, { metadata: { metadata: { firebaseStorageDownloadTokens: token } } })
-      .then((data) => {
-        console.log(data)
-      })
+    bucket.upload('./upload/sprint3.pdf',
+      { metadata: { metadata: { firebaseStorageDownloadTokens: token } } })
 
     // Ahora se ingresa a la base de datos
     await client.query(`
-      INSERT INTO 
+      BEGIN;
     `)
+
+    await client.query(`
+      INSERT INTO resource VALUES
+        ($1, $2, $3, $4, $5, $6);
+    `, [token, title, description, date, file.type])
+
+    await client.query(`
+      SELECT insert_resource_info($1, $2, $3, $4);
+    `, [token, tags, category, users])
+
+    await client.query(`
+      COMMIT;
+    `)
+
+    fs.unlinkSync('./upload/sprint3.pdf')
+
+    res.json({ message: 'DONE' })
   } catch (error) {
+    await client.query(`
+      ROLLBACK;
+    `)
+    res.json({ message: 'Unexpected' })
     console.log(error.message)
   }
-  res.json('hola')
 })
 
 /**

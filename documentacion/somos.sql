@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS resource (
   title VARCHAR(50) NOT NULL,
   description VARCHAR(255),
   available DATE NOT NULL,
-  rute VARCHAR(100) NOT NULL,
-  token VARCHAR(100) NOT NULL,
+  type VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS  category (
@@ -28,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tag (
 );
 
 -- CREANDO LAS RELACIONES
-CREATE TABLE IF NOT EXISTS  user_resource (
+CREATE TABLE IF NOT EXISTS user_resource (
   username VARCHAR(20),
   id VARCHAR(50),
   CONSTRAINT fk_user_resource FOREIGN KEY (username)
@@ -39,7 +38,7 @@ CREATE TABLE IF NOT EXISTS  user_resource (
   	ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS  user_category (
+CREATE TABLE IF NOT EXISTS user_category (
   username VARCHAR(20),
   category VARCHAR(60),
   CONSTRAINT fk_user_category FOREIGN KEY (username)
@@ -50,7 +49,7 @@ CREATE TABLE IF NOT EXISTS  user_category (
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS  resource_category (
+CREATE TABLE IF NOT EXISTS resource_category (
   id VARCHAR(50),
   category VARCHAR(60),
   CONSTRAINT fk_resource_category FOREIGN KEY (id)
@@ -72,8 +71,9 @@ CREATE TABLE IF NOT EXISTS resource_tag (
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- CREANDO PROCESOS ALMACENADOS
-CREATE OR REPLACE FUNCTION insert_categories(text, text[]) RETURNS VOID AS $$
+---------- CREANDO PROCESOS ALMACENADOS ----------
+CREATE OR REPLACE FUNCTION insert_categories(text, text[]) 
+RETURNS VOID AS $$
 DECLARE
 username ALIAS FOR $1;
 categories ALIAS FOR $2;
@@ -83,6 +83,33 @@ x text;
 		LOOP
 			INSERT INTO user_category VALUES (username, x);
 		END LOOP;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION insert_resource_info(text, text[], text[], text[]) 
+RETURNS VOID AS $$ 
+DECLARE
+id ALIAS FOR $1;
+tags ALIAS FOR $2;
+category ALIAS FOR $3;
+users ALIAS FOR $4;
+x text;
+	BEGIN
+		FOREACH x IN ARRAY tags
+		LOOP
+			INSERT INTO resource_tag VALUES (id, x);
+		END LOOP;
+
+    FOREACH x IN ARRAY category
+		LOOP
+			INSERT INTO resource_category VALUES (id, x);
+		END LOOP;
+
+    FOREACH x IN ARRAY users
+		LOOP
+			INSERT INTO user_resource VALUES (x, id);
+		END LOOP;
+
 	END;
 $$ LANGUAGE plpgsql;
 
