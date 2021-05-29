@@ -14,17 +14,29 @@ import './SearchbarTo.css'
  * Donde setAccounts son las cuentas a las cuales se les activa el recurso
  *       setCategories son las categorias a las cuales se les activa el recurso
  */
-const SearchbarTo = ({ setAccounts, setCategories }) => {
+const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }) => {
   const refInput = useRef()
   const [results, setResults] = useState({showTypes: false, showUsernames: false, actualSearch: undefined})
+
   const [sendToAccount, setSendToAccount] = useState([])
   const [sendToCategory, setSendToCategory] = useState([])
+  const [tagsSimilarTo, setTagsSimilarTo] = useState([])
+
   const [actualSendersAccount, setActualSendersAccount] = useState([])
   const [actualSendersCategory, setActualSendersCategory] = useState([])
+  const [actualTagsSimilarTo, setActualTagsSimilarTo] = useState([])
 
   const handleChange = (event) => {
-    setResults({[event.target.name] : event.target.value})
-  } 
+    setResults({[event.target.name] : event.target.value.toLowerCase()})
+  }
+
+  // Funcion para saber si el usuario hizo enter
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && showSimilarTo) {
+      setTagsSimilarTo([...tagsSimilarTo, event.target.value.toLowerCase()]) // tomamos el valor
+      refInput.current.value = "" // Limpiamos el input
+    }
+  }
 
   const searchCategories = () => {
     refInput.current.value = ""
@@ -36,36 +48,58 @@ const SearchbarTo = ({ setAccounts, setCategories }) => {
   }
 
   useEffect(() => {
-    refInput.current.value = ""
-    const temporal = [...actualSendersAccount, ...sendToAccount]
-    setActualSendersAccount([...new Set(temporal)])
-    setAccounts([...new Set(temporal)])
+    if (setSimilarTo !== undefined) {
+      refInput.current.value = ""
+      const temporal = [...actualTagsSimilarTo, ...tagsSimilarTo]
+
+      setActualTagsSimilarTo([...new Set(temporal)])
+      setSimilarTo([...new Set(temporal)])
+    }
+  }, [tagsSimilarTo])
+
+  useEffect(() => {
+    if (setAccounts !== undefined) {
+      refInput.current.value = ""
+      const temporal = [...actualSendersAccount, ...sendToAccount]
+      setActualSendersAccount([...new Set(temporal)])
+      setAccounts([...new Set(temporal)])
+    }
   }, [sendToAccount])
 
   useEffect(() => {
-    refInput.current.value = ""
-    const temporal = [...actualSendersCategory, ...sendToCategory]
-    setActualSendersCategory([...new Set(temporal)])
-    setCategories([...new Set(temporal)])
+    if (setCategories !== undefined) {
+      refInput.current.value = ""
+      const temporal = [...actualSendersCategory, ...sendToCategory]
+      setActualSendersCategory([...new Set(temporal)])
+      setCategories([...new Set(temporal)])
+    }
   }, [sendToCategory])
 
   return (
     <div className="searchbarTo" onClick={selectInput}>
       <div className="searchBarElements">
-        <div id="typeableArea">
+        <div id="typeableArea" onKeyDown={handleKeyDown}>
 
           <Tags showTags={actualSendersCategory} isClosable setTags={setSendToCategory} />
           <Tags showTags={actualSendersAccount} isClosable setTags={setSendToAccount} />
+          <Tags showTags={actualTagsSimilarTo} isClosable setTags={setTagsSimilarTo} />
   
           <input ref={refInput} type="text" role="input" name="actualSearch" onChange={handleChange} />
         </div>
 
-        <Button id="searchCategories" name="&#xF2B9;" onClick={() => {searchCategories()}} />
+        { showSimilarTo ? 
+          <Button id="searchCategories" name="&#xF103;" onClick={() => {searchCategories()}} /> :
+          <Button id="searchCategories" name="&#xF2B9;" onClick={() => {searchCategories()}} />
+        }
+
       </div>
 
-      {results.showTypes ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
-      {results.showUsernames ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
-      {results.actualSearch ? <List actualSearch={results.actualSearch} setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      {results.showTypes && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      {results.showUsernames && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      {results.actualSearch && !showSimilarTo ? <List actualSearch={results.actualSearch} setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      
+      {results.showTypes && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} /> : ''}
+      {results.actualSearch && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} actualSearch={results.actualSearch} /> : ''}
 
     </div>
   )

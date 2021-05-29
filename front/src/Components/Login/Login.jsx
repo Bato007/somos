@@ -49,7 +49,7 @@ const Login = () => {
   }
 
   return(
-    <div id="Home">
+    <div className="LoginContainer">
       <div id="Login">
         <img src={Somos} alt="Somos Logo" />
         <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange}/>

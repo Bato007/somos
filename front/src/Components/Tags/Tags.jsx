@@ -36,7 +36,7 @@ const Tags = ({ showTags, isClosable, setTags }) => {
       setActualTags(actualTags)
       
       if (actualTags.length > 0) {
-        setTags([actualTags])
+        setTags(actualTags)
       } else {
         setTags([])
       }

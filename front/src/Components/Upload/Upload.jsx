@@ -27,8 +27,8 @@ const Upload = () => {
   const [error, setError] = useState('')
   const [categories, setCategories] = useState([])
   const [accountsUsernames, setAccountUsernames] = useState([])
-  const [resourceInfo, setResourceInfo] = useState({CargarArchivo: 'Cargar Archivo', title: '', date:'', description: '', similarTo: []})
-
+  const [similarTo, setSimilarTo] = useState([])
+  const [resourceInfo, setResourceInfo] = useState({CargarArchivo: 'Cargar Archivo', file: '', title: '', date:'', description: '', similarTo: []})
   // Leyendo el valor actual del file
   const handleSelectedFile = (event) => {
     if (event.target.value === '') {
@@ -39,7 +39,8 @@ const Upload = () => {
     } else {
       setResourceInfo({
         ...resourceInfo,
-        CargarArchivo: event.target.value
+        CargarArchivo: event.target.files[0].name,
+        file: event.target.files[0],
       })
     }
   }
@@ -53,10 +54,10 @@ const Upload = () => {
   }
 
   const submitResource = async () => {
-    const upload = resourceInfo.CargarArchivo
+    const upload = resourceInfo.file
     const title = resourceInfo.title
     const description = resourceInfo.description
-    const tags = ['']
+    const tags = similarTo
     const category = categories
     const users = accountsUsernames
     const fecha = resourceInfo.date
@@ -90,6 +91,8 @@ const Upload = () => {
         <SearchBarTo setAccounts={setAccountUsernames} setCategories={setCategories} />
         <h3>Descripcion del archivo</h3>
         <textarea name="description" onChange={handleChange} />
+        <h3>Similar a</h3>
+        <SearchBarTo showSimilarTo setSimilarTo={setSimilarTo} />
         <h3>Disponible hasta</h3>
         <div className="UploadEnd">          
           <Input className="titleInput" type="date"  min={actualDate} name="date" placeholder="Fecha de vigencia" onChange={handleChange} />

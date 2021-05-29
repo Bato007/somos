@@ -5,28 +5,43 @@ import './List.css'
 
 /**
  * 
- * Donde actualSearch es la palabra buscada actualmente
+ * Donde:
  * showUsernames es un bool donde true retorna los miembros
  * showTypes es un bool donde true retorna las categorias
+ * showSimilarTo es un bool donde true retorna las etiquetas similares a
+ * 
+ * setSimilarTo es una funcion donde se guardaran las etiquetas similares a
+ * setTagsAccount es una funcion donde se guardaran los miembros
+ * setTagsCategory es una funcion donde se guardaran las categorias
+ * 
+ * actualSearch es la palabra buscada actualmente
  * 
  * El retorno es un listado normal si es showUsernames o un listado
  * con boton si es showTypes, donde el boton muestra los miembros
  * 
  */
 
-const List = ({ actualSearch, showUsernames, showTypes, setTagsAccount, setTagsCategory}) => {
+const List = ({showUsernames, showTypes, showSimilarTo, setSimilarTo, setTagsAccount, setTagsCategory,  actualSearch}) => {
   const refList = useRef()
 
   const [members, setMembers] = useState([])
+  const [tagsSimilarTo, setTagsSimilarTo] = useState([])
+
   const [showRequired, setShowRequired] = useState([])
   const [lastResult, setLastResult] = useState([])
   const [showReturn, setReturn] = useState(false)
+
+  const [sendToTag, setSendToTag] = useState([])
   const [sendResourceToAccount, setSendResourceToAccount] = useState([])
   const [sendResourceToCategory, setSendResourceToCategory] = useState([])
   let iteration = 0
 
   useEffect(() => {
-    getMembers() //Requerido una sola vez 
+    if (showSimilarTo) {
+      getSimilarToTags() // Obtenemos las tags para similares a
+    } else {
+      getMembers() // Obtenemos miembros y sus categorias
+    }
   }, [])
 
   useEffect(() => {
@@ -42,12 +57,12 @@ const List = ({ actualSearch, showUsernames, showTypes, setTagsAccount, setTagsC
   }, [])
 
   useEffect(() => {
-    if (showUsernames || showTypes) {
-      getRequired(showUsernames, showTypes)
+    if (showUsernames || showTypes || (showSimilarTo && actualSearch===undefined)) {
+      getRequired(showUsernames, showTypes, showSimilarTo)
     } else {
       showSimilar(actualSearch)
     }
-  }, [members])
+  }, [members, tagsSimilarTo])
 
   // Cada vez que cambie la busqueda
   useEffect(() => {
@@ -63,22 +78,34 @@ const List = ({ actualSearch, showUsernames, showTypes, setTagsAccount, setTagsC
     setMembers([{username: 'bato', type: ['church', 'somos']}, {username: 'andrea', type: ['mentor', 'somos']}])
   }
 
+  // Funcion llamada para obtener la informacion de la base 
+  const getSimilarToTags = () => {
+    // Aqui iria el fetch para obtener las tags guardadas
+    // Se recibe una lista con todas las tags 
+    setTagsSimilarTo(['ppt', 'capacitación', 'voluntariado', 'ayuda a familias'])
+  }
+
   // Funcion llamada para obtener el listado de personas o categorias
-  const getRequired = (showUsernames, showTypes) => {
+  const getRequired = (showUsernames, showTypes, showSimilarTo) => {
     const actualShow = []
 
     if (showUsernames) {     
       for (let i=0; i<members.length; i++) {
         actualShow.push(members[i].username) 
       }
-    } else if (showTypes) {      
+    } else if (showTypes) {     
       for (let a=0; a<members.length; a++) {
         for (let i=0; i<members[a].type.length; i++) {
           actualShow.push(members[a].type[i]) 
         }
       }
+    } else if (showSimilarTo) {
+      // Mostramos todas las etiquetas
+      for (let i=0; i<tagsSimilarTo.length; i++) {
+        actualShow.push(tagsSimilarTo[i])
+      }
     }
-  
+
     // Eliminando posibles elementos repetidos
     saveLast([...new Set(actualShow)])
     setShowRequired([...new Set(actualShow)])
@@ -106,14 +133,24 @@ const List = ({ actualSearch, showUsernames, showTypes, setTagsAccount, setTagsC
   const showSimilar = (actualSearch) => {
     const getSearch = []
 
-    for (let i=0; i<members.length; i++) {
-      for (let a=0; a<members[i].type.length; a++) {
-        if ((members[i].type[a]).includes(actualSearch)) {
-          getSearch.push(members[i].type[a])
+    if (showSimilarTo) {
+      // Mostramos etiquetas similares
+      for (let i=0; i<tagsSimilarTo.length; i++) {
+        if (tagsSimilarTo[i].includes(actualSearch)) {
+          getSearch.push(tagsSimilarTo[i])
         }
       }
-      if ((members[i].username).includes(actualSearch)) {
-        getSearch.push(members[i].username)
+    } else {
+      // Mostramos miembros o categorias similares
+      for (let i=0; i<members.length; i++) {
+        for (let a=0; a<members[i].type.length; a++) {
+          if ((members[i].type[a]).includes(actualSearch)) {
+            getSearch.push(members[i].type[a])
+          }
+        }
+        if ((members[i].username).includes(actualSearch)) {
+          getSearch.push(members[i].username)
+        }
       }
     }
 
@@ -153,13 +190,17 @@ const List = ({ actualSearch, showUsernames, showTypes, setTagsAccount, setTagsC
 
   // Guarda la persona seleccionada
   const saveReference = (result) => {
-
-    if (showButton(result)) {
-      setSendResourceToCategory([...sendResourceToCategory, result])
-      setTagsCategory([...sendResourceToCategory, result])
+    if (showSimilarTo) {
+      setSendToTag([...sendToTag, result])
+      setSimilarTo([...sendToTag, result])
     } else {
-      setSendResourceToAccount([...sendResourceToAccount, result])
-      setTagsAccount([...sendResourceToAccount, result])
+      if (showButton(result)) {
+        setSendResourceToCategory([...sendResourceToCategory, result])
+        setTagsCategory([...sendResourceToCategory, result])
+      } else {
+        setSendResourceToAccount([...sendResourceToAccount, result])
+        setTagsAccount([...sendResourceToAccount, result])
+      }
     }
   }
 
