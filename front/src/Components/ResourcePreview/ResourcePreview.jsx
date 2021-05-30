@@ -10,7 +10,7 @@ import previewVideo from './images/video.png'
 /**
  * Clase para mostrar la preview del recurso dependiendo de la extension del archivo
  * Donde las extensiones tomadas en cuenta son: docs, pdf, videos, ppt
- * Recibe los recursos disponibles en formato [{title: '', resource: file}, ...]
+ * Recibe los recursos a mostrar en formato [{title: '', resource: file}, ...]
  */
 const ResourcePreview = ({ availableResources }) => {
   // Metodo onClick para abrir el recurso seleccionado
@@ -33,6 +33,7 @@ const ResourcePreview = ({ availableResources }) => {
       return previewVideo
     }
   }
+
   return (
     <div className="resourcePreview">
       { availableResources.map((result) => (

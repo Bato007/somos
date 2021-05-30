@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import './List.css'
@@ -225,6 +224,8 @@ const List = ({showUsernames, showTypes, showSimilarTo, setSimilarTo, setTagsAcc
 List.propTypes = {
   actualSearch: PropTypes.string,
   showTypes: PropTypes.bool,
+  showSimilarTo: PropTypes.bool,
+  setSimilarTo: PropTypes.func,
   showUsernames: PropTypes.bool,
   setTagsAccount: PropTypes.func,
   setTagsCategory: PropTypes.func,
@@ -234,6 +235,8 @@ List.defaultProptypes = {
   actualSearch: '',
   showTypes: false,
   showUsernames: false,
+  showSimilarTo: false,
+  setSimilarTo: () => {},
   setTagsAccount: () => {},
   setTagsCategory: () => {},
 }

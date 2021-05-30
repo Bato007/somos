@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/aria-role */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 
@@ -13,6 +11,9 @@ import './SearchbarTo.css'
  * Searchbar para buscar usuarios o categorias
  * Donde setAccounts son las cuentas a las cuales se les activa el recurso
  *       setCategories son las categorias a las cuales se les activa el recurso
+ *       setSimilarTo son las tags de similares a 
+ *       showSimilarTo es un bool: donde true muestra tags similares,
+ *       false muestra contactos similares
  */
 const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }) => {
   const refInput = useRef()
@@ -106,8 +107,17 @@ const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }
 }
 
 SearchbarTo.propTypes = {
-  setAccounts: PropTypes.func.isRequired,
-  setCategories: PropTypes.func.isRequired,
+  setAccounts: PropTypes.func,
+  setCategories: PropTypes.func,
+  setSimilarTo: PropTypes.func,
+  showSimilarTo: PropTypes.bool,
+}
+
+SearchbarTo.defaultProps = {
+  setAccounts: () => {},
+  setCategories: () => {},
+  setSimilarTo: () => {},
+  showSimilarTo: false,
 }
 
 

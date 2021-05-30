@@ -11,6 +11,8 @@ import './Tags.css'
  * isClosable: bool => muestra la opcion de eliminar si es deseado
  *  ej. a quien mandarle el recurso es eliminable, 
  *      pero una etiqueta de recursos similares a no lo es
+ * setTags: una funcion para renderizar las nuevas tags
+ * 
  */
 const Tags = ({ showTags, isClosable, setTags }) => {
   const [actualTags, setActualTags] = useState([])
@@ -61,11 +63,13 @@ const Tags = ({ showTags, isClosable, setTags }) => {
 Tags.propTypes = {
   showTags: PropTypes.arrayOf(PropTypes.string.isRequired),
   isClosable: PropTypes.bool,
+  setTags: PropTypes.func,
 }
 
 Tags.defaultProps = {
   showTags: [''],
   isClosable: false,
+  setTags: () => {},
 }
 
 export default Tags

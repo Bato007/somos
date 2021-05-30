@@ -20,6 +20,7 @@ Input.propTypes = {
   className: PropTypes.string,
   type: PropTypes.string,
   onChange: PropTypes.func,
+  min: PropTypes.string,
 }
 
 Input.defaultProps = {

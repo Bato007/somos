@@ -1,10 +1,10 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import logo from './images/logo.png'
-import accountIcon from './images/account.png'
-import createAccountIcon from './images/addAccount.png'
-import megaphoneIcon from './images/megaphone.png'
-import uploadIcon from './images/upload.png'
+import logo from '../../static/imagesNavBar/logo.png'
+import accountIcon from '../../static/imagesNavBar/account.png'
+import createAccountIcon from '../../static/imagesNavBar/addAccount.png'
+import megaphoneIcon from '../../static/imagesNavBar/megaphone.png'
+import uploadIcon from '../../static/imagesNavBar/upload.png'
 import './NavBar.css'
 
 const NavBar = () => {

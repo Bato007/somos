@@ -1,8 +1,10 @@
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+
 import Login from './Components/Login/Login'
 import Home from './Components/Home/Home'
 import Upload from './Components/Upload/Upload'
 import Create from './Components/CreateAccount/Info'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Usuario from './Components/CreateAccount/Usuario'
 import Ubicacion from './Components/CreateAccount/Ubicacion'
 // import ProtectedRoute from './Components/ProtectedRoutes'
