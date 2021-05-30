@@ -1,4 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react'
+/* eslint-disable max-len */
+/* eslint-disable jsx-a11y/aria-role */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import List from '../List/List'
@@ -7,17 +11,19 @@ import Tags from '../Tags/Tags'
 import './SearchbarTo.css'
 
 /**
- * 
+ *
  * Searchbar para buscar usuarios o categorias
  * Donde setAccounts son las cuentas a las cuales se les activa el recurso
  *       setCategories son las categorias a las cuales se les activa el recurso
- *       setSimilarTo son las tags de similares a 
+ *       setSimilarTo son las tags de similares a
  *       showSimilarTo es un bool: donde true muestra tags similares,
  *       false muestra contactos similares
  */
-const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }) => {
+const SearchbarTo = ({
+  setAccounts, setCategories, showSimilarTo, setSimilarTo,
+}) => {
   const refInput = useRef()
-  const [results, setResults] = useState({showTypes: false, showUsernames: false, actualSearch: undefined})
+  const [results, setResults] = useState({ showTypes: false, showUsernames: false, actualSearch: undefined })
 
   const [sendToAccount, setSendToAccount] = useState([])
   const [sendToCategory, setSendToCategory] = useState([])
@@ -28,20 +34,20 @@ const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }
   const [actualTagsSimilarTo, setActualTagsSimilarTo] = useState([])
 
   const handleChange = (event) => {
-    setResults({[event.target.name] : event.target.value.toLowerCase()})
+    setResults({ [event.target.name]: event.target.value.toLowerCase() })
   }
 
   // Funcion para saber si el usuario hizo enter
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && showSimilarTo) {
       setTagsSimilarTo([...tagsSimilarTo, event.target.value.toLowerCase()]) // tomamos el valor
-      refInput.current.value = "" // Limpiamos el input
+      refInput.current.value = '' // Limpiamos el input
     }
   }
 
   const searchCategories = () => {
-    refInput.current.value = ""
-    setResults({showTypes: !results.showTypes })
+    refInput.current.value = ''
+    setResults({ showTypes: !results.showTypes })
   }
 
   const selectInput = () => {
@@ -50,7 +56,7 @@ const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }
 
   useEffect(() => {
     if (setSimilarTo !== undefined) {
-      refInput.current.value = ""
+      refInput.current.value = ''
       const temporal = [...actualTagsSimilarTo, ...tagsSimilarTo]
 
       setActualTagsSimilarTo([...new Set(temporal)])
@@ -60,7 +66,7 @@ const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }
 
   useEffect(() => {
     if (setAccounts !== undefined) {
-      refInput.current.value = ""
+      refInput.current.value = ''
       const temporal = [...actualSendersAccount, ...sendToAccount]
       setActualSendersAccount([...new Set(temporal)])
       setAccounts([...new Set(temporal)])
@@ -69,7 +75,7 @@ const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }
 
   useEffect(() => {
     if (setCategories !== undefined) {
-      refInput.current.value = ""
+      refInput.current.value = ''
       const temporal = [...actualSendersCategory, ...sendToCategory]
       setActualSendersCategory([...new Set(temporal)])
       setCategories([...new Set(temporal)])
@@ -84,21 +90,20 @@ const SearchbarTo = ({ setAccounts, setCategories, showSimilarTo, setSimilarTo }
           <Tags showTags={actualSendersCategory} isClosable setTags={setSendToCategory} />
           <Tags showTags={actualSendersAccount} isClosable setTags={setSendToAccount} />
           <Tags showTags={actualTagsSimilarTo} isClosable setTags={setTagsSimilarTo} />
-  
+
           <input ref={refInput} type="text" role="input" name="actualSearch" onChange={handleChange} />
         </div>
 
-        { showSimilarTo ? 
-          <Button id="searchCategories" name="&#xF103;" onClick={() => {searchCategories()}} /> :
-          <Button id="searchCategories" name="&#xF2B9;" onClick={() => {searchCategories()}} />
-        }
+        { showSimilarTo
+          ? <Button id="searchCategories" name="&#xF103;" onClick={() => { searchCategories() }} />
+          : <Button id="searchCategories" name="&#xF2B9;" onClick={() => { searchCategories() }} />}
 
       </div>
 
       {results.showTypes && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
       {results.showUsernames && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
       {results.actualSearch && !showSimilarTo ? <List actualSearch={results.actualSearch} setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
-      
+
       {results.showTypes && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} /> : ''}
       {results.actualSearch && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} actualSearch={results.actualSearch} /> : ''}
 
@@ -119,6 +124,5 @@ SearchbarTo.defaultProps = {
   setSimilarTo: () => {},
   showSimilarTo: false,
 }
-
 
 export default SearchbarTo

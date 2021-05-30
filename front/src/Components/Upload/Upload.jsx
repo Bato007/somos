@@ -12,13 +12,12 @@ import './Upload.css'
  */
 const date = () => {
   const today = new Date()
-  const month = today.getMonth()+1
+  const month = today.getMonth() + 1
 
-  if (month.toString().length === 1){
-      return today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
-  } else {
-      return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  if (month.toString().length === 1) {
+    return `${today.getFullYear()}-0${today.getMonth() + 1}-${today.getDate()}`
   }
+  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 }
 
 const actualDate = date()
@@ -28,13 +27,15 @@ const Upload = () => {
   const [categories, setCategories] = useState([])
   const [accountsUsernames, setAccountUsernames] = useState([])
   const [similarTo, setSimilarTo] = useState([])
-  const [resourceInfo, setResourceInfo] = useState({CargarArchivo: 'Cargar Archivo', file: '', title: '', date:'', description: '', similarTo: []})
+  const [resourceInfo, setResourceInfo] = useState({
+    CargarArchivo: 'Cargar Archivo', file: '', title: '', date: '', description: '', similarTo: [],
+  })
   // Leyendo el valor actual del file
   const handleSelectedFile = (event) => {
     if (event.target.value === '') {
       setResourceInfo({
         ...resourceInfo,
-        CargarArchivo: 'Cargar Archivo'
+        CargarArchivo: 'Cargar Archivo',
       })
     } else {
       setResourceInfo({
@@ -49,14 +50,14 @@ const Upload = () => {
   const handleChange = (event) => {
     setResourceInfo({
       ...resourceInfo,
-      [event.target.name] : event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
   const submitResource = async () => {
     const upload = resourceInfo.file
-    const title = resourceInfo.title
-    const description = resourceInfo.description
+    const { title } = resourceInfo
+    const { description } = resourceInfo
     const tags = similarTo
     const category = categories
     const users = accountsUsernames
@@ -71,7 +72,9 @@ const Upload = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({upload, title, description, tags, category, users, date: fecha}),
+        body: JSON.stringify({
+          upload, title, description, tags, category, users, date: fecha,
+        }),
       }).then((res) => res.json())
     }
   }
@@ -79,7 +82,7 @@ const Upload = () => {
   return (
     <div className="Upload">
       <NavBar />
-      <div id="Upload">      
+      <div id="Upload">
         <h1>Subir recurso</h1>
         <div className="ChooseFile">
           {resourceInfo.CargarArchivo}
@@ -94,8 +97,8 @@ const Upload = () => {
         <h3>Similar a</h3>
         <SearchBarTo showSimilarTo setSimilarTo={setSimilarTo} />
         <h3>Disponible hasta</h3>
-        <div className="UploadEnd">          
-          <Input className="titleInput" type="date"  min={actualDate} name="date" placeholder="Fecha de vigencia" onChange={handleChange} />
+        <div className="UploadEnd">
+          <Input className="titleInput" type="date" min={actualDate} name="date" placeholder="Fecha de vigencia" onChange={handleChange} />
           <Button name="Subir" id="UploadButton" onClick={submitResource} />
         </div>
         <Error error={error} />

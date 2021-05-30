@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Login from './Components/Login/Login'
 import Home from './Components/Home/Home'
@@ -23,12 +23,12 @@ const App = () => (
 const App = () => (
   <Router>
     <Switch>
-      <Route path='/createaccount-3' component={Ubicacion} />
-      <Route path='/createaccount-2' component={Usuario} />
-      <Route path='/createaccount' component={Create} />
-      <Route path='/upload' component={Upload} />
-      <Route path='/home' component={Home} />
-      <Route path='/' component={Login} />
+      <Route path="/createaccount-3" component={Ubicacion} />
+      <Route path="/createaccount-2" component={Usuario} />
+      <Route path="/createaccount" component={Create} />
+      <Route path="/upload" component={Upload} />
+      <Route path="/home" component={Home} />
+      <Route path="/" component={Login} />
     </Switch>
   </Router>
 )
