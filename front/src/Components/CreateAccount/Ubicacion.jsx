@@ -17,6 +17,7 @@ const Ubicacion = () => {
     /* Campos de ingreso */
     const [job, setJob] = useState('')
     const [place, setPlace] = useState('')
+    const [church, setChurch] = useState('')
     const [error, setError] = useState('')
 
     const showData = () => {
@@ -34,6 +35,7 @@ const Ubicacion = () => {
             console.log(location.state.phone)
             console.log(job)
             console.log(place)
+            console.log(church)
         }
     }
 
@@ -65,7 +67,9 @@ const Ubicacion = () => {
                         <h3>Lugar de trabajo</h3>
                         <Input className="InputCreate" type="text" name="Trabajo" placeholder="Dirección de trabajo" onChange={(event) => setJob(event.target.value)} />
                         <h3>Área de residencia</h3>
-                        <Input className="InputCreate" type="text" name="Residencia" placeholder="IResidencia" onChange={(event) => setPlace(event.target.value)} />
+                        <Input className="InputCreate" type="text" name="Residencia" placeholder="Residencia" onChange={(event) => setPlace(event.target.value)} />
+                        <h3>Iglesia asociada</h3>
+                        <Input className="InputCreate" type="text" name="Iglesia" placeholder="Iglesia asociada" onChange={(event) => setChurch(event.target.value)} />
                         <center>
                         <Button id="Create" name="←  Regresar" onClick={() => history.goBack()}  />
                             <Button id="Create" name="Continuar >" onClick={showData}  />
