@@ -71,9 +71,8 @@ const Create = () => {
                     <h3>Confirmación de contraseña</h3>
                     <Input className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
                     <h3>Categoría perteneciente</h3>
-                    <div className="containerText botonesCA">
-                    <Button id="Create" name="←  Regresar" onClick={() => history.push('../home')}  />
-                    <Button id="Create" name="Continuar →" onClick={nextScreen}  />
+                    <div className="oneBtn containerText botonesCA">
+                        <Button id="Create" name="Continuar →" onClick={nextScreen}  />
                     </div>
                     <Error error={error} />
                 </center>

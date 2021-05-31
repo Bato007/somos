@@ -41,7 +41,7 @@ const Usuario = () => {
         <div id= "Usuario">
             <div className="division">
                 <div className="left">
-                    <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../createaccount')} />
+                    <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../home')} />
                     <div className="containerC">
                     <div className="containerText">
                         <img src={post} alt="pre" width="25px"/>
@@ -69,7 +69,7 @@ const Usuario = () => {
                         <h3>Número telefónico</h3>
                         <Input className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(parseInt(event.target.value, 10))} />
                         <center>
-                            <Button id="Create" name="←  Regresar" onClick={() => history.push('../home')}  />
+                            <Button id="Create" name="←  Regresar" onClick={() => history.goBack()}  />
                             <Button id="Create" name="Continuar→" onClick={nextScreen}  />
                         </center>
                         <Error error={error} />

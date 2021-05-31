@@ -41,7 +41,7 @@ const Ubicacion = () => {
         <div id= "Ubicacion">
             <div className="division">
                 <div className="left">
-                    <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../createaccount-2')} />
+                    <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../home')} />
                     <div className="containerC">
                     <div className="containerText">
                         <img src={post} alt="pre" width="25px"/>
@@ -67,7 +67,7 @@ const Ubicacion = () => {
                         <h3>Área de residencia</h3>
                         <Input className="InputCreate" type="text" name="Residencia" placeholder="IResidencia" onChange={(event) => setPlace(event.target.value)} />
                         <center>
-                        <Button id="Create" name="←  Regresar" onClick={() => history.push('../home')}  />
+                        <Button id="Create" name="←  Regresar" onClick={() => history.goBack()}  />
                             <Button id="Create" name="Continuar >" onClick={showData}  />
                         </center>
                         <Error error={error} />
