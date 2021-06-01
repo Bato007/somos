@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
+import SearchbarTo from '../SearchbarTo/SearchbarTo'
 import iglesia from '../../static/imagesCreateAccount/logoSomos.png'
 import pre from '../../static/imagesCreateAccount/pre.png'
 import post from '../../static/imagesCreateAccount/post.png'
@@ -21,6 +22,8 @@ const Create = () => {
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [conf, setConf] = useState('')
+  // eslint-disable-next-line no-unused-vars
+  const [categories, setCategories] = useState([])
   const [mail, setMail] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -201,6 +204,7 @@ const Create = () => {
               <h3>Confirmación de contraseña</h3>
               <Input value={conf} className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
               <h3>Categoría perteneciente</h3>
+              <SearchbarTo setCategories={setCategories} creatingAccount />
               <div className="oneBtn containerText botonesCA">
                 <Button id="Create" name="Continuar →" onClick={checkBasic} />
               </div>

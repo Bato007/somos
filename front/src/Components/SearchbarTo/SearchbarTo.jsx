@@ -18,9 +18,10 @@ import './SearchbarTo.css'
  *       setSimilarTo son las tags de similares a
  *       showSimilarTo es un bool: donde true muestra tags similares,
  *       false muestra contactos similares
+ *       creatingAccount es un bool: donde true permite ingresar nuevas categorias al hacer enter
  */
 const SearchbarTo = ({
-  setAccounts, setCategories, showSimilarTo, setSimilarTo,
+  setAccounts, setCategories, showSimilarTo, setSimilarTo, creatingAccount,
 }) => {
   const refInput = useRef()
   const [results, setResults] = useState({ showTypes: false, showUsernames: false, actualSearch: undefined })
@@ -41,6 +42,9 @@ const SearchbarTo = ({
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && showSimilarTo) {
       setTagsSimilarTo([...tagsSimilarTo, event.target.value.toLowerCase()]) // tomamos el valor
+      refInput.current.value = '' // Limpiamos el input
+    } else if (event.key === 'Enter' && creatingAccount) {
+      setSendToCategory([...tagsSimilarTo, event.target.value.toLowerCase()]) // tomamos el valor
       refInput.current.value = '' // Limpiamos el input
     }
   }
@@ -100,12 +104,15 @@ const SearchbarTo = ({
 
       </div>
 
-      {results.showTypes && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
-      {results.showUsernames && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
-      {results.actualSearch && !showSimilarTo ? <List actualSearch={results.actualSearch} setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      {results.actualSearch && creatingAccount ? <List showTypes setTagsCategory={setSendToCategory} creatingAccount /> : '' }
+      {results.showTypes && creatingAccount ? <List showTypes setTagsCategory={setSendToCategory} creatingAccount /> : '' }
 
-      {results.showTypes && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} /> : ''}
-      {results.actualSearch && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} actualSearch={results.actualSearch} /> : ''}
+      {results.showTypes && !creatingAccount && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      {results.showUsernames && !creatingAccount && !showSimilarTo ? <List showTypes setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+      {results.actualSearch && !creatingAccount && !showSimilarTo ? <List actualSearch={results.actualSearch} setTagsAccount={setSendToAccount} setTagsCategory={setSendToCategory} /> : '' }
+
+      {results.showTypes && !creatingAccount && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} /> : ''}
+      {results.actualSearch && !creatingAccount && showSimilarTo ? <List showSimilarTo setSimilarTo={setTagsSimilarTo} actualSearch={results.actualSearch} /> : ''}
 
     </div>
   )
@@ -116,13 +123,15 @@ SearchbarTo.propTypes = {
   setCategories: PropTypes.func,
   setSimilarTo: PropTypes.func,
   showSimilarTo: PropTypes.bool,
+  creatingAccount: PropTypes.bool,
 }
 
 SearchbarTo.defaultProps = {
-  setAccounts: () => {},
-  setCategories: () => {},
+  setAccounts: undefined,
+  setCategories: undefined,
   setSimilarTo: () => {},
   showSimilarTo: false,
+  creatingAccount: false,
 }
 
 export default SearchbarTo

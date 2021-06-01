@@ -89,6 +89,11 @@
     font-weight: normal;
 }
 
+.right .searchbarTo { 
+    margin: 1em 0 1em 0;
+    width: 25vw;
+}
+
 @media (min-width: 500px){
     .right h3 {
         font-size: 1em;

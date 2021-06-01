@@ -18,6 +18,8 @@ import './List.css'
  *
  * actualSearch es la palabra buscada actualmente
  *
+ * creatingAccount es un bool para saber si mostrar la flechita de miembros
+ *
  * El retorno es un listado normal si es showUsernames o un listado
  * con boton si es showTypes, donde el boton muestra los miembros
  *
@@ -25,7 +27,7 @@ import './List.css'
 
 const List = ({
   showUsernames, showTypes, showSimilarTo, setSimilarTo,
-  setTagsAccount, setTagsCategory, actualSearch,
+  setTagsAccount, setTagsCategory, actualSearch, creatingAccount,
 }) => {
   const refList = useRef()
 
@@ -220,7 +222,7 @@ const List = ({
       {showRequired.map((result) => (
         <li key={result}>
           <p onClick={() => saveReference(result)}>{result}</p>
-          {showButton(result) ? <button type="button" onClick={() => showMembers(result)}>▶</button> : ''}
+          {showButton(result) && !creatingAccount ? <button type="button" onClick={() => showMembers(result)}>▶</button> : ''}
         </li>
       ))}
     </ul>
@@ -235,6 +237,7 @@ List.propTypes = {
   showUsernames: PropTypes.bool,
   setTagsAccount: PropTypes.func,
   setTagsCategory: PropTypes.func,
+  creatingAccount: PropTypes.bool,
 }
 
 List.defaultProps = {
@@ -245,6 +248,7 @@ List.defaultProps = {
   setSimilarTo: () => {},
   setTagsAccount: () => {},
   setTagsCategory: () => {},
+  creatingAccount: false,
 }
 
 export default List
