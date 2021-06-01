@@ -152,3 +152,10 @@
 .oneBtn{
     justify-content: flex-end;
 }
+.required_con{
+    display: flex;
+    flex-direction: row;
+}
+.required_indicator{
+    color: Red;
+}
