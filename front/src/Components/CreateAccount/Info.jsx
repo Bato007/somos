@@ -149,11 +149,11 @@ const Create = () => {
                         <h2>Llena este apartado por si en algún momento se llega a olvidar la contraseña o el usuario.</h2>
                         <center>
                             <h3>Dirección de email</h3>
-                            <Input className="InputCreate" type="text" name="email" placeholder="Correo electrónico" onChange={(event) => setMail(event.target.value)} />
+                            <Input value={mail} className="InputCreate" type="text" name="email" placeholder="Correo electrónico" onChange={(event) => setMail(event.target.value)} />
                             <h3>Nombre</h3>
-                            <Input className="InputCreate" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
+                            <Input value={name} className="InputCreate" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
                             <h3>Número telefónico</h3>
-                            <Input className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
+                            <Input value={phone} className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
                             <center>
                                 <Button id="Create" name="←  Regresar" onClick={() => setInfo(0)}  />
                                 <Button id="Create" name="Continuar→" onClick={checkExtra}  />
@@ -169,11 +169,11 @@ const Create = () => {
                         <h2>La información proporcionada no será compartida, únicamente estará disponible para el personal autorizado de SOMOS.</h2>
                         <center>
                             <h3>Lugar de trabajo</h3>
-                            <Input className="InputCreate" type="text" name="Trabajo" placeholder="Dirección de trabajo" onChange={(event) => setJob(event.target.value)} />
+                            <Input value={job} className="InputCreate" type="text" name="Trabajo" placeholder="Dirección de trabajo" onChange={(event) => setJob(event.target.value)} />
                             <h3>Área de residencia</h3>
-                            <Input className="InputCreate" type="text" name="Residencia" placeholder="Residencia" onChange={(event) => setPlace(event.target.value)} />
+                            <Input value={place} className="InputCreate" type="text" name="Residencia" placeholder="Residencia" onChange={(event) => setPlace(event.target.value)} />
                             <h3>Iglesia asociada</h3>
-                            <Input className="InputCreate" type="text" name="Iglesia" placeholder="Iglesia asociada" onChange={(event) => setChurch(event.target.value)} />
+                            <Input value={church} className="InputCreate" type="text" name="Iglesia" placeholder="Iglesia asociada" onChange={(event) => setChurch(event.target.value)} />
                             <center>
                                 <Button id="Create" name="←  Regresar" onClick={() => setInfo(1)}  />
                                 <Button id="Create" name="Continuar >" onClick={showData}  />
@@ -190,11 +190,11 @@ const Create = () => {
                         acceder a la cuenta.</h2>
                         <h3>Usuario</h3>
                         <center>
-                            <Input className="InputCreate" type="text" name="username" placeholder="Usuario" onChange={(event) => setUser(event.target.value)} />
+                            <Input value={user} className="InputCreate" type="text" name="username" placeholder="Usuario" onChange={(event) => setUser(event.target.value)} />
                             <h3>Contraseña</h3>
-                            <Input className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setPass(event.target.value)} />
+                            <Input value={pass} className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setPass(event.target.value)} />
                             <h3>Confirmación de contraseña</h3>
-                            <Input className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
+                            <Input value={conf} className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
                             <h3>Categoría perteneciente</h3>
                             <div className="oneBtn containerText botonesCA">
                                 <Button id="Create" name="Continuar →" onClick={checkBasic}  />

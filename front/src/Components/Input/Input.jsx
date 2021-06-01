@@ -10,8 +10,8 @@ import './Input.css'
  * placeholder: Placeholder en el input
  * onChange: Funcion para leer los input del usuario
  * **/
-const Input = ({ className, type, min, name, placeholder, onChange }) => (
-  <input className={className} type={type}  min={min} name={name} placeholder={placeholder}  onChange={onChange} />
+const Input = ({ className, type, min, name, placeholder, onChange, value }) => (
+  <input className={className} type={type}  min={min} name={name} placeholder={placeholder}  onChange={onChange} value={value} />
 )
 
 Input.propTypes = {
@@ -21,6 +21,7 @@ Input.propTypes = {
   type: PropTypes.string,
   onChange: PropTypes.func,
   min: PropTypes.string,
+  value: PropTypes.string
 }
 
 Input.defaultProps = {
@@ -29,6 +30,7 @@ Input.defaultProps = {
   className: '',
   type: '',
   min: '',
+  value: null,
   onChange: () => {},
 }
 
