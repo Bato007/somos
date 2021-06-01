@@ -144,3 +144,6 @@
         margin-right: auto;
     }
 }
+.oneBtn{
+    justify-content: flex-end;
+}

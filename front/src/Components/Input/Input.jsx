@@ -11,7 +11,7 @@ import './Input.css'
  * onChange: Funcion para leer los input del usuario
  * * */
 const Input = ({
-  className, type, min, name, placeholder, onChange,
+  className, type, min, name, placeholder, onChange, value,
 }) => (
   <input
     className={className}
@@ -20,6 +20,7 @@ const Input = ({
     name={name}
     placeholder={placeholder}
     onChange={onChange}
+    value={value}
   />
 )
 
@@ -30,6 +31,7 @@ Input.propTypes = {
   type: PropTypes.string,
   onChange: PropTypes.func,
   min: PropTypes.string,
+  value: PropTypes.string,
 }
 
 Input.defaultProps = {
@@ -38,6 +40,7 @@ Input.defaultProps = {
   className: '',
   type: '',
   min: '',
+  value: null,
   onChange: () => {},
 }
 
