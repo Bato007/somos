@@ -5,8 +5,6 @@ import Login from './Components/Login/Login'
 import Home from './Components/Home/Home'
 import Upload from './Components/Upload/Upload'
 import Create from './Components/CreateAccount/Info'
-import Usuario from './Components/CreateAccount/Usuario'
-import Ubicacion from './Components/CreateAccount/Ubicacion'
 // import ProtectedRoute from './Components/ProtectedRoutes'
 
 /*
@@ -23,8 +21,6 @@ const App = () => (
 const App = () => (
   <Router>
     <Switch>
-      <Route path='/createaccount-3' component={Ubicacion} />
-      <Route path='/createaccount-2' component={Usuario} />
       <Route path='/createaccount' component={Create} />
       <Route path='/upload' component={Upload} />
       <Route path='/home' component={Home} />
