@@ -47,7 +47,6 @@ const Create = () => {
       return
     } if (categories.length === 0) {
       setError('No se han seleccionado categorias')
-      return
     } else {
       setError('')
       setInfo(1)
@@ -80,23 +79,25 @@ const Create = () => {
         password: pass,
         confirm: conf,
         email: mail,
-        name: name,
-        phone: phone,
+        name,
+        phone,
         workplace: job,
         residence: place,
-        church: church,
-        categories: categories,
+        church,
+        categories,
       }
 
       fetch('http://localhost:3001/authentication/signup',
-      {method: 'POST',
-      body: JSON.stringify(data),
-      headers: {'Content-type': 'application/json'}})
-      .then((res) => res.json())
-      .catch((e) => console.error('Error', e))
-      .then((out) => {
-        console.log(out)
-      })
+        {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'Content-type': 'application/json' },
+        })
+        .then((res) => res.json())
+        .catch((e) => console.error('Error', e))
+        .then((out) => {
+          console.log(out)
+        })
     }
   }
 
@@ -167,9 +168,15 @@ const Create = () => {
               se llega a olvidar la contraseña o el usuario.
             </h2>
             <center>
-              <div className="required_con"><h3 className="required_indicator">* </h3><h3>Dirección de email</h3></div>
+              <div className="required_con">
+                <h3 className="required_indicator">* </h3>
+                <h3>Dirección de email</h3>
+              </div>
               <Input value={mail} className="InputCreate" type="text" name="email" placeholder="Correo electrónico" onChange={(event) => setMail(event.target.value)} />
-              <div className="required_con"><h3 className="required_indicator">* </h3><h3>Nombre</h3></div>
+              <div className="required_con">
+                <h3 className="required_indicator">* </h3>
+                <h3>Nombre</h3>
+              </div>
               <Input value={name} className="InputCreate" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
               <h3>Número telefónico</h3>
               <Input value={phone} className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
@@ -192,7 +199,10 @@ const Create = () => {
             <center>
               <h3>Lugar de trabajo</h3>
               <Input value={job} className="InputCreate" type="text" name="Trabajo" placeholder="Dirección de trabajo" onChange={(event) => setJob(event.target.value)} />
-              <div className="required_con"><h3 className="required_indicator">* </h3><h3>Área de residencia</h3></div>
+              <div className="required_con">
+                <h3 className="required_indicator">* </h3>
+                <h3>Área de residencia</h3>
+              </div>
               <Input value={place} className="InputCreate" type="text" name="Residencia" placeholder="Residencia" onChange={(event) => setPlace(event.target.value)} />
               <h3>Iglesia asociada</h3>
               <Input value={church} className="InputCreate" type="text" name="Iglesia" placeholder="Iglesia asociada" onChange={(event) => setChurch(event.target.value)} />
@@ -212,15 +222,27 @@ const Create = () => {
               Empieza creando estos datos los cuales  ayudarán a poder
               acceder a la cuenta.
             </h2>
-            <div className="required_con"><h3 className="required_indicator">* </h3><h3>Usuario</h3></div>
+            <div className="required_con">
+              <h3 className="required_indicator">* </h3>
+              <h3>Usuario</h3>
+            </div>
             <center>
               <Input value={user} className="InputCreate" type="text" name="username" placeholder="Usuario" onChange={(event) => setUser(event.target.value)} />
-              <div className="required_con"><h3 className="required_indicator">* </h3><h3>Contraseña</h3></div>
+              <div className="required_con">
+                <h3 className="required_indicator">* </h3>
+                <h3>Contraseña</h3>
+              </div>
               <Input value={pass} className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setPass(event.target.value)} />
-              <div className="required_con"><h3 className="required_indicator">* </h3><h3>Confirmación de contraseña</h3></div>
+              <div className="required_con">
+                <h3 className="required_indicator">* </h3>
+                <h3>Confirmación de contraseña</h3>
+              </div>
               <Input value={conf} className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
-              <div className="required_con"><h3 className="required_indicator">* </h3><h3>Categoría perteneciente</h3></div>
-              <SearchbarTo setCategories={setCategories} creatingAccount />
+              <div className="required_con">
+                <h3 className="required_indicator">* </h3>
+                <h3>Categoría perteneciente</h3>
+              </div>
+              <SearchbarTo setCategories={setCategories} creatingAccount lastResult={categories} />
               <div className="oneBtn containerText botonesCA">
                 <Button id="Create" name="Continuar →" onClick={checkBasic} />
               </div>

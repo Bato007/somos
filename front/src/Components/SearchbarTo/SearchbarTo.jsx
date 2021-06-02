@@ -19,9 +19,11 @@ import './SearchbarTo.css'
  *       showSimilarTo es un bool: donde true muestra tags similares,
  *       false muestra contactos similares
  *       creatingAccount es un bool: donde true permite ingresar nuevas categorias al hacer enter
+ *       lastResult: es la lista anterior: usada por si el usuario regresa a la pantalla,
+ *       mostrar las categorias seleccionadas con anterioridad
  */
 const SearchbarTo = ({
-  setAccounts, setCategories, showSimilarTo, setSimilarTo, creatingAccount,
+  setAccounts, setCategories, showSimilarTo, setSimilarTo, creatingAccount, lastResult,
 }) => {
   const refInput = useRef()
   const [results, setResults] = useState({ showTypes: false, showUsernames: false, actualSearch: undefined })
@@ -49,15 +51,18 @@ const SearchbarTo = ({
     }
   }
 
+  // Funcion para saber si el usuario hizo click en el icono
   const searchCategories = () => {
     refInput.current.value = ''
     setResults({ showTypes: !results.showTypes })
   }
 
+  // Funcion para saber si el usuario hizo click en el searchbar
   const selectInput = () => {
     refInput.current.focus()
   }
 
+  // UseEffect para colocar tags de "similares a"
   useEffect(() => {
     if (setSimilarTo !== undefined) {
       refInput.current.value = ''
@@ -68,6 +73,7 @@ const SearchbarTo = ({
     }
   }, [tagsSimilarTo])
 
+  // UseEffect para colocar tags de "cuentas"
   useEffect(() => {
     if (setAccounts !== undefined) {
       refInput.current.value = ''
@@ -77,12 +83,21 @@ const SearchbarTo = ({
     }
   }, [sendToAccount])
 
+  // UseEffect para colocar tags de "categorias"
   useEffect(() => {
+    // Mostrar el resultado pasado
+    console.log(lastResult)
     if (setCategories !== undefined) {
       refInput.current.value = ''
       const temporal = [...actualSendersCategory, ...sendToCategory]
-      setActualSendersCategory([...new Set(temporal)])
-      setCategories([...new Set(temporal)])
+
+      if (lastResult.length > 0 && temporal.length === 0) {
+        setActualSendersCategory(lastResult)
+        setCategories(lastResult)
+      } else {
+        setActualSendersCategory([...new Set(temporal)])
+        setCategories([...new Set(temporal)])
+      }
     }
   }, [sendToCategory])
 
@@ -124,6 +139,7 @@ SearchbarTo.propTypes = {
   setSimilarTo: PropTypes.func,
   showSimilarTo: PropTypes.bool,
   creatingAccount: PropTypes.bool,
+  lastResult: PropTypes.arrayOf(PropTypes.string),
 }
 
 SearchbarTo.defaultProps = {
@@ -132,6 +148,7 @@ SearchbarTo.defaultProps = {
   setSimilarTo: () => {},
   showSimilarTo: false,
   creatingAccount: false,
+  lastResult: [],
 }
 
 export default SearchbarTo
