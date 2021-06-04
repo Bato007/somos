@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS resource (
   title VARCHAR(50) NOT NULL,
   description VARCHAR(255),
   available DATE NOT NULL,
-  type VARCHAR(50) NOT NULL
+  type VARCHAR(50) NOT NULL,
+  url VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS  category (
@@ -113,11 +114,61 @@ x text;
 	END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION get_resources(text, text[]) 
+RETURNS TABLE (
+		id VARCHAR(50),
+		title VARCHAR(50),
+		resource VARCHAR(50)
+	) AS $$ 
+DECLARE
+temp_username ALIAS FOR $1;
+categories ALIAS FOR $2;
+x text;
+	BEGIN
+		DROP TABLE IF EXISTS aux;
+		CREATE TEMP TABLE aux (
+			id VARCHAR(50),
+			title VARCHAR(50),
+			type VARCHAR(50),
+			available DATE
+		);
+		
+		FOREACH x IN ARRAY categories
+		LOOP
+			INSERT INTO aux
+				(SELECT P1.id, P1.title, P1.type, P1.available
+				FROM (resource NATURAL JOIN resource_category) P1
+				WHERE P1.category = x);
+		END LOOP;
+
+		INSERT INTO aux
+				(SELECT P1.id, P1.title, P1.type, P1.available
+				FROM (resource NATURAL JOIN user_resource) P1
+				WHERE P1.username = temp_username);
+
+		RETURN QUERY (
+			SELECT DISTINCT aux.id, aux.title, aux.type
+			FROM aux
+			WHERE aux.available >= current_date
+		);
+	END;
+$$ LANGUAGE plpgsql;
+
 INSERT INTO category VALUES ('iglesia'), ('somos');
 INSERT INTO somos_user VALUES 
 ('bato', '123', 'hola@gmail.com', 'brandon', 12121212, 'uvg', 'mixco', 'vida real');
 INSERT INTO user_category VALUES 
 	('bato', 'iglesia'),
 	('bato', 'somos');
-
-
+INSERT INTO resource VALUES
+	('id', 'title', 'descr', '2021-06-03', 'pdf', 'url'),
+	('id2', 'title', 'descr', '2021-06-05', 'jpg', 'url'),
+	('id3', 'title', 'descr', '2021-06-01', 'doc', 'url');	
+INSERT INTO resource_category VALUES
+	('id', 'iglesia'),
+	('id', 'somos'),
+	('id2', 'iglesia'),
+	('id3', 'somos');
+INSERT INTO tag VALUES
+	('prueba');
+SELECT * FROM get_resources('bato', ARRAY['somos', 'iglesia']); 
