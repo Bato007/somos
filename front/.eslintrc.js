@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
+    'airbnb',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -16,4 +17,8 @@ module.exports = {
   plugins: [
     'react',
   ],
+  rules: {
+    'linebreak-style': 0,
+    semi: ['error', 'never'],
+  },
 }

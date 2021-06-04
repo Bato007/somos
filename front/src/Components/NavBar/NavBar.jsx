@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import logo from '../../static/imagesNavBar/logo.png'

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import ResourcePreview from '../ResourcePreview/ResourcePreview'
@@ -15,7 +16,6 @@ const Searchbar = ({ availableResources }) => {
 
   // Mostramos todos los recursos
   useEffect(() => {
-    console.log(availableResources)
     setActualResults(availableResources)
   }, [])
 
@@ -23,9 +23,9 @@ const Searchbar = ({ availableResources }) => {
   // Si la busqueda es vacia, se muestran todos los recursos
   const searchResults = () => {
     const temporal = []
-  
+
     if (actualSearch !== '') {
-      for (let i=0; i<availableResources.length; i++) {
+      for (let i = 0; i < availableResources.length; i += 1) {
         const title = availableResources[i].title.toLowerCase()
         if (title.includes(actualSearch.toLowerCase())) {
           temporal.push(availableResources[i])
@@ -33,8 +33,14 @@ const Searchbar = ({ availableResources }) => {
       }
       setActualResults(temporal)
     } else {
-      console.log(availableResources)
       setActualResults(availableResources)
+    }
+  }
+
+  // Funcion para saber si el usuario hizo enter
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      searchResults()
     }
   }
 
@@ -45,11 +51,17 @@ const Searchbar = ({ availableResources }) => {
 
   return (
     <div id="ActualResults">
-      <div id="Searchbar">
-        <Input className="searchbar" type="text" name="Searchbar" placeholder="Buscar..." onChange={handleChange} />
+      <div id="Searchbar" onKeyDown={handleKeyDown}>
+        <Input
+          className="searchbar"
+          type="text"
+          name="Searchbar"
+          placeholder="Buscar..."
+          onChange={handleChange}
+        />
         <Button id="searchbarButton" onClick={searchResults} />
       </div>
-    
+
       <ResourcePreview availableResources={actualResults} />
     </div>
   )
@@ -57,13 +69,8 @@ const Searchbar = ({ availableResources }) => {
 
 Searchbar.propTypes = {
   availableResources: PropTypes.arrayOf(
-    PropTypes.shape({title: PropTypes.string.isRequired, resource: PropTypes.string.isRequired})
+    PropTypes.shape({ title: PropTypes.string.isRequired, resource: PropTypes.string.isRequired }),
   ).isRequired,
-  search: PropTypes.string,
-}
-
-Searchbar.defaultProps = {
-  search: '',
 }
 
 export default Searchbar
