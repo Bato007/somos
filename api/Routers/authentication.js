@@ -1,4 +1,5 @@
 const express = require('express')
+const bcrypt = require('bcryptjs')
 const pool = require('../DataBase/database')
 
 const router = express.Router()
@@ -113,13 +114,17 @@ router.post('/signup', async (req, res) => {
       throw { message: 'no_equal_password' }
     }
 
+     // Encrypting Password 
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(password, salt);
+
     // Empezando a meter el usuario
     await client.query('BEGIN;')
 
     await client.query(`
       INSERT INTO somos_user VALUES
         ($1, $2, $3, $4, $5, $6, $7, $8);
-    `, [username, password, email, name, phone,
+    `, [username, hash, email, name, phone,
       workplace, residence, church])
 
     // Agregando las

@@ -1,7 +1,7 @@
 -- CREANDO LAS TABLAS
 CREATE TABLE IF NOT EXISTS somos_user (
   username VARCHAR(20) PRIMARY KEY,
-  password VARCHAR(20) NOT NULL,
+  password TEXT NOT NULL,
   email VARCHAR(50) NOT NULL,
   name VARCHAR(50) NOT NULL,
   phone INT NOT NULL,
