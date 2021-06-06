@@ -41,7 +41,7 @@ router.post('/signin', async (req, res) => {
       throw { message: 'ERROR 101' }
     }
 
-    if (user.rows[0].password !== password) {
+    if (bcrypt.compareSync(password,user.rows[0].password) === false) {
       throw { message: 'ERROR 102' }
     }
 
@@ -115,8 +115,8 @@ router.post('/signup', async (req, res) => {
     }
 
      // Encrypting Password 
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(password, salt);
+    let salt = bcrypt.genSaltSync(10)
+    let hash = bcrypt.hashSync(password, salt)
 
     // Empezando a meter el usuario
     await client.query('BEGIN;')
