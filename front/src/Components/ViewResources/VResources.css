@@ -39,8 +39,8 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 15px;
-  margin-bottom: 15px;
+  padding: 15px 0;
+  background-color: white;
 }
 
 .containerB h1{
@@ -53,22 +53,91 @@
   font-weight: 400;
 }
 
-.containerB button{
-  background-color: white;
+.containerB .buttons{
+  background-color: #212322;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  align-content: center;
+  display: inline-grid;
+}
+
+.buttons img{
+  height: 35px;
+}
+
+.buttons img:hover{
+  height: 38px;
 }
 
 hr{
   width: inherit;
+  margin: 0;
 }
+
+.docSpace{
+  overflow-y: scroll;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  padding: 0 50;
+}
+
+.docSpace img{
+  align-content: center;
+}
+
+#previewRb{
+  justify-content: center;
+}
+
+#previewRb:-webkit-full-screen{
+  overflow-y: scroll;
+}
+
+#previewRb:-webkit-full-screen .docSpace{
+  overflow-y: hidden;
+  height: 800px;
+  min-width: 450px;
+  justify-content: center;
+  background-color: white;
+  padding: 40px 0;
+}
+
+#previewRb:-webkit-full-screen .containerB{
+  display: flex;
+  padding: 0 40px;
+  background-color: #212323;
+}
+
+
+#previewRb:-webkit-full-screen .containerB h1{
+  color: white;
+}
+
+#previewRb:-webkit-full-screen .containerB p{
+  color: white;
+}
+
 
 @media (min-width: 300px) {
   #vresources {
     padding: 1em;
-  }
+  }  
 }
 
 @media (min-width: 500px) {
   #vresources {
     padding: 2.5em;
+  }
+}
+
+@media (max-width: 900px){
+  #previewRb:-webkit-full-screen{
+    padding: 2.5em;
+  }
+  #previewRb:-webkit-full-screen .docSpace img{
+    padding: 0.5em;
   }
 }
