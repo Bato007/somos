@@ -429,7 +429,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _nod
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);\n// Imports\n\nvar ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(false);\n// Module\n___CSS_LOADER_EXPORT___.push([module.i, \".vresources {\\r\\n  background-color: #A7D8D7;\\r\\n  display: flex;\\r\\n  flex-direction: column;\\r\\n  align-items: center;\\r\\n  justify-content: center;\\r\\n  padding: 0 0 3em 0;\\r\\n  min-width: 100vw;\\r\\n}\\r\\n  \\r\\n#vresources {\\r\\n  display: flex;\\r\\n  flex-direction: column;\\r\\n  width: 850px;\\r\\n  justify-content: center;\\r\\n  background-color: white;\\r\\n  border-radius: 0.5em;\\r\\n  margin-top: 3em;\\r\\n  padding: 15px;\\r\\n  padding-left: 70px;\\r\\n  padding-right: 70px;\\r\\n}\\r\\n\\r\\n.vresources h1{\\r\\n  align-self: center;\\r\\n}\\r\\n\\r\\n.vresources p{\\r\\n  font-size: 18px;\\r\\n  text-align: justify;\\r\\n  font-weight: 100;\\r\\n  letter-spacing: 1px;\\r\\n  line-height: 25px;\\r\\n}\\r\\n\\r\\n.containerB{\\r\\n  height: 70px;\\r\\n  display: flex;\\r\\n  flex-direction: row;\\r\\n  justify-content: space-between;\\r\\n  align-items: center;\\r\\n  padding-top: 15px;\\r\\n  margin-bottom: 15px;\\r\\n}\\r\\n\\r\\n.containerB h1{\\r\\n  display: inline-block;\\r\\n  font-size: 55px;\\r\\n  font-weight: 100;\\r\\n}\\r\\n\\r\\n.containerB p{\\r\\n  font-weight: 400;\\r\\n}\\r\\n\\r\\n.containerB button{\\r\\n  background-color: white;\\r\\n}\\r\\n\\r\\nhr{\\r\\n  width: inherit;\\r\\n}\\r\\n\\r\\n@media (min-width: 300px) {\\r\\n  #vresources {\\r\\n    padding: 1em;\\r\\n  }\\r\\n}\\r\\n\\r\\n@media (min-width: 500px) {\\r\\n  #vresources {\\r\\n    padding: 2.5em;\\r\\n  }\\r\\n}\\r\\n\", \"\"]);\n// Exports\n/* harmony default export */ __webpack_exports__[\"default\"] = (___CSS_LOADER_EXPORT___);\n\n\n//# sourceURL=webpack:///./src/Components/ViewResources/VResources.css?./node_modules/css-loader/dist/cjs.js");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/getUrl.js */ \"./node_modules/css-loader/dist/runtime/getUrl.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _static_imagesViewResources_reduce_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../static/imagesViewResources/reduce.png */ \"./src/static/imagesViewResources/reduce.png\");\n/* harmony import */ var _static_imagesViewResources_enlarge_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../static/imagesViewResources/enlarge.png */ \"./src/static/imagesViewResources/enlarge.png\");\n// Imports\n\n\n\n\nvar ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(false);\nvar ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1___default()(_static_imagesViewResources_reduce_png__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\nvar ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1___default()(_static_imagesViewResources_enlarge_png__WEBPACK_IMPORTED_MODULE_3__[\"default\"]);\n// Module\n___CSS_LOADER_EXPORT___.push([module.i, \".vresources {\\r\\n  background-color: #A7D8D7;\\r\\n  display: flex;\\r\\n  flex-direction: column;\\r\\n  align-items: center;\\r\\n  justify-content: center;\\r\\n  padding: 0 0 3em 0;\\r\\n  min-width: 100vw;\\r\\n}\\r\\n  \\r\\n#vresources {\\r\\n  display: flex;\\r\\n  flex-direction: column;\\r\\n  width: 850px;\\r\\n  justify-content: center;\\r\\n  background-color: white;\\r\\n  border-radius: 0.5em;\\r\\n  margin-top: 3em;\\r\\n  padding: 15px;\\r\\n  padding-left: 70px;\\r\\n  padding-right: 70px;\\r\\n}\\r\\n\\r\\n.vresources h1{\\r\\n  align-self: center;\\r\\n}\\r\\n\\r\\n.vresources p{\\r\\n  font-size: 18px;\\r\\n  text-align: justify;\\r\\n  font-weight: 100;\\r\\n  letter-spacing: 1px;\\r\\n  line-height: 25px;\\r\\n}\\r\\n\\r\\n.containerB{\\r\\n  height: 70px;\\r\\n  display: flex;\\r\\n  flex-direction: row;\\r\\n  justify-content: space-between;\\r\\n  align-items: center;\\r\\n  padding: 10px 15px;\\r\\n  background-color: #212322;\\r\\n}\\r\\n\\r\\n.containerB h1{\\r\\n  display: inline-block;\\r\\n  font-size: 55px;\\r\\n  font-weight: 100;\\r\\n  color: white;\\r\\n}\\r\\n\\r\\n.containerB p{\\r\\n  font-weight: 400;\\r\\n  color: white;\\r\\n}\\r\\n\\r\\n.containerB .buttons{\\r\\n  background-color: #212322;\\r\\n  width: 55px;\\r\\n  height: 55px;\\r\\n  justify-content: center;\\r\\n  align-content: center;\\r\\n  display: inline-grid;\\r\\n  color: transparent;\\r\\n}\\r\\n\\r\\n.buttons img{\\r\\n  height: 35px;\\r\\n}\\r\\n\\r\\n.buttons img:hover{\\r\\n  height: 38px;\\r\\n}\\r\\n\\r\\n/*cambio de imagen del botón de expandir*/\\r\\n#previewRb:-webkit-full-screen .expand:hover{\\r\\n  background: #212322 url(\" + ___CSS_LOADER_URL_REPLACEMENT_0___ + \") center no-repeat;\\r\\n  background-size: 38px;\\r\\n}\\r\\n\\r\\n#previewRb:-webkit-full-screen .expand{\\r\\n  background: #212322 url(\" + ___CSS_LOADER_URL_REPLACEMENT_0___ + \") center no-repeat;\\r\\n  background-size: 35px;\\r\\n}\\r\\n\\r\\n.expand {\\r\\n  background: #212322 url(\" + ___CSS_LOADER_URL_REPLACEMENT_1___ + \") center no-repeat;\\r\\n  background-size: 35px;\\r\\n}\\r\\n\\r\\n.expand:hover {\\r\\n  background: #212322 url(\" + ___CSS_LOADER_URL_REPLACEMENT_1___ + \") center no-repeat;\\r\\n  background-size: 38px;\\r\\n}\\r\\n\\r\\nhr{\\r\\n  width: inherit;\\r\\n  margin: 10px;\\r\\n}\\r\\n\\r\\n.docSpace{\\r\\n  overflow-y: scroll;\\r\\n  scroll-behavior: smooth;\\r\\n  height: 300px;\\r\\n  display: flex;\\r\\n  justify-content: center;\\r\\n  background-color: white;\\r\\n  padding: 5px 50px;\\r\\n  scroll-snap-type: x mandatory\\r\\n}\\r\\n\\r\\nTransformComponent{\\r\\n  overflow-y: scroll;\\r\\n  scroll-behavior: smooth;\\r\\n}\\r\\n\\r\\n.docSpace img{\\r\\n  scroll-behavior: smooth;\\r\\n  scrollbar-face-color: #A7D8D7;\\r\\n  align-content: center;\\r\\n  overflow: revert;\\r\\n  width: 715px;\\r\\n}\\r\\n\\r\\n/*Scrollbar*/\\r\\n::-webkit-scrollbar {\\r\\n  width: 10px;\\r\\n}\\r\\n\\r\\n::-webkit-scrollbar-track {\\r\\n  background: #f1f1f1; \\r\\n}\\r\\n\\r\\n::-webkit-scrollbar-thumb {\\r\\n  background: #A7D8D7; \\r\\n}\\r\\n\\r\\n#previewRb{\\r\\n  justify-content: center;\\r\\n}\\r\\n\\r\\n#previewRb:-webkit-full-screen .docSpace{\\r\\n  overflow-y: scroll;\\r\\n  height: 800px;\\r\\n  min-width: 450px;\\r\\n  justify-content: center;\\r\\n  background-color: white;\\r\\n  padding: 40px 0;\\r\\n}\\r\\n\\r\\n#previewRb:-webkit-full-screen .docSpace img{\\r\\n  max-width: 1000px;\\r\\n}\\r\\n\\r\\n#previewRb:-webkit-full-screen .containerB{\\r\\n  display: flex;\\r\\n  padding: 20px 40px;\\r\\n  background-color: #212323;\\r\\n}\\r\\n\\r\\n@media (max-width: 500px){\\r\\n  :-webkit-full-screen .containerB .buttons{\\r\\n    height: 15px;\\r\\n  }\\r\\n\\r\\n  :-webkit-full-screen .containerB {\\r\\n    padding: 1em;\\r\\n  }\\r\\n\\r\\n  :-webkit-full-screen .containerB h1{\\r\\n    font-size: 25px;\\r\\n  }\\r\\n  :-webkit-full-screen .docSpace{\\r\\n    width: 100px;\\r\\n  }\\r\\n}\\r\\n\", \"\"]);\n// Exports\n/* harmony default export */ __webpack_exports__[\"default\"] = (___CSS_LOADER_EXPORT___);\n\n\n//# sourceURL=webpack:///./src/Components/ViewResources/VResources.css?./node_modules/css-loader/dist/cjs.js");
 
 /***/ }),
 
@@ -1156,7 +1156,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _bab
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_zoom_pan_pinch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-zoom-pan-pinch */ \"./node_modules/react-zoom-pan-pinch/dist/index.es.js\");\n/* harmony import */ var _static_imagesViewResources_less_JPG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../static/imagesViewResources/less.JPG */ \"./src/static/imagesViewResources/less.JPG\");\n/* harmony import */ var _static_imagesViewResources_more_JPG__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../static/imagesViewResources/more.JPG */ \"./src/static/imagesViewResources/more.JPG\");\n/* harmony import */ var _static_imagesViewResources_prueba_JPG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../static/imagesViewResources/prueba.JPG */ \"./src/static/imagesViewResources/prueba.JPG\");\n/* harmony import */ var _static_imagesViewResources_back_JPG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../static/imagesViewResources/back.JPG */ \"./src/static/imagesViewResources/back.JPG\");\n/* harmony import */ var _static_imagesViewResources_reload_JPG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../static/imagesViewResources/reload.JPG */ \"./src/static/imagesViewResources/reload.JPG\");\n/* harmony import */ var _static_imagesViewResources_expand_JPG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../static/imagesViewResources/expand.JPG */ \"./src/static/imagesViewResources/expand.JPG\");\n/* harmony import */ var _static_imagesViewResources_next_JPG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../static/imagesViewResources/next.JPG */ \"./src/static/imagesViewResources/next.JPG\");\n\n\n\n\n\n\n\n\n\n/* El zoomIn y ZoomOut son parte de la libreria */\n\n/* La imagen prueba es para ver que los botones funcionen */\n// Funcion para rotar la imagen\n\nvar rotation = 0;\n\nfunction rotateImg() {\n  rotation += 90;\n\n  if (rotation === 360) {\n    rotation = 0;\n  }\n\n  document.getElementById('pruebaImg').style.transform = \"rotate(\".concat(rotation, \"deg)\");\n} // Función para pantalla completa\n\n\nfunction Full() {\n  document.documentElement.webkitRequestFullscreen();\n}\n\nvar BotonesRecursos = function BotonesRecursos() {\n  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_zoom_pan_pinch__WEBPACK_IMPORTED_MODULE_1__[\"TransformWrapper\"], {\n    defaultScale: 1,\n    defaultPositionX: 1,\n    defaultPositionY: 1,\n    className: \"containerB\"\n  }, function (_ref) {\n    var zoomIn = _ref.zoomIn,\n        zoomOut = _ref.zoomOut;\n    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", {\n      className: \"containerB\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_back_JPG__WEBPACK_IMPORTED_MODULE_5__[\"default\"],\n      alt: \"back\",\n      height: \"55px\"\n    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: rotateImg,\n      type: \"button\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_reload_JPG__WEBPACK_IMPORTED_MODULE_6__[\"default\"],\n      alt: \"refresh\",\n      height: \"55px\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: zoomOut,\n      type: \"button\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_less_JPG__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\n      alt: \"zoom out\",\n      height: \"55px\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"p\", null, \"ZOOM\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: zoomIn,\n      type: \"button\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_more_JPG__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n      alt: \"zoom in\",\n      height: \"55px\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: Full,\n      type: \"button\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_expand_JPG__WEBPACK_IMPORTED_MODULE_7__[\"default\"],\n      alt: \"expand\",\n      height: \"55px\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_next_JPG__WEBPACK_IMPORTED_MODULE_8__[\"default\"],\n      alt: \"next\",\n      height: \"55px\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"hr\", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_zoom_pan_pinch__WEBPACK_IMPORTED_MODULE_1__[\"TransformComponent\"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_prueba_JPG__WEBPACK_IMPORTED_MODULE_4__[\"default\"],\n      alt: \"back\",\n      id: \"pruebaImg\"\n    })));\n  });\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (BotonesRecursos);\n\n//# sourceURL=webpack:///./src/Components/ViewResources/ResourceButton.jsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_zoom_pan_pinch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-zoom-pan-pinch */ \"./node_modules/react-zoom-pan-pinch/dist/index.es.js\");\n/* harmony import */ var _static_imagesViewResources_zoomOut_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../static/imagesViewResources/zoomOut.png */ \"./src/static/imagesViewResources/zoomOut.png\");\n/* harmony import */ var _static_imagesViewResources_zoomIn_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../static/imagesViewResources/zoomIn.png */ \"./src/static/imagesViewResources/zoomIn.png\");\n/* harmony import */ var _static_imagesViewResources_prueba_JPG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../static/imagesViewResources/prueba.JPG */ \"./src/static/imagesViewResources/prueba.JPG\");\n/* harmony import */ var _static_imagesViewResources_previous_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../static/imagesViewResources/previous.png */ \"./src/static/imagesViewResources/previous.png\");\n/* harmony import */ var _static_imagesViewResources_rotate_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../static/imagesViewResources/rotate.png */ \"./src/static/imagesViewResources/rotate.png\");\n/* harmony import */ var _static_imagesViewResources_next_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../static/imagesViewResources/next.png */ \"./src/static/imagesViewResources/next.png\");\n\n\n\n\n\n\n // import expand from '../../static/imagesViewResources/enlarge.png'\n\n // import reduce from '../../static/imagesViewResources/reduce.png'\n\n/* El zoomIn y ZoomOut son parte de la libreria */\n\n/* La imagen prueba es para ver que los botones funcionen */\n// Funcion para rotar la imagen\n\nvar rotation = 0;\n\nfunction rotateImg() {\n  rotation += 90;\n\n  if (rotation === 360) {\n    rotation = 0;\n  }\n\n  document.getElementById('pruebaImg').style.transform = \"rotate(\".concat(rotation, \"deg)\");\n} // Función para acceder y salir de pantalla completa\n\n\nfunction Full() {\n  var elem = document.getElementById('previewRb');\n\n  if (elem.requestFullscreen) {\n    elem.requestFullscreen();\n  } else if (elem.webkitRequestFullscreen) {\n    /* Safari */\n    elem.webkitRequestFullscreen();\n  }\n\n  if (document.exitFullscreen) {\n    document.exitFullscreen();\n  } else if (document.webkitExitFullscreen) {\n    /* Safari */\n    document.webkitExitFullscreen();\n  }\n}\n\nvar BotonesRecursos = function BotonesRecursos() {\n  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", {\n    id: \"previewRb\"\n  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_zoom_pan_pinch__WEBPACK_IMPORTED_MODULE_1__[\"TransformWrapper\"], {\n    Scale: 1,\n    defaultPositionX: 100,\n    defaultPositionY: 100\n  }, function (_ref) {\n    var zoomIn = _ref.zoomIn,\n        zoomOut = _ref.zoomOut,\n        resetTransform = _ref.resetTransform;\n    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", {\n      className: \"containerB\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      type: \"button\",\n      className: \"buttons\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_previous_png__WEBPACK_IMPORTED_MODULE_5__[\"default\"],\n      alt: \"previous\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: rotateImg,\n      type: \"button\",\n      className: \"buttons\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_rotate_png__WEBPACK_IMPORTED_MODULE_6__[\"default\"],\n      alt: \"rotate\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: zoomOut,\n      type: \"button\",\n      className: \"buttons\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_zoomOut_png__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\n      alt: \"zoom out\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      type: \"button\",\n      onClick: resetTransform,\n      className: \"buttons\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"p\", null, \"ZOOM\")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: zoomIn,\n      type: \"button\",\n      className: \"buttons\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_zoomIn_png__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n      alt: \"zoom in\"\n    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      onClick: Full,\n      id: \"enlarge\",\n      type: \"button\",\n      className: \"buttons expand\"\n    }, \"a\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"|\"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"button\", {\n      type: \"button\",\n      className: \"buttons\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_next_png__WEBPACK_IMPORTED_MODULE_7__[\"default\"],\n      alt: \"next\"\n    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"hr\", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", {\n      className: \"docSpace\"\n    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_zoom_pan_pinch__WEBPACK_IMPORTED_MODULE_1__[\"TransformComponent\"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"img\", {\n      src: _static_imagesViewResources_prueba_JPG__WEBPACK_IMPORTED_MODULE_4__[\"default\"],\n      alt: \"blank\",\n      id: \"pruebaImg\"\n    }))));\n  }));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (BotonesRecursos);\n\n//# sourceURL=webpack:///./src/Components/ViewResources/ResourceButton.jsx?");
 
 /***/ }),
 
@@ -1374,63 +1374,39 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 
 /***/ }),
 
-/***/ "./src/static/imagesViewResources/back.JPG":
+/***/ "./src/static/imagesViewResources/enlarge.png":
+/*!****************************************************!*\
+  !*** ./src/static/imagesViewResources/enlarge.png ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"a309ecafc1a5e3aa8ce6410c18842fa8.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/enlarge.png?");
+
+/***/ }),
+
+/***/ "./src/static/imagesViewResources/next.png":
 /*!*************************************************!*\
-  !*** ./src/static/imagesViewResources/back.JPG ***!
+  !*** ./src/static/imagesViewResources/next.png ***!
   \*************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"e96b4f4c20cdc99ab8cfab069a0c7364.JPG\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/back.JPG?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"a45bca15a1bee5c969c8404354cd0982.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/next.png?");
 
 /***/ }),
 
-/***/ "./src/static/imagesViewResources/expand.JPG":
-/*!***************************************************!*\
-  !*** ./src/static/imagesViewResources/expand.JPG ***!
-  \***************************************************/
+/***/ "./src/static/imagesViewResources/previous.png":
+/*!*****************************************************!*\
+  !*** ./src/static/imagesViewResources/previous.png ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"3203bf4ffeef47a66903216d55661377.JPG\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/expand.JPG?");
-
-/***/ }),
-
-/***/ "./src/static/imagesViewResources/less.JPG":
-/*!*************************************************!*\
-  !*** ./src/static/imagesViewResources/less.JPG ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"f7017cc905b2e49c8dd8d5f8531bd0a8.JPG\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/less.JPG?");
-
-/***/ }),
-
-/***/ "./src/static/imagesViewResources/more.JPG":
-/*!*************************************************!*\
-  !*** ./src/static/imagesViewResources/more.JPG ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"f460c0b6773c3920db9be01efea00649.JPG\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/more.JPG?");
-
-/***/ }),
-
-/***/ "./src/static/imagesViewResources/next.JPG":
-/*!*************************************************!*\
-  !*** ./src/static/imagesViewResources/next.JPG ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"379c1c8ba28662dc07b2858b8cceef5b.JPG\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/next.JPG?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"5cb6d95840827de8db72b6b23045124f.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/previous.png?");
 
 /***/ }),
 
@@ -1446,15 +1422,51 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 
 /***/ }),
 
-/***/ "./src/static/imagesViewResources/reload.JPG":
+/***/ "./src/static/imagesViewResources/reduce.png":
 /*!***************************************************!*\
-  !*** ./src/static/imagesViewResources/reload.JPG ***!
+  !*** ./src/static/imagesViewResources/reduce.png ***!
   \***************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"7ab3f42a2bb734e1349f3cd9aa2f4d5f.JPG\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/reload.JPG?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"27bda436d81f1b5f691f3abeb6f42365.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/reduce.png?");
+
+/***/ }),
+
+/***/ "./src/static/imagesViewResources/rotate.png":
+/*!***************************************************!*\
+  !*** ./src/static/imagesViewResources/rotate.png ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"0231ad5e8dc999e3b07c0f927ccfa2ef.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/rotate.png?");
+
+/***/ }),
+
+/***/ "./src/static/imagesViewResources/zoomIn.png":
+/*!***************************************************!*\
+  !*** ./src/static/imagesViewResources/zoomIn.png ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"2ec6af9c2cb137251a395b12fd95b5b7.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/zoomIn.png?");
+
+/***/ }),
+
+/***/ "./src/static/imagesViewResources/zoomOut.png":
+/*!****************************************************!*\
+  !*** ./src/static/imagesViewResources/zoomOut.png ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"114e5f51d02c0d719d044c213d1a588d.png\");\n\n//# sourceURL=webpack:///./src/static/imagesViewResources/zoomOut.png?");
 
 /***/ })
 
