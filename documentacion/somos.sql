@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS somos_user (
 
 CREATE TABLE IF NOT EXISTS resource (
   id VARCHAR(50) PRIMARY KEY,
+  name VARCHAR(20),
   title VARCHAR(50) NOT NULL,
   description VARCHAR(255),
   available DATE NOT NULL,
@@ -19,12 +20,24 @@ CREATE TABLE IF NOT EXISTS resource (
   url VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS  category (
+CREATE TABLE IF NOT EXISTS category (
   name VARCHAR(60) PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS tag (
   name VARCHAR(30) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS announcement (
+  id VARCHAR(70) PRIMARY KEY,
+  contact VARCHAR(20),
+  phone INT,
+  email VARCHAR(20),
+  title VARCHAR(20),
+  description VARCHAR(200),
+  toDate DATE,
+  published BOOLEAN,
+  type VARCHAR(20)
 );
 
 -- CREANDO LAS RELACIONES
@@ -111,6 +124,17 @@ x text;
 			INSERT INTO user_resource VALUES (x, id);
 		END LOOP;
 
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION clear_resource(text) 
+RETURNS VOID AS $$ 
+DECLARE
+aux_id ALIAS FOR $1;
+	BEGIN
+		DELETE FROM resource_tag WHERE id = aux_id;
+    DELETE FROM user_resource WHERE id = aux_id;
+    DELETE FROM resource_category WHERE id = aux_id;
 	END;
 $$ LANGUAGE plpgsql;
 
