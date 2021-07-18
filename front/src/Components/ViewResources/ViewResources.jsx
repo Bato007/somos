@@ -18,7 +18,7 @@ const VResources = () => (
       <hr />
       <div className="headers editp">
         <p>
-          Description
+          Text description
         </p>
         <button type="button" className="buttonEdit editbotton">a</button>
       </div>
