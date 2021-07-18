@@ -1,0 +1,37 @@
+.Announcements {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #A7D8D7;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.announcement {
+    width: 80vw;
+    height: fit-content;
+    text-align: left;
+    background-color: white;
+    margin: 2em 0 2em 0;
+    white-space: pre-wrap;
+}
+
+.announcement h1, p {
+    padding: 0 50px 0 50px;
+}
+
+.announcement p {
+    font-size: large;
+}
+
+.announcementOptions {
+    width: 100%;
+    background-color: #E8E6E6;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.announcementOptions button {
+    margin: 5px 10px 5px 10px;
+}
