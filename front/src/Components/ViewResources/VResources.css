@@ -33,6 +33,66 @@
   line-height: 25px;
 }
 
+.headers{
+  width: 850px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.headers h1{
+  align-self: center;
+  padding: 5px;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.editp{
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+.editbotton{
+  margin-top: 12px;
+}
+
+.headers p{
+  width: 800px;
+}
+
+/*Boton para editar */
+.buttonEdit{
+  height: 35px;
+  width: 30px;
+  align-items: center;
+  color: white;
+  background: white url(../../static/imagesViewResources/editpre.png) center no-repeat;
+  background-size: 20px;
+}
+
+.buttonEdit:hover{
+  background: white url(../../static/imagesViewResources/edit.png) center no-repeat;
+  background-size: 20px;
+}
+/*termina parte del boton para editar */
+
+/*Boton para eliminar*/
+.buttonDelete{
+  height: 40px;
+  width: 30px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0);
+  background: white url(../../static/imagesViewResources/delete.png) center no-repeat;
+  background-size: 30px;
+}
+
+.buttonDelete:hover{
+  background: white url(../../static/imagesViewResources/delete2.png) center no-repeat;
+  background-size: 37px;
+}
+/*Termina parte dle boton para borrar*/
+
 .containerB{
   height: 70px;
   display: flex;
@@ -93,6 +153,7 @@
   background: #212322 url(../../static/imagesViewResources/enlarge.png) center no-repeat;
   background-size: 38px;
 }
+/*termina el cambio de imagen del botón de expandir*/
 
 hr{
   width: inherit;

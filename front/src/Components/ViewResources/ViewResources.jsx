@@ -10,12 +10,21 @@ const VResources = () => (
   <div className="vresources">
     <NavBar />
     <div id="vresources">
-      <h1>Titulo del recurso</h1>
+      <div className="headers">
+        <h1>Titulo del recurso</h1>
+        <button type="button" className="buttonEdit">a</button>
+      </div>
       <BotonesRecursos />
       <hr />
-      <p>
-        Description
-      </p>
+      <div className="headers editp">
+        <p>
+          Description
+        </p>
+        <button type="button" className="buttonEdit editbotton">a</button>
+      </div>
+      <center>
+        <button type="button" className="buttonDelete">a</button>
+      </center>
     </div>
   </div>
 )

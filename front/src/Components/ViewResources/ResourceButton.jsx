@@ -5,11 +5,8 @@ import more from '../../static/imagesViewResources/zoomIn.png'
 import prueba from '../../static/imagesViewResources/prueba.JPG'
 import previous from '../../static/imagesViewResources/previous.png'
 import rotate from '../../static/imagesViewResources/rotate.png'
-// import expand from '../../static/imagesViewResources/enlarge.png'
 import next from '../../static/imagesViewResources/next.png'
-// import reduce from '../../static/imagesViewResources/reduce.png'
 /* El zoomIn y ZoomOut son parte de la libreria */
-/* La imagen prueba es para ver que los botones funcionen */
 
 // Funcion para rotar la imagen
 let rotation = 0
