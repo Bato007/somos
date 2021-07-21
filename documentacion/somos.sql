@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS somos_user (
 
 CREATE TABLE IF NOT EXISTS resource (
   id VARCHAR(50) PRIMARY KEY,
-  name VARCHAR(20),
   title VARCHAR(50) NOT NULL,
   description VARCHAR(255),
   available DATE NOT NULL,
