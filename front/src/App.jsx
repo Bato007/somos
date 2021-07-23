@@ -7,6 +7,7 @@ import Upload from './Components/Upload/Upload'
 import Create from './Components/CreateAccount/Create'
 import VResources from './Components/ViewResources/ViewResources'
 import Announcement from './Components/Announcement/Announcement'
+import Management from './Components/UserManagement/UserMgt'
 // import ProtectedRoute from './Components/ProtectedRoutes'
 
 /*
@@ -23,6 +24,7 @@ const App = () => (
 const App = () => (
   <Router>
     <Switch>
+      <Route path="/management" component={Management} />
       <Route path="/announcement" component={Announcement} />
       <Route path="/viewresources" component={VResources} />
       <Route path="/createaccount" component={Create} />
