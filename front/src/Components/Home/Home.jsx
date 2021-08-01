@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import NavBar from '../NavBar/NavBar'
 import Searchbar from '../Searchbar/Searchbar'
 import './Home.css'
 
 const Home = () => {
+  const location = useLocation()
   const [availableResources, setAvailableResources] = useState()
+  const username = location.state.details
 
-  // Fetch para obtener la informacion de los recursos [{title: '', resource: file}, ...]
+  // Fetch para obtener la informacion de los recursos [{id: '', title: '', resource: file}, ...]
   const setResourcesInfo = async () => {
-    setAvailableResources([{ title: 'Prueba pdf', resource: '/tal.pdf' }, { title: 'Prueba doc', resource: '/tal.doc' },
-      { title: 'Prueba ppt', resource: '/tal.ppt' }, { title: 'Prueba video', resource: '/tal.mp4' },
-      { title: 'Prueba video 2', resource: '/tal2.mp4' }, { title: 'Prueba video 3', resource: '/tal3.mp4' }])
+    const json = await fetch(`http://localhost:3001/resources/files/${username}`, {
+      method: 'GET',
+    }).then((res) => res.json())
+
+    console.log(json)
+    setAvailableResources([json])
   }
 
   // Se obtienen los recursos disponibles

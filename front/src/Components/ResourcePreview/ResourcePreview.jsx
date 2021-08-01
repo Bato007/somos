@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router-dom'
 
 import './ResourcesPreview.css'
 import previewPdf from '../../static/imagesResourcesPreview/pdf.png'
@@ -15,10 +16,12 @@ import previewVideo from '../../static/imagesResourcesPreview/video.png'
  * Recibe los recursos a mostrar en formato [{title: '', resource: file}, ...]
  */
 const ResourcePreview = ({ availableResources }) => {
+  const history = useHistory()
+
   // Metodo onClick para abrir el recurso seleccionado
-  const seeResource = ({ resource }) => {
+  const seeResource = ({ resourceId }) => {
     // Se abriria la pantalla de ver recursos dependiendo del archivo
-    console.log({ resource })
+    history.push({ pathname: '/viewResources', state: { detail: resourceId } })
   }
 
   // Metodo para colocar la imagen correspondiente del recurso dependiendo la extension
@@ -38,7 +41,7 @@ const ResourcePreview = ({ availableResources }) => {
   return (
     <div className="resourcePreview">
       { availableResources.map((result) => (
-        <div className="resourcesContainer" onClick={seeResource} key={result.resource}>
+        <div className="resourcesContainer" onClick={() => seeResource(result.id)} key={result.resource}>
           <img src={getPreview(result)} alt="Resource preview" />
           <h5>{result.title}</h5>
         </div>
