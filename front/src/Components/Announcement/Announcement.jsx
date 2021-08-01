@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
 import NavBar from '../NavBar/NavBar'
@@ -10,6 +11,7 @@ import './Announcement.css'
  */
 const Announcement = () => {
   const [actualAnnounces, setActualAnnounces] = useState([])
+  const [actualStatus, setActualStatus] = useState(0)
 
   const getAnnounces = () => {
     // fetch de los anuncios
@@ -83,28 +85,54 @@ const Announcement = () => {
     setActualAnnounces(temporalAnnounces)
   }
 
+  /**
+   * Funcion para obtener los recursos de la pestaña actual
+   */
+  const showActualAnnouncements = () => {
+    if (actualStatus === 1) {
+      setActualStatus(0)
+    } else {
+      setActualStatus(1)
+    }
+  }
+
   return (
     <div>
       <NavBar />
       <div className="Announcements">
+        <div className="AnnouncentsOptions">
+          <label className="switch">
+            <input type="checkbox" id="togBtn" onClick={() => showActualAnnouncements()} />
+            <div className="slider round">
+              <span className="on">Anuncios Aceptados</span>
+              <span className="off">Anuncios en Espera</span>
+            </div>
+          </label>
+        </div>
         {actualAnnounces.map((result) => (
-          <div className="announcement" key={result.id}>
-            {result.status === 0
+          <>
+            {result.status === actualStatus
+              ? (
+                <div className="announcement" key={result.id}>
+                  {result.status === 0
               && (
               <div className="announcementOptions">
                 <Button id="decline" onClick={() => deleteAnnouncement(result)} />
                 <Button id="accept" onClick={() => acceptAnnouncement(result)} />
               </div>
               ) }
-            {result.status > 0
+                  {result.status > 0
               && (
               <div className="announcementOptions">
                 <Button id="remove" onClick={() => deleteAnnouncement(result)} />
               </div>
               )}
-            <h1>{result.title}</h1>
-            <p>{result.description}</p>
-          </div>
+                  <h1>{result.title}</h1>
+                  <p>{result.description}</p>
+                </div>
+              )
+              : '' }
+          </>
         ))}
       </div>
     </div>
