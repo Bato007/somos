@@ -7,5 +7,18 @@ const app = admin.initializeApp({
 })
 
 const bucket = app.storage().bucket()
+const db = admin.firestore()
+const { FieldValue } = admin.firestore
+db.settings({ ignoreUndefinedProperties: true })
 
-module.exports = { admin, bucket }
+// Obteniendo las colecciones
+const cUsers = db.collection('users')
+const cResources = db.collection('resources')
+
+module.exports = {
+  admin,
+  cUsers,
+  cResources,
+  bucket,
+  FieldValue,
+}
