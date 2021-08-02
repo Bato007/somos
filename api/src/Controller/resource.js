@@ -40,7 +40,7 @@ const getResourceByUser = async (req, res) => {
             accepted.push({
               id,
               title,
-              type,
+              resource: type,
             })
           }
         })
@@ -53,7 +53,7 @@ const getResourceByUser = async (req, res) => {
               accepted.push({
                 id,
                 title,
-                type,
+                resource: type,
               })
               added = true
             }
@@ -66,7 +66,7 @@ const getResourceByUser = async (req, res) => {
         accepted.push({
           id,
           title,
-          type,
+          resource: type,
         })
       })
     }
