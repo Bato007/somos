@@ -40,7 +40,7 @@ Input.defaultProps = {
   className: '',
   type: '',
   min: '',
-  value: null,
+  value: undefined,
   onChange: () => {},
 }
 

@@ -7,7 +7,7 @@ import './Home.css'
 const Home = () => {
   const location = useLocation()
   const [availableResources, setAvailableResources] = useState()
-  const username = location.state.details
+  const username = location.state.detail
 
   // Fetch para obtener la informacion de los recursos [{id: '', title: '', resource: file}, ...]
   const setResourcesInfo = async () => {

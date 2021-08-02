@@ -21,7 +21,7 @@ const UserMgt = () => {
           <h1 className="titulos">Nombre</h1>
           <h1 className="titulos">Usuario</h1>
           <h1 className="titulos">Categorías</h1>
-          <h1 className="titulos estado">Estado</h1>
+          <h1 className="titulos">Estado</h1>
         </div>
         <div className="usersmanaged">
           <h3 className="titulos">{nombre}</h3>
@@ -31,7 +31,7 @@ const UserMgt = () => {
             <img className="mgtimage" src={Active} alt="active" onClick={() => alert('hi')} />
           </div>
           <div className="trash-container">
-            <image className="mgtimage" src={Trash} alt="trash" onClick={() => alert('Delete')} />
+            <img className="mgtimage" src={Trash} alt="trash" onClick={() => alert('Delete')} />
           </div>
         </div>
       </div>

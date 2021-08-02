@@ -55,7 +55,6 @@ const Searchbar = ({ availableResources }) => {
         <Input
           className="searchbar"
           type="text"
-          value=""
           name="Searchbar"
           placeholder="Buscar..."
           onChange={handleChange}
