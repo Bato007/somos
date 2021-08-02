@@ -14,11 +14,13 @@ db.settings({ ignoreUndefinedProperties: true })
 // Obteniendo las colecciones
 const cUsers = db.collection('users')
 const cResources = db.collection('resources')
+const cAnnouncements = db.collection('annoucements')
 
 module.exports = {
   admin,
   cUsers,
   cResources,
+  cAnnouncements,
   bucket,
   FieldValue,
 }

@@ -1,15 +1,12 @@
 const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
-const pool = require('../DataBase/database')
+const { cAnnouncements } = require('../DataBase/firebase')
 
 // GET ANNOUNCEMENTS
 const getAll = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement;
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -18,12 +15,8 @@ const getAll = async (req, res) => {
 
 const getAllHelp = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement
-      WHERE type = 'help';
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.where({ type: 'help' }).get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -32,13 +25,11 @@ const getAllHelp = async (req, res) => {
 
 const getNonPublishedhHelp = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement
-      WHERE type = 'help'
-      AND published = false;
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.where({
+      type: 'help',
+      published: 0,
+    }).get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -47,13 +38,11 @@ const getNonPublishedhHelp = async (req, res) => {
 
 const getPublishedhHelp = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement
-      WHERE type = 'help'
-      AND published = true;
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.where({
+      type: 'help',
+      published: 1,
+    }).get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -62,12 +51,8 @@ const getPublishedhHelp = async (req, res) => {
 
 const getAllHomes = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement
-      WHERE type = 'homes';
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.where({ type: 'home' }).get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -76,13 +61,11 @@ const getAllHomes = async (req, res) => {
 
 const getNonPublishedhHome = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement
-      WHERE type = 'home'
-      AND published = false;
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.where({
+      type: 'home',
+      published: 0,
+    }).get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -91,13 +74,11 @@ const getNonPublishedhHome = async (req, res) => {
 
 const getPublishedhHome = async (req, res) => {
   try {
-    const tempAnnouncements = await pool.query(`
-      SELECT *
-      FROM announcement
-      WHERE type = 'home'
-      AND published = true;
-    `)
-    const announcements = tempAnnouncements.rows
+    const tempAnnouncements = await cAnnouncements.where({
+      type: 'home',
+      published: 1,
+    }).get()
+    const announcements = tempAnnouncements.data()
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -128,11 +109,59 @@ const postHome = async (req, res) => {
     } = req.body
 
     const id = tokenGenerator()
-    await pool.query(`
-      INSERT INTO announcement VALUES
-        ($1, $2, $3, $4, $5, $6, $7, false, 'home');
-    `, [id, contact, phone, email, title, description, date])
+    await cAnnouncements.doc(id).set({
+      id,
+      contact,
+      phone,
+      email,
+      title,
+      description,
+      toDate: date,
+      fromDate: new Date(),
+      type: 'home',
+      published: 0,
+    })
+    res.status(200).json({ message: 'Added' })
+  } catch (error) {
+    res.status(400).json({ message: 'Unexpected' })
+  }
+}
 
+const postHelp = async (req, res) => {
+  const schema = Joi.object({
+    contact: Joi.string().min(1).required(),
+    phone: Joi.number().required(),
+    email: Joi.string().min(1).required(),
+    title: Joi.string().min(1).required(),
+    description: Joi.string().min(1).required(),
+    date: Joi.date().required(),
+  })
+
+  // Validar informacion
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.status(400).json({ message })
+  }
+
+  try {
+    const {
+      contact, phone, email, title, description, date,
+    } = req.body
+
+    const id = tokenGenerator()
+    await cAnnouncements.doc(id).set({
+      id,
+      contact,
+      phone,
+      email,
+      title,
+      description,
+      toDate: date,
+      fromDate: new Date(),
+      type: 'help',
+      published: 0,
+    })
     res.status(200).json({ message: 'Added' })
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -147,4 +176,6 @@ module.exports = {
   getAllHomes,
   getNonPublishedhHome,
   getPublishedhHome,
+  postHome,
+  postHelp,
 }
