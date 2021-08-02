@@ -1,5 +1,9 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react'
 import NavBar from '../NavBar/NavBar'
+import Active from './icons/active.png'
+import Trash from './icons/trash.png'
 
 import './UserMgt.css'
 
@@ -8,23 +12,27 @@ const UserMgt = () => {
   const nombre = 'Brandon'
   const usuario = 'bato'
   const categorias = ['Uno', 'Dos']
-  const estado = 't'
 
   return (
     <div className="page-container">
       <NavBar />
       <div className="managementbkgr">
         <div className="management">
-          <h1 className="nombre">Nombre</h1>
-          <h1 className="usuario">Usuario</h1>
-          <h1 className="categorias">Categorías</h1>
-          <h1 className="estado">Estado</h1>
+          <h1 className="titulos">Nombre</h1>
+          <h1 className="titulos">Usuario</h1>
+          <h1 className="titulos">Categorías</h1>
+          <h1 className="titulos estado">Estado</h1>
         </div>
         <div className="usersmanaged">
-          <h3 className="nombre">{nombre}</h3>
-          <h3 className="usuario">{usuario}</h3>
-          <h3 className="categorias">{categorias}</h3>
-          <h3 className="estado">{estado}</h3>
+          <h3 className="titulos">{nombre}</h3>
+          <h3 className="titulos">{usuario}</h3>
+          <h3 className="titulos">{categorias}</h3>
+          <div className="imagen">
+            <img className="mgtimage" src={Active} alt="active" onClick={() => alert('hi')} />
+          </div>
+          <div className="trash-container">
+            <image className="mgtimage" src={Trash} alt="trash" onClick={() => alert('Delete')} />
+          </div>
         </div>
       </div>
     </div>

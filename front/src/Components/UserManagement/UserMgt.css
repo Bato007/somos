@@ -35,15 +35,29 @@
   white-space: pre-wrap;
 }
 
-.titulo {
-  width: 121px;
+.titulos{
+  width: 25%;
+  text-align: center;
 }
-.usuario {
-  width: 120px;
+
+.estado{
+  width: 15%;
 }
-.categorias {
-  width: 166px;
+
+.mgtimage{
+  width: 48px;
+  height: 48px;
 }
-.estado {
-  width: 107px;
+
+.imagen{
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trash-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
