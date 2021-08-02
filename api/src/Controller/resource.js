@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
 
-const { cResources, bucket } = require('../DataBase/firebase')
+const { cResources, cUsers, bucket } = require('../DataBase/firebase')
 
 const getResourceById = async (req, res) => {
   const { id } = req.params
@@ -22,22 +22,55 @@ const getResourceByUser = async (req, res) => {
 
   try {
     const accepted = []
-    // Se obtienen las categorias de los usuarios
+    // Se obtienen los recursos
+    const userSnapshot = await cUsers.doc(username).get()
+    const { categories } = userSnapshot.data()
     const resourcesSnapshot = await cResources.get()
-    resourcesSnapshot.forEach((resource) => {
-      // Obtenemos la data
-      const data = resource.data()
-      data.users.forEach((user) => {
-        if (user === username) { // Verificando si esta el usuario
-          const { id, title, type } = data
-          accepted.push({
-            id,
-            title,
-            type,
+
+    // Se verifica si son somos o no
+    if (!categories.includes('somos')) {
+      resourcesSnapshot.forEach((resource) => {
+        // Obtenemos la data por usuario
+        let added = false
+        const data = resource.data()
+        data.users.forEach((user) => {
+          if (user === username) { // Verificando si esta el usuario
+            added = true
+            const { id, title, type } = data
+            accepted.push({
+              id,
+              title,
+              type,
+            })
+          }
+        })
+
+        // Obtenemos la data por categoria
+        if (!added) {
+          data.categories.forEach((category) => {
+            if (categories.includes(category) && !added) { // Verificando si esta el usuario
+              const { id, title, type } = data
+              accepted.push({
+                id,
+                title,
+                type,
+              })
+              added = true
+            }
           })
         }
       })
-    })
+    } else {
+      resourcesSnapshot.forEach((resource) => {
+        const { id, title, type } = resource.data()
+        accepted.push({
+          id,
+          title,
+          type,
+        })
+      })
+    }
+
     // Ahora se regresan los recursos
     res.status(200).json(accepted)
   } catch (error) {
