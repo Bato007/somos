@@ -16,7 +16,7 @@ const Home = () => {
     }).then((res) => res.json())
 
     console.log(json)
-    setAvailableResources([json])
+    setAvailableResources(json)
   }
 
   // Se obtienen los recursos disponibles
