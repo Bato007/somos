@@ -18,7 +18,6 @@ const UserMgt = () => {
     const json = fetch('http://localhost:3001/user', {
       method: 'GET',
     }).then((res) => res.json())
-
     console.log(json)
     setUserInfo(json)
     console.log(userInfo)

@@ -126,7 +126,7 @@ const getAllUsers = async (req, res) => {
   try {
     const response = []
     const users = await cUsers.get()
-    users.forEach((user) => {
+    await users.forEach((user) => {
       const {
         username, active, email, name,
       } = user.data()
