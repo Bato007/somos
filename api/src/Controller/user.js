@@ -124,20 +124,21 @@ const signUp = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const response = []
+    const added = []
     const users = await cUsers.get()
     await users.forEach((user) => {
       const {
         username, active, email, name,
       } = user.data()
-      response.push({
+      added.push({
         username,
         active,
         email,
         name,
       })
     })
-    res.status(200).json(response)
+    console.log(added)
+    res.status(200).json(added)
   } catch (error) {
     console.log(error.message)
     res.status(400).json()
