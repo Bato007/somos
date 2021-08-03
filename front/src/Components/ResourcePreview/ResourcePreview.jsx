@@ -19,7 +19,7 @@ const ResourcePreview = ({ availableResources }) => {
   const history = useHistory()
 
   // Metodo onClick para abrir el recurso seleccionado
-  const seeResource = ({ resourceId }) => {
+  const seeResource = (resourceId) => {
     // Se abriria la pantalla de ver recursos dependiendo del archivo
     history.push({ pathname: '/viewResources', state: { detail: resourceId } })
   }

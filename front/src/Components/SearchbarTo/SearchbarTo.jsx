@@ -86,7 +86,6 @@ const SearchbarTo = ({
   // UseEffect para colocar tags de "categorias"
   useEffect(() => {
     // Mostrar el resultado pasado
-    console.log(lastResult)
     if (setCategories !== undefined) {
       refInput.current.value = ''
       const temporal = [...actualSendersCategory, ...sendToCategory]

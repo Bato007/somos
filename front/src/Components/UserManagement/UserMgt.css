@@ -49,6 +49,10 @@
   height: 48px;
 }
 
+.mgtimage:hover {
+  cursor: pointer;
+}
+
 .imagen{
   width: 15%;
   display: flex;

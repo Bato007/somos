@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from '../NavBar/NavBar'
 import Active from './icons/active.png'
 import Trash from './icons/trash.png'
@@ -12,6 +12,21 @@ const UserMgt = () => {
   const nombre = 'Brandon'
   const usuario = 'bato'
   const categorias = ['Uno', 'Dos']
+  const [userInfo, setUserInfo] = useState()
+
+  const getUsersInfo = async () => {
+    const json = fetch('http://localhost:3001/user', {
+      method: 'GET',
+    }).then((res) => res.json())
+
+    console.log(json)
+    setUserInfo(json)
+    console.log(userInfo)
+  }
+
+  useEffect(() => {
+    getUsersInfo()
+  }, [])
 
   return (
     <div className="page-container">

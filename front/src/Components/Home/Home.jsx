@@ -15,7 +15,6 @@ const Home = () => {
       method: 'GET',
     }).then((res) => res.json())
 
-    console.log(json)
     setAvailableResources(json)
   }
 
