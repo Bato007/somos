@@ -1,11 +1,17 @@
 const express = require('express')
 const {
+  getAllUsers,
   desactivateUser,
   activateUser,
   deleteUser,
 } = require('../Controller/user')
 
 const router = express.Router()
+
+/**
+ * Devuelve a todos los usuarios
+ */
+router.get('', async (req, res) => getAllUsers(req, res))
 
 /*
   Esta funcion recibe un Json con el siguiente formato:

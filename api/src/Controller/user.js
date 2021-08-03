@@ -122,6 +122,28 @@ const signUp = async (req, res) => {
   }
 }
 
+const getAllUsers = async (req, res) => {
+  try {
+    const response = []
+    const users = await cUsers.get()
+    users.forEach((user) => {
+      const {
+        username, active, email, name,
+      } = user.data()
+      response.push({
+        username,
+        active,
+        email,
+        name,
+      })
+    })
+    res.status(200).json(response)
+  } catch (error) {
+    console.log(error.message)
+    res.status(400).json()
+  }
+}
+
 const desactivateUser = async (req, res) => {
   const { username } = req.body
   try {
@@ -163,6 +185,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   signIn,
   signUp,
+  getAllUsers,
   desactivateUser,
   activateUser,
   deleteUser,
