@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import less from '../../static/imagesViewResources/zoomOut.png'
@@ -32,7 +33,7 @@ function Full() {
   }
 }
 
-const BotonesRecursos = () => (
+const BotonesRecursos = (props) => (
   <div id="previewRb">
     <TransformWrapper
       Scale={1}
@@ -42,7 +43,9 @@ const BotonesRecursos = () => (
       {({ zoomIn, zoomOut, resetTransform }) => (
         <>
           <div className="containerB">
+            {(props.docType == "png") ? 
             <button type="button" className="buttons"><img src={previous} alt="previous" /></button>
+            :null}
             <h1>|</h1>
             <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
             <h1>|</h1>
@@ -52,12 +55,14 @@ const BotonesRecursos = () => (
             <h1>|</h1>
             <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>
             <h1>|</h1>
-            <button type="button" className="buttons"><img src={next} alt="next" /></button>
+            {props.docType == "png" ? 
+            <button type="button" className="buttons"><img src={next} alt="next" /></button>  
+            :null}
           </div>
           <hr />
           <div className="docSpace">
             <TransformComponent>
-              <img src={prueba} alt="blank" id="pruebaImg" />
+              <img src={props.link} alt="blank" id="pruebaImg" />
             </TransformComponent>
           </div>
         </>

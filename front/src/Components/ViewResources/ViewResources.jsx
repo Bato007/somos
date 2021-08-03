@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable */
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import BotonesRecursos from './ResourceButton'
 import NavBar from '../NavBar/NavBar'
@@ -9,31 +10,38 @@ import './VResources.css'
 
 const VResources = () => {
   const location = useLocation()
-  const resourceId = location.state.details
+  const resourceId = location.state.detail
+  const [resInfo, setResInfo] = useState({ })
 
   // Fetch para obtener la informacion del recurso seleccionado
   // eslint-disable-next-line no-unused-vars
   const setResourceInfo = async () => {
+    //console.log("Este es el resourceID: "+resourceId)
+    //console.log("Este es el estado de la pagina: "+JSON.stringify(location.state))
+    // eslint-disable-next-line no-unused-vars
     const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
       method: 'GET',
     }).then((res) => res.json())
-
-    console.log(json)
+    setResInfo(json)
   }
+
+  useEffect(() => {
+    setResourceInfo()
+  }, [])
 
   return (
     <div className="vresources">
       <NavBar />
       <div id="vresources">
         <div className="headers">
-          <h1>Titulo del recurso</h1>
+          <h1>{resInfo.title}</h1>
           <button type="button" className="buttonEdit">a</button>
         </div>
-        <BotonesRecursos />
+        <BotonesRecursos link={resInfo.url} docType={resInfo.type}/>
         <hr />
         <div className="headers editp">
           <p>
-            Text description
+            {resInfo.description}
           </p>
           <button type="button" className="buttonEdit editbotton">a</button>
         </div>
