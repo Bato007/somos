@@ -42,7 +42,7 @@ const BotonesRecursos = (props) => {
   useEffect(() => {
     setUrl(props.link)
     setDocType(props.docType)
-    console.log(props)
+    // console.log(props)
   }, [props])
 
   // const file = 'https://i.blogs.es/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/840_560.jpg'

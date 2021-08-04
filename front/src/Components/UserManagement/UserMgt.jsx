@@ -13,6 +13,7 @@ import './UserMgt.css'
 
 const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
+  const [update, setUpdate] = useState('')
 
   const getUsersInfo = async () => {
     await fetch('http://localhost:3001/user', {
@@ -21,42 +22,54 @@ const UserMgt = () => {
   }
 
   const deletUser = (username) => {
-    fetch(`https://localhost:3001/usermanagement/${username}`, {
+    fetch(`http://localhost:3001/user/${username}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())
       .then((res) => console.log(res))
+
+    setUpdate('Delete')
   }
 
-  const activateUser = (username) => {
-    fetch('https://localhost:3001/usermanagement/activate', {
+  const activateUser = (user) => {
+    const data = {
+      username: user,
+    }
+    fetch('http://localhost:3001/user/activate', {
       method: 'PUT',
-      body: JSON.stringify(username),
+      body: JSON.stringify(data),
       headers: { 'Content-type': 'application/json' },
     })
-      .then((res) => res.json())
+      .then((res) => console.log(res.status))
       .catch((e) => console.error('Error', e))
       .then((out) => {
         console.log(out)
       })
+
+    setUpdate('Activate')
   }
 
-  const deactivateUser = (username) => {
-    fetch('https://localhost:3001/usermanagement/desactivate', {
+  const deactivateUser = (user) => {
+    const data = {
+      username: user,
+    }
+    fetch('http://localhost:3001/user/desactivate', {
       method: 'PUT',
-      body: JSON.stringify(username),
+      body: JSON.stringify(data),
       headers: { 'Content-type': 'application/json' },
     })
-      .then((res) => res.json())
+      .then((res) => console.log(res.status))
       .catch((e) => console.error('Error', e))
       .then((out) => {
         console.log(out)
       })
+
+    setUpdate('Deactivate')
   }
 
   useEffect(() => {
     getUsersInfo()
-  }, [])
+  }, [update])
 
   return (
     <div className="page-container">
@@ -66,7 +79,7 @@ const UserMgt = () => {
           <h1 className="titulos">Nombre</h1>
           <h1 className="titulos">Usuario</h1>
           <h1 className="titulos">Email</h1>
-          <h1 className="titulos">Estado</h1>
+          <h1 className="titulos estado">Estado</h1>
         </div>
         <div className="users-container">
           {
@@ -79,7 +92,7 @@ const UserMgt = () => {
                       <h3 className="titulos">{value.username}</h3>
                       <h5 className="titulos">{value.email}</h5>
                       <div className="imagen">
-                        <img className="mgtimage" src={Inactive} alt="active" onClick={() => activateUser(value.username)} />
+                        <img className="mgtimage" src={Active} alt="active" onClick={() => deactivateUser(value.username)} />
                       </div>
                       <div className="trash-container">
                         <img className="mgtimage" src={Trash} alt="trash" onClick={() => deletUser(value.username)} />
@@ -93,7 +106,7 @@ const UserMgt = () => {
                     <h3 className="titulos">{value.username}</h3>
                     <h5 className="titulos">{value.email}</h5>
                     <div className="imagen">
-                      <img className="mgtimage" src={Active} alt="active" onClick={() => deactivateUser(value.username)} />
+                      <img className="mgtimage" src={Inactive} alt="inactive" onClick={() => activateUser(value.username)} />
                     </div>
                     <div className="trash-container">
                       <img className="mgtimage" src={Trash} alt="trash" onClick={() => deletUser(value.username)} />

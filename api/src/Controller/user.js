@@ -137,7 +137,6 @@ const getAllUsers = async (req, res) => {
         name,
       })
     })
-    console.log(added)
     res.status(200).json(added)
   } catch (error) {
     console.log(error.message)
