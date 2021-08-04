@@ -202,17 +202,28 @@ TransformComponent{
   justify-content: center;
 }
 
+#previewRb:-webkit-full-screen {
+  background-color: white;
+  margin-bottom: 20px;
+}
+
 #previewRb:-webkit-full-screen .docSpace{
-  overflow-y: scroll;
-  height: 800px;
   min-width: 450px;
   justify-content: center;
   background-color: white;
   padding: 40px 0;
+  min-height: 650px; 
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory
 }
 
 #previewRb:-webkit-full-screen .docSpace img{
   max-width: 1000px;
+  scroll-behavior: smooth;
+  scrollbar-face-color: #A7D8D7;
+  align-content: center;
+  overflow: revert;
 }
 
 #previewRb:-webkit-full-screen .containerB{
