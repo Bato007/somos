@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import PropTypes from 'prop-types'
 import FilePreviewer from 'react-file-previewer'
@@ -35,52 +35,66 @@ function Full() {
   }
 }
 
-const BotonesRecursos = (props) => (
+const BotonesRecursos = (props) => {
+  const [url, setUrl] = useState()
+  const [docType, setDocType] = useState()
+
+  useEffect(() => {
+    setUrl(props.link)
+    setDocType(props.docType)
+    console.log(props)
+  }, [props])
+
   // const file = 'https://i.blogs.es/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/840_560.jpg'
   // const type = 'jpg'
-  <div id="previewRb">
-    <TransformWrapper
-      Scale={1}
-      defaultPositionX={100}
-      defaultPositionY={100}
-    >
-      {({ zoomIn, zoomOut, resetTransform }) => (
-        <>
-          <div className="containerB">
-            {(props.docType === 'png')
-              ? <button type="button" className="buttons"><img src={previous} alt="previous" /></button>
-              : <button type="button" className="buttonsDisable"><img src={previous2} alt="previous" /></button>}
-            <h1>|</h1>
-            <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
-            <h1>|</h1>
-            <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
-            <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
-            <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>
-            <h1>|</h1>
-            <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>
-            <h1>|</h1>
-            {props.docType === 'png'
-              ? <button type="button" className="buttons"><img src={next} alt="next" /></button>
-              : <button type="button" className="buttonsDisable"><img src={next2} alt="next" /></button>}
-          </div>
-          <hr />
-          <div className="docSpace">
-            <TransformComponent>
-              <FilePreviewer
-                file={{
-                  hideControls: false,
-                  url: `${props.link}`,
-                  mimeType: `${props.docType}`,
-                }}
-              />
-              {/* <img src={props.link} alt="blank" id="pruebaImg" /> */}
-            </TransformComponent>
-          </div>
-        </>
-      )}
-    </TransformWrapper>
-  </div>
-)
+  return (
+    url
+      ? (
+        <div id="previewRb">
+          <TransformWrapper
+            Scale={1}
+            defaultPositionX={100}
+            defaultPositionY={100}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                <div className="containerB">
+                  {(docType === 'png')
+                    ? <button type="button" className="buttons"><img src={previous} alt="previous" /></button>
+                    : <button type="button" className="buttonsDisable"><img src={previous2} alt="previous" /></button>}
+                  <h1>|</h1>
+                  <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
+                  <h1>|</h1>
+                  <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
+                  <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
+                  <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>
+                  <h1>|</h1>
+                  <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>
+                  <h1>|</h1>
+                  {docType === 'png'
+                    ? <button type="button" className="buttons"><img src={next} alt="next" /></button>
+                    : <button type="button" className="buttonsDisable"><img src={next2} alt="next" /></button>}
+                </div>
+                <hr />
+                <div className="docSpace">
+                  <TransformComponent>
+                    <FilePreviewer
+                      hideControls
+                      file={{
+                        url: `${url}`,
+                        mimeType: `https://cors-anywhere.herokuapp.com/${docType}`,
+                      }}
+                    />
+                    {/* <img src={props.link} alt="blank" id="pruebaImg" /> */}
+                  </TransformComponent>
+                </div>
+              </>
+            )}
+          </TransformWrapper>
+        </div>
+      ) : ''
+  )
+}
 
 BotonesRecursos.propTypes = {
   docType: PropTypes.string.isRequired,
