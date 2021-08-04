@@ -43,7 +43,8 @@ const Login = () => {
       setError('')
       if (!json.isSomos) {
         authentication.onAuthentication()
-        history.push({ pathname: '/home', state: { detail: username } })
+        localStorage.setItem('username', username)
+        history.push('/home')
       }
     }
   }

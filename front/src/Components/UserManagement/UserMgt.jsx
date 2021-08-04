@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -14,10 +15,9 @@ const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
 
   const getUsersInfo = async () => {
-    fetch('http://localhost:3001/user', {
+    await fetch('http://localhost:3001/user', {
       method: 'GET',
-    }).then((res) => res.json())
-      .then((data) => setUserInfo(data))
+    }).then((res) => res.json().then((data) => setUserInfo(data)))
   }
 
   const deletUser = (username) => {
@@ -54,39 +54,6 @@ const UserMgt = () => {
       })
   }
 
-  const plotUsers = () => {
-    userInfo.map((value, index) => {
-      if (value.active) {
-        return (
-          <div className="usersmanaged" key={index}>
-            <h3 className="titulos">{value.name}</h3>
-            <h3 className="titulos">{value.username}</h3>
-            <h5 className="titulos">{value.email}</h5>
-            <div className="imagen">
-              <img className="mgtimage" src={Inactive} alt="active" onClick={() => activateUser(value.username)} />
-            </div>
-            <div className="trash-container">
-              <img className="mgtimage" src={Trash} alt="trash" onClick={() => deletUser(value.username)} />
-            </div>
-          </div>
-        )
-      }
-      return (
-        <div className="usersmanaged" key={index}>
-          <h3 className="titulos">{value.name}</h3>
-          <h3 className="titulos">{value.username}</h3>
-          <h5 className="titulos">{value.email}</h5>
-          <div className="imagen">
-            <img className="mgtimage" src={Active} alt="active" onClick={() => deactivateUser(value.username)} />
-          </div>
-          <div className="trash-container">
-            <img className="mgtimage" src={Trash} alt="trash" onClick={() => deletUser(value.username)} />
-          </div>
-        </div>
-      )
-    })
-  }
-
   useEffect(() => {
     getUsersInfo()
   }, [])
@@ -102,7 +69,39 @@ const UserMgt = () => {
           <h1 className="titulos">Estado</h1>
         </div>
         <div className="users-container">
-          {plotUsers()}
+          {
+            userInfo.length > 0
+              ? userInfo.map((value, index) => {
+                if (value.active) {
+                  return (
+                    <div className="usersmanaged" key={index}>
+                      <h3 className="titulos">{value.name}</h3>
+                      <h3 className="titulos">{value.username}</h3>
+                      <h5 className="titulos">{value.email}</h5>
+                      <div className="imagen">
+                        <img className="mgtimage" src={Inactive} alt="active" onClick={() => activateUser(value.username)} />
+                      </div>
+                      <div className="trash-container">
+                        <img className="mgtimage" src={Trash} alt="trash" onClick={() => deletUser(value.username)} />
+                      </div>
+                    </div>
+                  )
+                }
+                return (
+                  <div className="usersmanaged" key={index}>
+                    <h3 className="titulos">{value.name}</h3>
+                    <h3 className="titulos">{value.username}</h3>
+                    <h5 className="titulos">{value.email}</h5>
+                    <div className="imagen">
+                      <img className="mgtimage" src={Active} alt="active" onClick={() => deactivateUser(value.username)} />
+                    </div>
+                    <div className="trash-container">
+                      <img className="mgtimage" src={Trash} alt="trash" onClick={() => deletUser(value.username)} />
+                    </div>
+                  </div>
+                )
+              }) : ''
+          }
         </div>
       </div>
     </div>

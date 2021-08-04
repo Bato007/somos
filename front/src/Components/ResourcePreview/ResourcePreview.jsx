@@ -52,7 +52,7 @@ const ResourcePreview = ({ availableResources }) => {
 
 ResourcePreview.propTypes = {
   availableResources: PropTypes.arrayOf(
-    PropTypes.shape({ title: PropTypes.string.isRequired, resource: PropTypes.string.isRequired }),
+    PropTypes.shape({ title: PropTypes.string, resource: PropTypes.string }),
   ).isRequired,
 }
 

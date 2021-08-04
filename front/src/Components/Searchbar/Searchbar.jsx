@@ -13,10 +13,19 @@ import './Searchbar.css'
 const Searchbar = ({ availableResources }) => {
   const [actualResults, setActualResults] = useState([])
   const [actualSearch, setActualSearch] = useState('')
+  const [thereAreResources, setThereAreResources] = useState(true)
 
   // Mostramos todos los recursos
   useEffect(() => {
     setActualResults(availableResources)
+
+    try {
+      if (availableResources[0].message === 'No se encontro') {
+        setThereAreResources(false)
+      }
+    } catch {
+      setThereAreResources(false)
+    }
   }, [])
 
   // Funcion onClick para mostrar solo en base a la busqueda actual
@@ -50,26 +59,31 @@ const Searchbar = ({ availableResources }) => {
   }
 
   return (
-    <div id="ActualResults">
-      <div id="Searchbar" onKeyDown={handleKeyDown}>
-        <Input
-          className="searchbar"
-          type="text"
-          name="Searchbar"
-          placeholder="Buscar..."
-          onChange={handleChange}
-        />
-        <Button id="searchbarButton" onClick={searchResults} />
-      </div>
+    thereAreResources ? (
+      <div id="ActualResults">
+        <div id="Searchbar" onKeyDown={handleKeyDown}>
+          <Input
+            className="searchbar"
+            type="text"
+            name="Searchbar"
+            placeholder="Buscar..."
+            onChange={handleChange}
+          />
+          <Button id="searchbarButton" onClick={searchResults} />
+        </div>
 
-      <ResourcePreview availableResources={actualResults} />
-    </div>
+        <ResourcePreview availableResources={actualResults} />
+      </div>
+    )
+      : ''
   )
 }
 
 Searchbar.propTypes = {
   availableResources: PropTypes.arrayOf(
-    PropTypes.shape({ title: PropTypes.string.isRequired, resource: PropTypes.string.isRequired }),
+    PropTypes.shape({
+      title: PropTypes.string, resource: PropTypes.string, message: PropTypes.string,
+    }),
   ).isRequired,
 }
 
