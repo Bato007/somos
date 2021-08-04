@@ -52,8 +52,8 @@ const signUp = async (req, res) => {
     confirm: Joi.string().required().valid(Joi.ref('password')),
     email: Joi.string().min(5).required(),
     name: Joi.string().min(3).required(),
-    phone: Joi.number().required(),
-    workplace: Joi.string().required(),
+    phone: Joi.number(),
+    workplace: Joi.string(),
     residence: Joi.string().required(),
     church: Joi.string(),
     categories: Joi.array().min(1).required(),
@@ -63,7 +63,7 @@ const signUp = async (req, res) => {
   const result = schema.validate(req.body)
   if (result.error) {
     const { message } = result.error.details[0]
-    res.status(400).json({ message })
+    throw { message }
   }
 
   const answer = {
@@ -112,6 +112,7 @@ const signUp = async (req, res) => {
       answer.status = 'ERROR 110'
     } else {
       answer.status = 'ERROR'
+      answer.message = err
     }
     res.status(400)
   } finally {
