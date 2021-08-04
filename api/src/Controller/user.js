@@ -14,7 +14,6 @@ const signIn = async (req, res) => {
     const users = await cUsers.doc(username).get()
     // Verificando que exista el user
     if (users.empty) {
-      res.status(400)
       throw { message: 'ERROR 101' }
     }
 
@@ -22,13 +21,11 @@ const signIn = async (req, res) => {
 
     // Se verifica si esta activo o no
     if (!user.active) {
-      res.status(400)
       throw { message: 'ERROR 103' }
     }
 
     // Verifico que la contraseña
     if (user.password !== password) {
-      res.status(400)
       throw { message: 'ERROR 102' }
     }
 
