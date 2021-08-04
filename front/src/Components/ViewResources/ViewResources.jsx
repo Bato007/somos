@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import BotonesRecursos from './ResourceButton'
@@ -14,11 +13,7 @@ const VResources = () => {
   const [resInfo, setResInfo] = useState({ })
 
   // Fetch para obtener la informacion del recurso seleccionado
-  // eslint-disable-next-line no-unused-vars
   const setResourceInfo = async () => {
-    //console.log("Este es el resourceID: "+resourceId)
-    //console.log("Este es el estado de la pagina: "+JSON.stringify(location.state))
-    // eslint-disable-next-line no-unused-vars
     const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
       method: 'GET',
     }).then((res) => res.json())
@@ -37,7 +32,7 @@ const VResources = () => {
           <h1>{resInfo.title}</h1>
           <button type="button" className="buttonEdit">a</button>
         </div>
-        <BotonesRecursos link={resInfo.url} docType={resInfo.type}/>
+        <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
         <hr />
         <div className="headers editp">
           <p>

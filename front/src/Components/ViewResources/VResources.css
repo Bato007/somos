@@ -133,6 +133,20 @@
   height: 38px;
 }
 
+.containerB .buttonsDisable{
+  background-color: #212322;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  align-content: center;
+  display: inline-grid;
+  color: transparent;
+}
+
+.buttonsDisable img{
+  height: 35px;
+}
+
 /*cambio de imagen del botón de expandir*/
 #previewRb:-webkit-full-screen .expand:hover{
   background: #212322 url(../../static/imagesViewResources/reduce.png) center no-repeat;
