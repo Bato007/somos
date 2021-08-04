@@ -63,60 +63,59 @@ const signUp = async (req, res) => {
   const result = schema.validate(req.body)
   if (result.error) {
     const { message } = result.error.details[0]
-    throw { message }
-  }
-
-  const answer = {
-    status: '',
-  }
-
-  try {
-    const {
-      username, password, email, name,
-      phone, workplace, residence, church, categories,
-    } = req.body
-
-    // Se mete el usuario
-    cUsers.doc(username).set({
-      username,
-      password,
-      email,
-      name,
-      phone,
-      workplace,
-      residence,
-      church,
-      categories,
-      active: true,
-    })
-    answer.status = 'DONE'
-    res.status(200)
-  } catch (error) {
-    const err = error.message
-    // Verificando que error es
-    if (err.indexOf('somos_user_pkey') !== -1) {
-      answer.status = 'ERROR 103'
-    } else if (err.indexOf('no_equal_password') !== -1) {
-      answer.status = 'ERROR 104'
-    } else if (err.indexOf('«email»') !== -1) {
-      answer.status = 'ERROR 105'
-    } else if (err.indexOf('«name»') !== -1) {
-      answer.status = 'ERROR 106'
-    } else if (err.indexOf('phone') !== -1) {
-      answer.status = 'ERROR 107'
-    } else if (err.indexOf('workplace') !== -1) {
-      answer.status = 'ERROR 108'
-    } else if (err.indexOf('residence') !== -1) {
-      answer.status = 'ERROR 109'
-    } else if (err.indexOf('«fk_category_user»') !== -1) {
-      answer.status = 'ERROR 110'
-    } else {
-      answer.status = 'ERROR'
-      answer.message = err
+    res.status(400).json({ message })
+  } else {
+    const answer = {
+      status: '',
     }
-    res.status(400)
-  } finally {
-    res.json(answer)
+
+    try {
+      const {
+        username, password, email, name,
+        phone, workplace, residence, church, categories,
+      } = req.body
+
+      // Se mete el usuario
+      cUsers.doc(username).set({
+        username,
+        password,
+        email,
+        name,
+        phone,
+        workplace,
+        residence,
+        church,
+        categories,
+        active: true,
+      })
+      answer.status = 'DONE'
+      res.status(200)
+    } catch (error) {
+      const err = error.message
+      // Verificando que error es
+      if (err.indexOf('somos_user_pkey') !== -1) {
+        answer.status = 'ERROR 103'
+      } else if (err.indexOf('no_equal_password') !== -1) {
+        answer.status = 'ERROR 104'
+      } else if (err.indexOf('«email»') !== -1) {
+        answer.status = 'ERROR 105'
+      } else if (err.indexOf('«name»') !== -1) {
+        answer.status = 'ERROR 106'
+      } else if (err.indexOf('phone') !== -1) {
+        answer.status = 'ERROR 107'
+      } else if (err.indexOf('workplace') !== -1) {
+        answer.status = 'ERROR 108'
+      } else if (err.indexOf('residence') !== -1) {
+        answer.status = 'ERROR 109'
+      } else if (err.indexOf('«fk_category_user»') !== -1) {
+        answer.status = 'ERROR 110'
+      } else {
+        answer.status = 'ERROR'
+      }
+      res.status(400)
+    } finally {
+      res.json(answer)
+    }
   }
 }
 
