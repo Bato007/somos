@@ -11,16 +11,12 @@ const Home = () => {
   const setResourcesInfo = async () => {
     await fetch(`http://localhost:3001/resources/files/${username}`, {
       method: 'GET',
-    }).then((res) => res.json().then((data) => {
-      setAvailableResources(data)
-    }))
-      .catch(() => {
-        setAvailableResources(
-          [{
-            message: 'No se encontro',
-          }],
-        )
+    }).then((res) => {
+      res.json().then((data) => {
+        // eslint-disable-next-line no-unused-expressions
+        data.message ? setAvailableResources([data]) : setAvailableResources(data)
       })
+    })
   }
 
   // Se obtienen los recursos disponibles

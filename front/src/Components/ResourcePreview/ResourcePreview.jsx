@@ -25,14 +25,12 @@ const ResourcePreview = ({ availableResources }) => {
   }
 
   // Metodo para colocar la imagen correspondiente del recurso dependiendo la extension
-  const getPreview = ({ resource }) => {
-    const extension = resource.substr(resource.indexOf('.'))
-
-    if (extension === '.pdf') {
+  const getPreview = (extension) => {
+    if (extension === 'pdf') {
       return previewPdf
-    } if (extension === '.ppt') {
+    } if (extension === 'ppt') {
       return previewPpt
-    } if (extension === '.doc') {
+    } if (extension === 'doc') {
       return previewDoc
     }
     return previewVideo
@@ -41,8 +39,8 @@ const ResourcePreview = ({ availableResources }) => {
   return (
     <div className="resourcePreview">
       { availableResources.map((result) => (
-        <div className="resourcesContainer" onClick={() => seeResource(result.id)} key={result.resource}>
-          <img src={getPreview(result)} alt="Resource preview" />
+        <div className="resourcesContainer" onClick={() => seeResource(result.id)} key={result.id}>
+          <img src={getPreview(result.resource)} alt="Resource preview" />
           <h5>{result.title}</h5>
         </div>
       ))}
@@ -52,7 +50,7 @@ const ResourcePreview = ({ availableResources }) => {
 
 ResourcePreview.propTypes = {
   availableResources: PropTypes.arrayOf(
-    PropTypes.shape({ title: PropTypes.string, resource: PropTypes.string }),
+    PropTypes.shape({ id: PropTypes.string, title: PropTypes.string, resource: PropTypes.string }),
   ).isRequired,
 }
 

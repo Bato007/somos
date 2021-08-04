@@ -19,13 +19,8 @@ const Searchbar = ({ availableResources }) => {
   useEffect(() => {
     setActualResults(availableResources)
 
-    try {
-      if (availableResources[0].message === 'No se encontro') {
-        setThereAreResources(false)
-      }
-    } catch {
-      setThereAreResources(false)
-    }
+    // eslint-disable-next-line no-unused-expressions
+    availableResources[0].message ? setThereAreResources(false) : setThereAreResources(true)
   }, [])
 
   // Funcion onClick para mostrar solo en base a la busqueda actual
