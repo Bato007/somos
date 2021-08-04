@@ -13,12 +13,17 @@ import './UserMgt.css'
 
 const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
-  const [update, setUpdate] = useState('')
 
   const getUsersInfo = async () => {
     await fetch('http://localhost:3001/user', {
       method: 'GET',
-    }).then((res) => res.json().then((data) => setUserInfo(data)))
+    }).then((res) => res.json()).then((data) => setUserInfo(data))
+  }
+
+  const refreshInfo = () => {
+    fetch('http://localhost:3001/user', {
+      method: 'GET',
+    }).then((res) => res.json()).then((data) => setUserInfo(data))
   }
 
   const deletUser = (username) => {
@@ -28,7 +33,7 @@ const UserMgt = () => {
       .then((res) => res.json())
       .then((res) => console.log(res))
 
-    setUpdate('Delete')
+    refreshInfo()
   }
 
   const activateUser = (user) => {
@@ -46,7 +51,7 @@ const UserMgt = () => {
         console.log(out)
       })
 
-    setUpdate('Activate')
+    refreshInfo()
   }
 
   const deactivateUser = (user) => {
@@ -64,12 +69,12 @@ const UserMgt = () => {
         console.log(out)
       })
 
-    setUpdate('Deactivate')
+    refreshInfo()
   }
 
   useEffect(() => {
     getUsersInfo()
-  }, [update])
+  }, [])
 
   return (
     <div className="page-container">

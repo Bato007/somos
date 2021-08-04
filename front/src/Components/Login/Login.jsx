@@ -33,12 +33,18 @@ const Login = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, password }),
-    }).then((res) => res.json())
+    }).then((res) => {
+      console.log(res.status)
+      return res.json()
+    })
+    console.log(json.username)
 
     if (json.username === 'ERROR 101') {
       setError('Usuario incorrecto')
     } else if (json.username === 'ERROR 102') {
       setError('Contraseña incorrecta')
+    } else if (json.username === 'ERROR 103') {
+      setError('Usuario desactivado')
     } else {
       setError('')
       if (!json.isSomos) {

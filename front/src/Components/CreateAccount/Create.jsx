@@ -48,6 +48,8 @@ const Create = () => {
       return
     } if (categories.length === 0) {
       setError('No se han seleccionado categorias')
+    } if (pass.length < 8) {
+      setError('La contraseña debe tener 8 o mas caracteres')
     } else {
       setError('')
       setInfo(1)
@@ -180,7 +182,7 @@ const Create = () => {
               </div>
               <Input value={name} className="InputCreate" type="text" name="nombre" placeholder="Nombre completo" onChange={(event) => setName(event.target.value)} />
               <h3>Número telefónico</h3>
-              <Input value={phone} className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value)} />
+              <Input value={phone} className="InputCreate" type="number" name="teléfono" placeholder="Teléfono" onChange={(event) => setPhone(event.target.value.toString())} />
               <center>
                 <Button id="Create" name="←  Regresar" onClick={() => setInfo(0)} />
                 <Button id="Create" name="Continuar→" onClick={checkExtra} />
@@ -209,7 +211,7 @@ const Create = () => {
               <Input value={church} className="InputCreate" type="text" name="Iglesia" placeholder="Iglesia asociada" onChange={(event) => setChurch(event.target.value)} />
               <center>
                 <Button id="Create" name="←  Regresar" onClick={() => setInfo(1)} />
-                <Button id="Create" name="Continuar >" onClick={showData} />
+                <Button id="Create" name="Crear" onClick={showData} />
               </center>
               <Error error={error} />
             </center>
