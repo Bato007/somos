@@ -13,6 +13,7 @@ import './UserMgt.css'
 
 const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
+  const [update, setUpdate] = useState()
 
   const getUsersInfo = async () => {
     await fetch('http://localhost:3001/user', {
