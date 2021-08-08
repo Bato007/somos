@@ -26,6 +26,7 @@ const Login = () => {
   const existingAccounts = async () => {
     const { username } = account
     const { password } = account
+    let status
 
     const json = await fetch('http://localhost:3001/authentication/signin', {
       method: 'POST',
@@ -34,24 +35,23 @@ const Login = () => {
       },
       body: JSON.stringify({ username, password }),
     }).then((res) => {
-      console.log(res.status)
+      status = res.status
       return res.json()
     })
-    console.log(json.username)
 
-    if (json.username === 'ERROR 101') {
-      setError('Usuario incorrecto')
-    } else if (json.username === 'ERROR 102') {
-      setError('Contraseña incorrecta')
-    } else if (json.username === 'ERROR 103') {
-      setError('Usuario desactivado')
-    } else {
+    if (status === 200) {
       setError('')
       if (!json.isSomos) {
         authentication.onAuthentication()
         localStorage.setItem('username', username)
         history.push('/home')
       }
+    } else if (json.username === 'ERROR 101') {
+      setError('Usuario incorrecto')
+    } else if (json.username === 'ERROR 102') {
+      setError('Contraseña incorrecta')
+    } else if (json.username === 'ERROR 103') {
+      setError('Usuario desactivado')
     }
   }
 
