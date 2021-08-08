@@ -195,9 +195,31 @@ const updateResource = async (req, res) => {
   }
 }
 
+const deleteResource = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const resources = await cResources.doc(id).get()
+    const resource = resources.data()
+
+    // Se borra del bucket
+    const file = bucket.file(resource.filename)
+    await file.delete()
+
+    // Se borra de la base de datos
+    await cResources.doc(id).delete()
+
+    // Ahora se regresa el recurso
+    res.status(200)
+  } catch (error) {
+    res.status(400).json({ message: 'Error al borrar' })
+  }
+}
+
 module.exports = {
   getResourceById,
   getResourceByUser,
   uploadResourceInfo,
   updateResource,
+  deleteResource,
 }

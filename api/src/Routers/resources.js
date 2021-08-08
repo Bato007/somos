@@ -6,6 +6,7 @@ const {
   uploadResourceInfo,
   getResourceByUser,
   updateResource,
+  deleteResource,
 } = require('../Controller/resource')
 
 const router = express.Router()
@@ -78,5 +79,10 @@ router.post('/', upload.single('upload'), async (req, res) => uploadResourceInfo
  * }
  */
 router.put('/', async (req, res) => updateResource(req, res))
+
+/**
+ * Se encarga de borrar el recurso
+ */
+router.delete('/:id', async (req, res) => deleteResource(req, res))
 
 module.exports = router

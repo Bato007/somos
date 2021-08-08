@@ -2,46 +2,64 @@ const Joi = require('joi')
 const { cUsers, FieldValue } = require('../DataBase/firebase')
 
 const signIn = async (req, res) => {
-  const answer = {
-    username: '',
-    name: '',
-    isSOMOS: false,
+  const schema = Joi.object({
+    username: Joi.string().min(1).required(),
+    password: Joi.string().min(8).required(),
+  })
+
+  // Validar informacion
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.status(400).json({ username: 'ERROR', name: message })
   }
 
   try {
     const { username, password } = req.body
+    let isSOMOS = false
 
     const users = await cUsers.doc(username).get()
     // Verificando que exista el user
     if (users.empty) {
-      throw { message: 'ERROR 101' }
+      throw { message: '101' }
     }
 
     const user = users.data()
 
     // Se verifica si esta activo o no
     if (!user.active) {
-      throw { message: 'ERROR 103' }
+      throw { message: '103' }
     }
 
     // Verifico que la contraseña
     if (user.password !== password) {
-      throw { message: 'ERROR 102' }
+      throw { message: '102' }
     }
 
     // Verifico si es somos o no
     user.categories.forEach((category) => {
       if (category === 'somos') {
-        answer.isSOMOS = true
+        isSOMOS = true
       }
     })
 
-    answer.username = username
-    answer.name = user.name
+    const { name } = user
+    res.status(200).json({ username, name, isSOMOS })
   } catch (error) {
-    answer.username = error.message
-  } finally {
-    res.json(answer)
+    const { message } = error
+    switch (message) {
+      case '101':
+        res.status(400).json({ username: 'ERROR 101' })
+        break
+      case '102':
+        res.status(400).json({ username: 'ERROR 102' })
+        break
+      case '103':
+        res.status(400).json({ username: 'ERROR 103' })
+        break
+      default:
+        res.status(400).json({ username: 'ERROR' })
+    }
   }
 }
 
