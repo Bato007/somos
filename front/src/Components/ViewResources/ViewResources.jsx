@@ -4,7 +4,7 @@ import BotonesRecursos from './ResourceButton'
 import NavBar from '../NavBar/NavBar'
 import DeleteButton from './DeleteButton'
 import './VResources.css'
-// import EditButton from './EditButton'
+import EditButton from './EditButton'
 
 const VResources = () => {
   const location = useLocation()
@@ -29,7 +29,7 @@ const VResources = () => {
       <div id="vresources">
         <div className="headers">
           <h1>{resInfo.title}</h1>
-          {/* <EditButton /> */}
+          <EditButton resourceId={resourceId} />
         </div>
         <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
         <hr />
