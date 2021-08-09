@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import BotonesRecursos from './ResourceButton'
-import NavBar from '../NavBar/NavBar'
-import DeleteButton from './DeleteButton'
 import './VResources.css'
-// import EditButton from './EditButton'
 
-const VResources = () => {
+const AdminButtons = () => {
   const location = useLocation()
   const resourceId = location.state.detail
   const [resInfo, setResInfo] = useState({ })
@@ -19,17 +15,27 @@ const VResources = () => {
     setResInfo(json)
   }
 
+  // Eliminar recurso
+  const delResource = () => {
+    const json = fetch(`http://localhost:3001/resources/${resourceId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => response.text())
+    setResInfo(json)
+  }
+
   useEffect(() => {
     setResourceInfo()
   }, [])
 
   return (
     <div className="vresources">
-      <NavBar />
       <div id="vresources">
         <div className="headers">
           <h1>{resInfo.title}</h1>
-          {/* <EditButton /> */}
+          <button type="button" className="buttonEdit">a</button>
         </div>
         <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
         <hr />
@@ -38,10 +44,12 @@ const VResources = () => {
             {resInfo.description}
           </p>
         </div>
-        <DeleteButton resourceId={resourceId} />
+        <center>
+          <button type="button" onClick={delResource} className="buttonDelete">a</button>
+        </center>
       </div>
     </div>
   )
 }
 
-export default VResources
+export default AdminButtons

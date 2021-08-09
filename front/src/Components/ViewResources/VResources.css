@@ -17,8 +17,15 @@
   border-radius: 0.5em;
   margin-top: 3em;
   padding: 15px;
-  padding-left: 70px;
-  padding-right: 70px;
+  padding-left: 170px;
+  padding-right: 170px;
+}
+
+#editResource{
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  
 }
 
 .vresources h1{
@@ -34,10 +41,9 @@
 }
 
 .headers{
-  width: 850px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 10px;
 }
 
@@ -53,9 +59,6 @@
   align-items: flex-start;
 }
 
-.editbotton{
-  margin-top: 12px;
-}
 
 .headers p{
   width: 800px;
@@ -63,8 +66,6 @@
 
 /*Boton para editar */
 .buttonEdit{
-  height: 35px;
-  width: 30px;
   align-items: center;
   color: white;
   background: white url(../../static/imagesViewResources/editpre.png) center no-repeat;

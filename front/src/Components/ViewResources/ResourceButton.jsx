@@ -18,7 +18,7 @@ function rotateImg() {
   if (rotation === 360) {
     rotation = 0
   }
-  document.getElementById('pruebaImg').style.transform = `rotate(${rotation}deg)`
+  document.getElementById('documentV').style.transform = `rotate(${rotation}deg)`
 }
 
 // Función para acceder y salir de pantalla completa
@@ -78,14 +78,16 @@ const BotonesRecursos = (props) => {
                 <hr />
                 <div className="docSpace">
                   <TransformComponent>
-                    <FilePreviewer
-                      hideControls
-                      file={{
-                        url: `${url}`,
-                        mimeType: `https://cors-anywhere.herokuapp.com/${docType}`,
-                      }}
-                    />
-                    {/* <img src={props.link} alt="blank" id="pruebaImg" /> */}
+                    <div id="documentV">
+                      <FilePreviewer
+                        hideControls
+                        file={{
+                          url: `${url}`,
+                          mimeType: `https://cors-anywhere.herokuapp.com/${docType}`,
+                          id: 'prueba',
+                        }}
+                      />
+                    </div>
                   </TransformComponent>
                 </div>
               </>
