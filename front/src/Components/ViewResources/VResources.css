@@ -59,11 +59,80 @@
   align-items: flex-start;
 }
 
+.makeStyles-modal-1 {
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 400px;
+  margin: 250 auto;
+  align-self: center;
+}
+
+.MuiButton-label {
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  margin-top: 10px;
+  background-color: #A7D8D7;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+#edit element.style {
+  background-color: rgb(0 0 0 / 86%);
+}
+
+.closeButton{
+  background-color: #c4c9c9;
+  color: #2c2e2d;
+  display: inline-block;
+  padding: 8px;
+  margin: 15px;
+  width: 55px;
+}
+
+.closeButton:hover{
+  background-color: #b4dfde;
+  border-radius: 10px #2c2e2d;
+}
+
+.saveButton{
+  background-color: #A7D8D7;
+  color: #2c2e2d;
+  display: inline-block;
+  padding: 8px;
+  margin: 15px;
+  width: 55px;
+}
+
+.saveButton:hover{
+  background-color: #b4dfde;
+}
 
 .headers p{
   width: 800px;
 }
 
+.swal-button {
+  background-color: #A7D8D7;
+} 
+
+.swal-button:not([disabled]):hover {
+  background-color: #bfe7e7;
+}
+
+.swal-button--cancel:not([disabled]):hover {
+  background-color: #e8e8e8;
+}
+
+.swal-button--cancel:not([disabled]) {
+  background-color: #dfdede;
+}
 /*Boton para editar */
 .buttonEdit{
   align-items: center;
