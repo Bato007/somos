@@ -2,6 +2,7 @@ const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
 
 const { cResources, cUsers, bucket } = require('../DataBase/firebase')
+const { erase } = require('./files')
 
 const getResourceById = async (req, res) => {
   const { id } = req.params
@@ -83,7 +84,7 @@ const uploadResourceInfo = async (req, res) => {
     filename: Joi.string().required(),
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
-    tags: Joi.array().min(1),
+    tags: Joi.array().min(1).required(),
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),
@@ -135,6 +136,8 @@ const uploadResourceInfo = async (req, res) => {
       url,
     })
 
+    erase(filenaPath) // Se borra el file
+
     res.status(200).json({ message: 'DONE' })
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -157,41 +160,41 @@ const updateResource = async (req, res) => {
   if (result.error) {
     const { message } = result.error.details[0]
     res.status(400).json({ message })
-  }
-
-  if ((req.body.category.length + req.body.users.length) < 1) {
+  } else if ((req.body.category.length + req.body.users.length) < 1) {
     res.status(400).json({ message: 'no se dirige a un usuario' })
-  }
+  } else {
+    // Luego de validar todos los datos se pasa al try
+    try {
+      const {
+        id, title, description, tags, category, users, date,
+      } = req.body
 
-  // Luego de validar todos los datos se pasa al try
-  try {
-    const {
-      id, title, description, tags, category, users, date,
-    } = req.body
+      // Obteniendo el nombre del archivo
+      const resources = await cResources.doc(id).get()
+      const { filename } = resources.data()
 
-    // Obteniendo el nombre del archivo
-    const resources = await cResources.doc(id).get()
-    const { name } = resources.data()
+      // Guardando la imagen en firebase
+      const uploaded = bucket.file(filename)
+      const url = await uploaded.getSignedUrl({
+        action: 'read',
+        expires: date,
+      })
 
-    // Guardando la imagen en firebase
-    const uploaded = bucket.file(name)
-    const url = await uploaded.getSignedUrl({
-      action: 'read',
-      expires: date,
-    })
-
-    // Ahora se ingresa a la base de datos
-    await cResources.doc(id).set({
-      title,
-      description,
-      tags,
-      categories: category,
-      users,
-      available: date,
-      url,
-    })
-  } catch (error) {
-    res.json({ message: 'Unexpected' })
+      // Ahora se ingresa a la base de datos
+      await cResources.doc(id).update({
+        title,
+        description,
+        tags,
+        categories: category,
+        users,
+        available: date,
+        url,
+      })
+      res.status(200).json({ message: 'DONE' })
+    } catch (error) {
+      console.log(error.message)
+      res.status(400).json({ message: 'Unexpected' })
+    }
   }
 }
 

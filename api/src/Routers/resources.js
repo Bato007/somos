@@ -63,7 +63,8 @@ router.get('/files/:username', async (req, res) => getResourceByUser(req, res))
  *  file: { }
  * }
  */
-router.post('/', upload.single('upload'), async (req, res) => uploadResourceInfo(req, res))
+// router.post('/', upload.single('upload'), async (req, res) => uploadResourceInfo(req, res))
+router.post('/', async (req, res) => uploadResourceInfo(req, res))
 
 /**
  * Sube un recurso al bucket, se le manda el

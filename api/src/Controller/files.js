@@ -8,3 +8,7 @@ const erase = (path) => {
     console.error(err)
   }
 }
+
+module.exports = {
+  erase,
+}
