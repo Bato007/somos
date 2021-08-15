@@ -12,10 +12,10 @@ const NavBar = () => {
 
   return (
     <div id="Navbar">
-      <img className="logo" src={logo} alt="logo" onClick={() => history.push('./home')} />
+      <img className="logo" src={logo} alt="logo" onClick={() => history.replace('/client')} />
       <div className="icons">
-        <img src={megaphoneIcon} alt="megaphone icon" onClick={() => history.push('./announcement')} />
-        <img src={accountIcon} alt="account icon" onClick={() => history.push('./management')} />
+        <img src={megaphoneIcon} alt="megaphone icon" onClick={() => history.replace('/client/announcement')} />
+        <img src={accountIcon} alt="account icon" onClick={() => history.replace('/client/management')} />
       </div>
     </div>
   )

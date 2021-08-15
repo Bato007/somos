@@ -14,12 +14,12 @@ const NavBarAdmin = () => {
 
   return (
     <div id="Navbar">
-      <img className="logo" src={logo} alt="logo" onClick={() => history.push('./home')} />
+      <img className="logo" src={logo} alt="logo" onClick={() => history.replace('/admin/home')} />
       <div className="icons">
-        <img src={megaphoneIcon} alt="megaphone icon" onClick={() => history.push('./announcement')} />
-        <img src={uploadIcon} alt="upload icon" onClick={() => history.push('./upload')} />
-        <img src={createAccountIcon} alt="create account icon" onClick={() => history.push('./createAccount')} />
-        <img src={accountIcon} alt="account icon" onClick={() => history.push('./management')} />
+        <img src={megaphoneIcon} alt="megaphone icon" onClick={() => history.replace('/admin/announcement')} />
+        <img src={uploadIcon} alt="upload icon" onClick={() => history.replace('/admin/upload')} />
+        <img src={createAccountIcon} alt="create account icon" onClick={() => history.replace('/admin/createAccount')} />
+        <img src={accountIcon} alt="account icon" onClick={() => history.replace('/admin/management')} />
       </div>
     </div>
   )
