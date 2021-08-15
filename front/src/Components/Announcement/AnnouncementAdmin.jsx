@@ -1,13 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
+import swal from 'sweetalert'
+import Button from '../Button/Button'
 import './Announcement.css'
 
 /**
  * Se utiliza para mandar a llamar todos los anuncios publicados o sin publicar
  * Se da la opción de declinar, aceptar y borrar anuncio
  */
-const Announcement = () => {
+const AnnouncementAdmin = () => {
   const [actualAnnounces, setActualAnnounces] = useState([])
   const [actualStatus, setActualStatus] = useState(0)
 
@@ -45,6 +47,57 @@ const Announcement = () => {
   }, [])
 
   /**
+   * Funcion usada para aceptar un anuncio: Se queda publicado y a los
+   * administradores les saldra opcion de borrarlo
+   */
+  const acceptAnnouncement = (result) => {
+    const temporalAnnounces = []
+
+    for (let i = 0; i < actualAnnounces.length; i += 1) {
+      temporalAnnounces.push(actualAnnounces[i])
+
+      if (actualAnnounces[i] === result) {
+        swal({
+          title: 'Aceptar anuncio',
+          text: '¿Estas seguro de aceptar el anuncio?',
+          icon: 'success',
+          buttons: ['Cancelar', 'Aceptar'],
+        }).then((res) => {
+          if (res) {
+            temporalAnnounces[i].status = 1
+          }
+        })
+      }
+    }
+    setActualAnnounces(temporalAnnounces)
+  }
+
+  /**
+   * Funcion usada para denegar un anuncio: Se elimina el anuncio
+   */
+  const deleteAnnouncement = (result) => {
+    const temporalAnnounces = []
+
+    for (let i = 0; i < actualAnnounces.length; i += 1) {
+      temporalAnnounces.push(actualAnnounces[i])
+
+      if (actualAnnounces[i] === result) {
+        swal({
+          title: 'Eliminar anuncio',
+          text: '¿Estas seguro de eliminar el anuncio? Este proceso es no revertible',
+          icon: 'warning',
+          buttons: ['Cancelar', 'Eliminar'],
+        }).then((res) => {
+          if (res) {
+            temporalAnnounces.splice(i, 1)
+          }
+        })
+      }
+    }
+    setActualAnnounces(temporalAnnounces)
+  }
+
+  /**
    * Funcion para obtener los recursos de la pestaña actual
    */
   const showActualAnnouncements = () => {
@@ -62,8 +115,8 @@ const Announcement = () => {
           <label className="switch">
             <input type="checkbox" id="togBtn" onClick={() => showActualAnnouncements()} />
             <div className="slider round">
-              <span className="on">Anuncios</span>
-              <span className="off">Servicios Disponibles</span>
+              <span className="on">Anuncios Aceptados</span>
+              <span className="off">Anuncios en Espera</span>
             </div>
           </label>
         </div>
@@ -72,6 +125,19 @@ const Announcement = () => {
             {result.status === actualStatus
               ? (
                 <div className="announcement" key={result.id}>
+                  {result.status === 0
+              && (
+              <div className="announcementOptions">
+                <Button id="decline" onClick={() => deleteAnnouncement(result)} />
+                <Button id="accept" onClick={() => acceptAnnouncement(result)} />
+              </div>
+              ) }
+                  {result.status > 0
+              && (
+              <div className="announcementOptions">
+                <Button id="remove" onClick={() => deleteAnnouncement(result)} />
+              </div>
+              )}
                   <h1>{result.title}</h1>
                   <p>{result.description}</p>
                 </div>
@@ -84,4 +150,4 @@ const Announcement = () => {
   )
 }
 
-export default Announcement
+export default AnnouncementAdmin

@@ -21,7 +21,7 @@ const ResourcePreview = ({ availableResources }) => {
   // Metodo onClick para abrir el recurso seleccionado
   const seeResource = (resourceId) => {
     // Se abriria la pantalla de ver recursos dependiendo del archivo
-    history.push({ pathname: '/viewResources', state: { detail: resourceId } })
+    history.push({ pathname: './admin/viewResources', state: { detail: resourceId } })
   }
 
   // Metodo para colocar la imagen correspondiente del recurso dependiendo la extension

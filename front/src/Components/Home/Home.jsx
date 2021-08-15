@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import NavBar from '../NavBar/NavBar'
 import Searchbar from '../Searchbar/Searchbar'
 import './Home.css'
 
@@ -26,7 +25,6 @@ const Home = () => {
 
   return (
     <div>
-      <NavBar />
       { availableResources ? <Searchbar availableResources={availableResources} /> : '' }
     </div>
   )

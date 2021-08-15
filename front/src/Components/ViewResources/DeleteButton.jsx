@@ -20,9 +20,9 @@ const DeleteButton = ({ resourceId }) => {
   const showAlert = () => {
     swal({
       title: 'Eliminar recurso',
-      text: '¿está seguro que desea eliminar el recurso?',
+      text: '¿Está seguro que desea eliminar el recurso?',
       icon: 'warning',
-      buttons: ['cancelar', 'aceptar'],
+      buttons: ['Cancelar', 'aAceptar'],
     }).then((res) => {
       if (res) {
         const deleteFun = delResource()

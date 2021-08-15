@@ -1,12 +1,6 @@
-/* eslint-disable no-console */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react'
-import NavBar from '../NavBar/NavBar'
-import Active from './icons/active.png'
-import Inactive from './icons/notactive.png'
-import Trash from './icons/trash.png'
+import Button from '../Button/Button'
 
 import './UserMgt.css'
 
@@ -60,7 +54,6 @@ const UserMgt = () => {
 
   return (
     <div className="page-container">
-      <NavBar />
       <div className="managementbkgr">
         <div className="management">
           <h1 className="titulos">Nombre</h1>
@@ -77,14 +70,10 @@ const UserMgt = () => {
                     <h3 className="titulos">{value.name}</h3>
                     <h3 className="titulos">{value.username}</h3>
                     <h5 className="titulos">{value.email}</h5>
-                    <div className="imagen">
-                      { value.active
-                        ? <img className="mgtimage" src={Active} alt="active" onClick={() => deactivateUser(value.username)} />
-                        : <img className="mgtimage" src={Inactive} alt="inactive" onClick={() => activateUser(value.username)} />}
-                    </div>
-                    <div className="trash-container">
-                      <img className="mgtimage" src={Trash} alt="trash" onClick={() => deleteUser(value.username)} />
-                    </div>
+                    { value.active
+                      ? <Button id="active" onClick={() => deactivateUser(value.username)} />
+                      : <Button id="notactive" onClick={() => activateUser(value.username)} /> }
+                    <Button id="removeAccount" onClick={() => deleteUser} />
                   </div>
                 )) }
               </>

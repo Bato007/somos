@@ -11,18 +11,27 @@ import './Input.css'
  * onChange: Funcion para leer los input del usuario
  * * */
 const Input = ({
-  className, type, min, name, placeholder, onChange, value,
-}) => (
-  <input
-    className={className}
-    type={type}
-    min={min}
-    name={name}
-    placeholder={placeholder}
-    onChange={onChange}
-    value={value}
-  />
-)
+  className, type, min, name, placeholder, onChange, value, onEnter,
+}) => {
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onEnter()
+    }
+  }
+
+  return (
+    <input
+      className={className}
+      type={type}
+      min={min}
+      name={name}
+      placeholder={placeholder}
+      onChange={onChange}
+      value={value}
+      onKeyDown={handleKeyDown}
+    />
+  )
+}
 
 Input.propTypes = {
   name: PropTypes.string,
@@ -32,6 +41,7 @@ Input.propTypes = {
   onChange: PropTypes.func,
   min: PropTypes.string,
   value: PropTypes.string,
+  onEnter: PropTypes.func,
 }
 
 Input.defaultProps = {
@@ -42,6 +52,7 @@ Input.defaultProps = {
   min: '',
   value: undefined,
   onChange: () => {},
+  onEnter: PropTypes.func,
 }
 
 export default Input

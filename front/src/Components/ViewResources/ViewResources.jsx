@@ -1,8 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import BotonesRecursos from './ResourceButton'
-import NavBar from '../NavBar/NavBar'
+import ResourceButton from './ResourceButton'
 import DeleteButton from './DeleteButton'
 import './VResources.css'
 import EditButton from './EditButton'
@@ -26,13 +25,12 @@ const VResources = () => {
 
   return (
     <div className="vresources">
-      <NavBar />
       <div id="vresources">
         <div className="headers">
           <h1>{resInfo.title}</h1>
           <EditButton resourceId={resourceId} />
         </div>
-        <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
+        <ResourceButton link={resInfo.url} docType={resInfo.type} />
         <hr />
         <div className="editp">
           <p>

@@ -25,7 +25,8 @@
     "start": "webpack serve",
     "build": "webpack",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "gherkin": "cucumber-js"
   },
   "browserslist": {
     "production": [
@@ -40,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^7.3.1",
     "@storybook/addon-actions": "^6.2.9",
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
