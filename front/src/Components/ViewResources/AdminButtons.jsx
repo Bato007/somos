@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import BotonesRecursos from './ResourceButton'
 import './VResources.css'
 
 const AdminButtons = () => {

@@ -79,7 +79,7 @@ router.post('/', async (req, res) => uploadResourceInfo(req, res))
  *  date: '2021-01-01'
  * }
  */
-router.put('/', async (req, res) => updateResource(req, res))
+router.put('/:id', async (req, res) => updateResource(req, res))
 
 /**
  * Se encarga de borrar el recurso

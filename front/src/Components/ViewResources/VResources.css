@@ -57,6 +57,9 @@
 .editp{
   align-content: flex-start;
   align-items: flex-start;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
 }
 
 .makeStyles-modal-1 {
@@ -70,6 +73,7 @@
   max-width: 400px;
   margin: 250 auto;
   align-self: center;
+  border-radius: 15px;
 }
 
 .MuiButton-label {
@@ -88,30 +92,58 @@
 }
 
 .closeButton{
-  background-color: #c4c9c9;
-  color: #2c2e2d;
+  background-color: #dfdede;
+  color: #5d5d5d;
   display: inline-block;
   padding: 8px;
   margin: 15px;
-  width: 55px;
+  width: 65px;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 3px;
+  
 }
 
 .closeButton:hover{
-  background-color: #b4dfde;
+  background-color: #e8e8e8;
   border-radius: 10px #2c2e2d;
+}
+
+.otherLine{
+  display: flex;
+  max-width: 850px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+.otherLine p{
+  margin: 0 10px 0 0;
+  display: inline-block;
+  background-color: #A7D8D7;
+  padding: 2px 10px;
+  border-radius: 5px;
+  color: white;
+  text-shadow: 2px 2px 4px #4a4a4a;
 }
 
 .saveButton{
   background-color: #A7D8D7;
-  color: #2c2e2d;
+  color: #ffffff;
   display: inline-block;
   padding: 8px;
   margin: 15px;
-  width: 55px;
+  width: 65px;
+  align-content: center;
+  border-radius: 3px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .saveButton:hover{
-  background-color: #b4dfde;
+  background-color: #bfe7e7;
 }
 
 .headers p{
@@ -133,6 +165,22 @@
 .swal-button--cancel:not([disabled]) {
   background-color: #dfdede;
 }
+
+#dateModify {
+  width: 200px;
+  color: transparent;
+}
+
+
+#dateModify::after {
+  color: black;
+}
+
+#dateModify:focus {
+  color: rgb(7, 6, 6);
+}
+
+
 /*Boton para editar */
 .buttonEdit{
   align-items: center;

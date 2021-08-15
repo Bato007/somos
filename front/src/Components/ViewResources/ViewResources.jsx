@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import BotonesRecursos from './ResourceButton'
@@ -33,10 +34,15 @@ const VResources = () => {
         </div>
         <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
         <hr />
-        <div className="headers editp">
+        <div className="editp">
           <p>
             {resInfo.description}
           </p>
+          <div className="otherLine">
+            {resInfo.tags !== undefined
+              ? resInfo.tags.map((tag, id) => <p key={`Tag: ${id}`}>{tag}</p>)
+              : null}
+          </div>
         </div>
         <DeleteButton resourceId={resourceId} />
       </div>
