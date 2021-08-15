@@ -42,6 +42,7 @@ const BotonesRecursos = (props) => {
   useEffect(() => {
     setUrl(props.link)
     setDocType(props.docType)
+    console.log(props.link)
     // console.log(props)
   }, [props])
 

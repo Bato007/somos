@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import BotonesRecursos from './ResourceButton'
+import ResourceButton from './ResourceButton'
 import DeleteButton from './DeleteButton'
 import './VResources.css'
 import EditButton from './EditButton'
@@ -29,7 +29,7 @@ const VResources = () => {
           <h1>{resInfo.title}</h1>
           <EditButton resourceId={resourceId} />
         </div>
-        <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
+        <ResourceButton link={resInfo.url} docType={resInfo.type} />
         <hr />
         <div className="headers editp">
           <p>
