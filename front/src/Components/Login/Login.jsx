@@ -44,7 +44,7 @@ const Login = () => {
       authentication.onAuthentication()
       localStorage.setItem('username', username)
       if (!json.isSOMOS) {
-        history.push('/home')
+        history.push('/client')
       } else if (json.isSOMOS) {
         history.push('/admin')
       }

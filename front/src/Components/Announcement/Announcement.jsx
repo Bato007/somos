@@ -2,7 +2,6 @@
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
 import swal from 'sweetalert'
-import NavBar from '../NavBar/NavBar'
 import Button from '../Button/Button'
 import './Announcement.css'
 
@@ -111,7 +110,6 @@ const Announcement = () => {
 
   return (
     <div>
-      <NavBar />
       <div className="Announcements">
         <div className="AnnouncentsOptions">
           <label className="switch">

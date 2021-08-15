@@ -1,9 +1,5 @@
-/* eslint-disable no-console */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react'
-import NavBar from '../NavBar/NavBar'
 import Button from '../Button/Button'
 
 import './UserMgt.css'
@@ -58,7 +54,6 @@ const UserMgt = () => {
 
   return (
     <div className="page-container">
-      <NavBar />
       <div className="managementbkgr">
         <div className="management">
           <h1 className="titulos">Nombre</h1>
