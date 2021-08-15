@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
+import swal from 'sweetalert'
 import NavBar from '../NavBar/NavBar'
 import Button from '../Button/Button'
 import './Announcement.css'
@@ -57,10 +58,16 @@ const Announcement = () => {
       temporalAnnounces.push(actualAnnounces[i])
 
       if (actualAnnounces[i] === result) {
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm('¿Estas seguro de aceptar el anuncio?')) {
-          temporalAnnounces[i].status = 1
-        }
+        swal({
+          title: 'Aceptar anuncio',
+          text: '¿Estas seguro de aceptar el anuncio?',
+          icon: 'success',
+          buttons: ['Cancelar', 'Aceptar'],
+        }).then((res) => {
+          if (res) {
+            temporalAnnounces[i].status = 1
+          }
+        })
       }
     }
     setActualAnnounces(temporalAnnounces)
@@ -76,10 +83,16 @@ const Announcement = () => {
       temporalAnnounces.push(actualAnnounces[i])
 
       if (actualAnnounces[i] === result) {
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm('¿Estas seguro de eliminar el anuncio? Este proceso es no revertible')) {
-          temporalAnnounces.splice(i, 1)
-        }
+        swal({
+          title: 'Eliminar anuncio',
+          text: '¿Estas seguro de eliminar el anuncio? Este proceso es no revertible',
+          icon: 'warning',
+          buttons: ['Cancelar', 'Eliminar'],
+        }).then((res) => {
+          if (res) {
+            temporalAnnounces.splice(i, 1)
+          }
+        })
       }
     }
     setActualAnnounces(temporalAnnounces)
