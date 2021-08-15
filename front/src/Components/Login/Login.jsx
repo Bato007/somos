@@ -41,10 +41,12 @@ const Login = () => {
 
     if (status === 200) {
       setError('')
-      if (!json.isSomos) {
-        authentication.onAuthentication()
-        localStorage.setItem('username', username)
+      authentication.onAuthentication()
+      localStorage.setItem('username', username)
+      if (!json.isSOMOS) {
         history.push('/home')
+      } else if (json.isSOMOS) {
+        history.push('/admin')
       }
     } else if (json.username === 'ERROR 101') {
       setError('Usuario incorrecto')
@@ -59,8 +61,8 @@ const Login = () => {
     <div className="LoginContainer">
       <div id="Login">
         <img src={Somos} alt="Somos Logo" />
-        <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange} />
-        <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange} />
+        <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange} onEnter={existingAccounts} />
+        <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange} onEnter={existingAccounts} />
         <Button id="SignIn" name="Sign In" onClick={existingAccounts} />
         <Error error={error} />
       </div>

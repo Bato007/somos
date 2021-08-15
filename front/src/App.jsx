@@ -8,6 +8,7 @@ import Create from './Components/CreateAccount/Create'
 import VResources from './Components/ViewResources/ViewResources'
 import Announcement from './Components/Announcement/Announcement'
 import Management from './Components/UserManagement/UserMgt'
+import HomeAdmin from './Components/Home/HomeAdmin'
 // import ProtectedRoute from './Components/ProtectedRoutes'
 
 /*
@@ -30,6 +31,7 @@ const App = () => (
       <Route path="/createaccount" component={Create} />
       <Route path="/upload" component={Upload} />
       <Route path="/home" component={Home} />
+      <Route path="/admin" component={HomeAdmin} />
       <Route path="/" component={Login} />
     </Switch>
   </Router>

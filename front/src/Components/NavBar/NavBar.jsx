@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import logo from '../../static/imagesNavBar/logo.png'
 import accountIcon from '../../static/imagesNavBar/account.png'
 import createAccountIcon from '../../static/imagesNavBar/addAccount.png'
@@ -9,7 +10,7 @@ import megaphoneIcon from '../../static/imagesNavBar/megaphone.png'
 import uploadIcon from '../../static/imagesNavBar/upload.png'
 import './NavBar.css'
 
-const NavBar = () => {
+const NavBar = ({ isAdmin }) => {
   const history = useHistory()
 
   return (
@@ -18,11 +19,25 @@ const NavBar = () => {
       <div className="icons">
         <img src={megaphoneIcon} alt="megaphone icon" onClick={() => history.push('./announcement')} />
         <img src={uploadIcon} alt="upload icon" onClick={() => history.push('./upload')} />
-        <img src={createAccountIcon} alt="create account icon" onClick={() => history.push('./createAccount')} />
-        <img src={accountIcon} alt="account icon" onClick={() => history.push('./management')} />
+        { isAdmin
+          ? (
+            <>
+              <img src={createAccountIcon} alt="create account icon" onClick={() => history.push('./createAccount')} />
+              <img src={accountIcon} alt="account icon" onClick={() => history.push('./management')} />
+            </>
+          )
+          : ''}
       </div>
     </div>
   )
+}
+
+NavBar.propTypes = {
+  isAdmin: PropTypes.bool,
+}
+
+NavBar.defaultProps = {
+  isAdmin: false,
 }
 
 export default NavBar
