@@ -66,14 +66,21 @@ const Upload = () => {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
-      await fetch('http://localhost:3001/resources', {
+      // await fetch('http://localhost:3001/admin/resources', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     upload, title, description, tags, category, users, date: fecha,
+      //   }),
+      // }).then((res) => res.json())
+      await fetch('http://localhost:3001/admin/resources/hola', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          upload, title, description, tags, category, users, date: fecha,
-        }),
+        body: upload,
       }).then((res) => res.json())
     }
   }

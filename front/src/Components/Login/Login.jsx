@@ -41,6 +41,7 @@ const Login = () => {
 
     if (status === 200) {
       setError('')
+      // const { somoskey } = json
       authentication.onAuthentication()
       localStorage.setItem('username', username)
       if (!json.isSOMOS) {

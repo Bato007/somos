@@ -15,12 +15,14 @@ db.settings({ ignoreUndefinedProperties: true })
 const cUsers = db.collection('users')
 const cResources = db.collection('resources')
 const cAnnouncements = db.collection('annoucements')
+const cKeys = db.collection('keys')
 
 module.exports = {
   admin,
   cUsers,
   cResources,
   cAnnouncements,
+  cKeys,
   bucket,
   FieldValue,
 }

@@ -16,6 +16,7 @@ const router = express.Router()
     username: 'ERROR 102',
     name: '',
     isSOMOS: false,
+    somoskey: '',
   }
   Si no hay errores entonces manda la información con el mismo formato.
 */
@@ -49,6 +50,6 @@ router.post('/signin', async (req, res) => signIn(req, res))
   Si no hay errores entonces manda la información con el mismo formato
   con la palabra DONE
 */
-router.post('/signup', async (req, res) => signUp(req, res))
+router.post('admin/signup', async (req, res) => signUp(req, res))
 
 module.exports = router
