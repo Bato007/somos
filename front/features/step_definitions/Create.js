@@ -6,16 +6,31 @@
 const { Given, When, Then } = require('@cucumber/cucumber')
 const assert = require('assert')
 
-Given('Someone interested approaches SOMOS', function () {
-  return console.log('Account created')
+let validacion
+function validarClave(prueba) {
+  const largo = prueba.length
+  if (largo < 8 || largo > 16) {
+    return 'quiebran'
+  } if (!/[a-z]/.test(prueba)) {
+    return 'quiebran'
+  } if (!/[A-Z]/.test(prueba)) {
+    return 'quiebran'
+  } if (!/[0-9]/.test(prueba)) {
+    return 'quiebran'
+  } if (!/[!"#$%&'()*+,-./:;=?@[\]^_`{|}~]/.test(prueba)) {
+    return 'quiebran'
+  }
+  return 'cumplen'
+}
+
+Given('Se esta creando una cuenta', function () {
+  console.log('Cuenta creada')
 })
 
-When('The account is created by an Admin with {string} and {string}', function (givenUser, givenPass) {
-  this.username = givenUser
-  this.password = givenPass
+When('Se ingresa la clave {string}', function (clave) {
+  validacion = validarClave(clave)
 })
 
-Then('{string} {string} can access the resources in an ordered way', function (inUser, inPass) {
-  assert.strictEqual(this.username, inUser)
-  assert.strictEqual(this.password = inPass)
+Then('Se {string}  las condiciones', function (resultado) {
+  assert.strictEqual(validacion, resultado)
 })
