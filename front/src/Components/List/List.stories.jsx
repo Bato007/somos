@@ -1,6 +1,6 @@
 import React from 'react'
 import List from './List'
-import './List'
+import './List.css'
 
 export default {
   title: 'List',
