@@ -8,7 +8,7 @@ const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
 
   const getUsersInfo = async () => {
-    const data = await fetch('http://localhost:3001/user', {
+    const data = await fetch('http://localhost:3001/admin/user', {
       method: 'GET',
     }).then((res) => res.json()).then((res) => res)
 
@@ -16,7 +16,7 @@ const UserMgt = () => {
   }
 
   const deleteUser = async (username) => {
-    await fetch(`http://localhost:3001/user/${username}`, {
+    await fetch(`http://localhost:3001/admin/user/${username}`, {
       method: 'DELETE',
     })
 
@@ -27,7 +27,7 @@ const UserMgt = () => {
     const data = {
       username: user,
     }
-    await fetch('http://localhost:3001/user/activate', {
+    await fetch('http://localhost:3001/admin/user/activate', {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: { 'Content-type': 'application/json' },
@@ -39,7 +39,7 @@ const UserMgt = () => {
     const data = {
       username: user,
     }
-    await fetch('http://localhost:3001/user/desactivate', {
+    await fetch('http://localhost:3001/admin/user/desactivate', {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: { 'Content-type': 'application/json' },
@@ -73,7 +73,7 @@ const UserMgt = () => {
                     { value.active
                       ? <Button id="active" onClick={() => deactivateUser(value.username)} />
                       : <Button id="notactive" onClick={() => activateUser(value.username)} /> }
-                    <Button id="removeAccount" onClick={() => deleteUser} />
+                    <Button id="removeAccount" onClick={() => deleteUser(value.username)} />
                   </div>
                 )) }
               </>

@@ -20,6 +20,7 @@ const date = () => {
 }
 
 const actualDate = date()
+const formData = new FormData()
 
 const Upload = () => {
   const [error, setError] = useState('')
@@ -36,12 +37,14 @@ const Upload = () => {
         ...resourceInfo,
         CargarArchivo: 'Cargar Archivo',
       })
+      formData.delete('resource')
     } else {
       setResourceInfo({
         ...resourceInfo,
         CargarArchivo: event.target.files[0].name,
         file: event.target.files[0],
       })
+      formData.set('resource', event.target.files[0])
     }
   }
 
@@ -61,27 +64,33 @@ const Upload = () => {
     const category = categories
     const users = accountsUsernames
     const fecha = resourceInfo.date
+    const filename = upload.name
+    let status
 
     if (upload === 'Cargar Archivo' || title === '' || description === '' || fecha === '' || (category.length === 0 && users.length === 0)) {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
-      // await fetch('http://localhost:3001/admin/resources', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     upload, title, description, tags, category, users, date: fecha,
-      //   }),
-      // }).then((res) => res.json())
-      await fetch('http://localhost:3001/admin/resources/hola', {
+
+      await fetch('http://localhost:3001/admin/resources/upload', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: upload,
-      }).then((res) => res.json())
+        body: formData,
+      }).then((res) => {
+        status = res.status
+        return res.json()
+      })
+
+      if (status === 200) {
+        await fetch('http://localhost:3001/admin/resources', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            filename, title, description, tags, category, users, date: fecha,
+          }),
+        }).then((res) => res.json())
+      }
     }
   }
 

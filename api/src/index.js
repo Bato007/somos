@@ -12,8 +12,8 @@ const userRouter = require('./Routers/usermanagment')
 
 const { authorizate } = require('./Middleware/authorization')
 
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 
 // app.use('/', authorizate)
 

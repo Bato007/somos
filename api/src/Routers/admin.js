@@ -6,10 +6,10 @@ const aStatisticRouter = require('./admin/statistic')
 
 const router = express.Router()
 
-router.use('/admin/announcements', aAdvertRouter)
+router.use('/announcements', aAdvertRouter)
 
-router.use('/admin/resources', aMediaRouter)
+router.use('/resources', aMediaRouter)
 
-router.use('/admin/user', aUserRouter)
+router.use('/user', aUserRouter)
 
 module.exports = router

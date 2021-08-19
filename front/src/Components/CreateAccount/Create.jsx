@@ -90,7 +90,7 @@ const Create = () => {
         categories,
       }
 
-      fetch('http://localhost:3001/authentication/signup',
+      fetch('http://localhost:3001/authentication/admin/signup',
         {
           method: 'POST',
           body: JSON.stringify(data),

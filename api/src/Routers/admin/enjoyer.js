@@ -19,7 +19,7 @@ router.get('', async (req, res) => getAllUsers(req, res))
     username: 'ejemplo',
   }
  */
-router.put('desactivate', async (req, res) => desactivateUser(req, res))
+router.put('/desactivate', async (req, res) => desactivateUser(req, res))
 
 /*
   Esta funcion recibe un Json con el siguiente formato:
@@ -27,7 +27,7 @@ router.put('desactivate', async (req, res) => desactivateUser(req, res))
     username: 'ejemplo',
   }
  */
-router.put('activate', async (req, res) => activateUser(req, res))
+router.put('/activate', async (req, res) => activateUser(req, res))
 
 /*
   Esta funcion recibe el username de la que se quiere borrar

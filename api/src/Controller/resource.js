@@ -95,52 +95,50 @@ const uploadResourceInfo = async (req, res) => {
   if (result.error) {
     const { message } = result.error.details[0]
     res.status(400).json({ message })
-  }
-
-  if ((req.body.category.length + req.body.users.length) < 1) {
+  } else if ((req.body.category.length + req.body.users.length) < 1) {
     res.status(400).json({ message: 'no se dirige a un usuario' })
-  }
+  } else {
+    // Luego de validar todos los datos se pasa al try
+    try {
+      const {
+        title, description, tags, category, users, date, filename,
+      } = req.body
 
-  // Luego de validar todos los datos se pasa al try
-  try {
-    const {
-      title, description, tags, category, users, date, filename,
-    } = req.body
-
-    // Guardando la imagen en firebase
-    const filenaPath = `./upload/${filename}`
-    const token = tokenGenerator()
-    await bucket.upload(filenaPath,
-      {
-        metadata: { metadata: { firebaseStorageDownloadTokens: token } },
-        public: true,
+      // Guardando la imagen en firebase
+      const filenaPath = `./upload/${filename}`
+      const token = tokenGenerator()
+      await bucket.upload(filenaPath,
+        {
+          metadata: { metadata: { firebaseStorageDownloadTokens: token } },
+          public: true,
+        })
+      const uploaded = bucket.file(filename)
+      const url = await uploaded.getSignedUrl({
+        action: 'read',
+        expires: date,
       })
-    const uploaded = bucket.file(filename)
-    const url = await uploaded.getSignedUrl({
-      action: 'read',
-      expires: date,
-    })
-    const type = filename.split('.')[1]
+      const type = filename.split('.')[1]
 
-    // Ahora se ingresa a la base de datos
-    cResources.doc(token).set({
-      id: token,
-      title,
-      description,
-      users,
-      categories: category,
-      tags,
-      available: date,
-      type,
-      filename,
-      url,
-    })
+      // Ahora se ingresa a la base de datos
+      cResources.doc(token).set({
+        id: token,
+        title,
+        description,
+        users,
+        categories: category,
+        tags,
+        available: date,
+        type,
+        filename,
+        url,
+      })
 
-    erase(filenaPath) // Se borra el file
+      erase(filenaPath) // Se borra el file
 
-    res.status(200).json({ message: 'DONE' })
-  } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
+      res.status(200).json({ message: 'DONE' })
+    } catch (error) {
+      res.status(400).json({ message: 'Unexpected' })
+    }
   }
 }
 

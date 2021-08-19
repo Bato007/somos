@@ -12,13 +12,17 @@ const router = express.Router()
 // Multer
 const option = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './upload')
+    cb(null, './upload/')
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
   },
 })
 const upload = multer({ storage: option })
+
+router.post('/upload', upload.single('resource'), (req, res) => {
+  res.status(200).json({})
+})
 
 /**
  * Sube un recurso al bucket, se le manda el
@@ -33,12 +37,7 @@ const upload = multer({ storage: option })
  *  file: { }
  * }
  */
-// router.post('/', upload.single('upload'), async (req, res) => uploadResourceInfo(req, res))
 router.post('/', async (req, res) => uploadResourceInfo(req, res))
-
-router.post('/hola', async (req, res) => {
-  console.log(req.body)
-})
 
 /**
  * Sube un recurso al bucket, se le manda el
