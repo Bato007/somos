@@ -35,6 +35,22 @@ const Create = () => {
 
   const [error, setError] = useState('')
 
+  const validarClave = (prueba) => {
+    const largo = prueba.length
+    if (largo < 8 || largo > 16) {
+      return false
+    } if (!/[a-z]/.test(prueba)) {
+      return false
+    } if (!/[A-Z]/.test(prueba)) {
+      return false
+    } if (!/[0-9]/.test(prueba)) {
+      return false
+    } if (!/[!"#$%&'()*+,-./:;=?@[\]^_`{|}~]/.test(prueba)) {
+      return false
+    }
+    return true
+  }
+
   const checkBasic = () => {
     if (user === '') {
       setError('No se ingreso usuario')
@@ -50,12 +66,13 @@ const Create = () => {
       return
     } if (categories.length === 0) {
       setError('No se han seleccionado categorias')
-    } if (pass.length < 8) {
-      setError('La contraseña debe tener 8 o mas caracteres')
-    } else {
-      setError('')
-      setInfo(1)
+      return
+    } if (!validarClave(pass)) {
+      setError('La contraseña no cumple con las condiciones')
+      return
     }
+    setError('')
+    setInfo(1)
   }
 
   const checkExtra = () => {
@@ -102,13 +119,15 @@ const Create = () => {
           body: JSON.stringify(data),
           headers: { 'Content-type': 'application/json' },
         })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 200) {
+            setInfo(3)
+          }
+          return (res.json())
+        })
         .catch((e) => console.error('Error', e))
         .then((out) => {
           console.log(out)
-          if (out.status === '200') {
-            setInfo(3)
-          }
         })
     }
   }
@@ -240,6 +259,18 @@ const Create = () => {
                 <Button id="Create" name="Crear" onClick={showData} />
               </center>
               <Error error={error} />
+            </center>
+          </div>
+        )
+      case 3:
+        return (
+          <div className="right">
+            <div className="titulo2">
+              La cuenta ha sido creada con éxito
+            </div>
+            <center>
+              <Button id="Create" name="Inicio" onClick={() => history.push('/admin')} />
+              <Button id="Create" name="Crear otra" onClick={() => history.go(0)} />
             </center>
           </div>
         )

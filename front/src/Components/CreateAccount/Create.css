@@ -56,12 +56,20 @@
 }
 
 .titulo{
-    font-weight: 800;
     text-align: left;
     font-size:54px;
     font-weight:bold;
     width: auto;
     padding-top: 5px;
+}
+
+.titulo2{
+    text-align: left;
+    font-size: 42px;
+    font-weight: bold;
+    width: auto;
+    padding-top: 5px;
+    text-align: center;
 }
 
 .back{
