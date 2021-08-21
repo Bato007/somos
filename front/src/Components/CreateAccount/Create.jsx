@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -8,6 +9,7 @@ import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import SearchbarTo from '../SearchbarTo/SearchbarTo'
+
 import iglesia from '../../static/imagesCreateAccount/logoSomos.png'
 import pre from '../../static/imagesCreateAccount/pre.png'
 import post from '../../static/imagesCreateAccount/post.png'
@@ -77,7 +79,7 @@ const Create = () => {
       setError('No se pueden dejar campos vacios')
     } else {
     /* Fetch para la creacion de la cuenta */
-      const data = {
+      const buffer = {
         username: user,
         password: pass,
         confirm: conf,
@@ -90,6 +92,10 @@ const Create = () => {
         categories,
       }
 
+      const bufferArray = Object.entries(buffer).filter(([key, value]) => value !== '')
+
+      const data = Object.fromEntries(bufferArray)
+
       fetch('http://localhost:3001/authentication/admin/signup',
         {
           method: 'POST',
@@ -100,6 +106,9 @@ const Create = () => {
         .catch((e) => console.error('Error', e))
         .then((out) => {
           console.log(out)
+          if (out.status === '200') {
+            setInfo(3)
+          }
         })
     }
   }
@@ -110,7 +119,7 @@ const Create = () => {
         return (
           <div className="containerC">
             <div className="containerText">
-              <img src={post} alt="pre" width="25px" />
+              <img src={post} alt="post" width="25px" />
               <p>Información de cuenta </p>
             </div>
             <div className="containerText">
@@ -127,15 +136,32 @@ const Create = () => {
         return (
           <div className="containerC">
             <div className="containerText">
-              <img src={post} alt="pre" width="25px" />
+              <img src={post} alt="post" width="25px" />
               <p>Información de cuenta </p>
             </div>
             <div className="containerText">
-              <img src={post} alt="pre" width="25px" />
+              <img src={post} alt="post" width="25px" />
               <p>Información de usuario</p>
             </div>
             <div className="containerText">
               <img src={pre} alt="pre" width="25px" />
+              <p>Información de ubicación</p>
+            </div>
+          </div>
+        )
+      case 3:
+        return (
+          <div className="containerC">
+            <div className="containerText">
+              <img src={post} alt="post" width="25px" />
+              <p>Información de cuenta </p>
+            </div>
+            <div className="containerText">
+              <img src={post} alt="post" width="25px" />
+              <p>Información de usuario</p>
+            </div>
+            <div className="containerText">
+              <img src={post} alt="post" width="25px" />
               <p>Información de ubicación</p>
             </div>
           </div>

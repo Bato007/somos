@@ -67,6 +67,7 @@
 .back{
     align-content: center;
     margin-left: 140px;
+    cursor: pointer;
 }
 
 .church{
@@ -108,7 +109,7 @@
         padding-left: 20px;
         padding-right: 20px;
         margin-right: 15px;
-        height: 800px;
+        height: 100vw;
         width: 600px;
     }   
 }

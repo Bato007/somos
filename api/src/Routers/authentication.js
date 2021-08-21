@@ -50,6 +50,6 @@ router.post('/signin', async (req, res) => signIn(req, res))
   Si no hay errores entonces manda la información con el mismo formato
   con la palabra DONE
 */
-router.post('admin/signup', async (req, res) => signUp(req, res))
+router.post('/admin/signup', async (req, res) => signUp(req, res))
 
 module.exports = router
