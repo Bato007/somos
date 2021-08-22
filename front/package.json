@@ -42,7 +42,6 @@
     ]
   },
   "devDependencies": {
-    "identity-obj-proxy": "^3.0.0",
     "@cucumber/cucumber": "^7.3.1",
     "@storybook/addon-actions": "^6.2.9",
     "@storybook/addon-essentials": "^6.2.9",
@@ -56,6 +55,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "identity-obj-proxy": "^3.0.0",
     "webpack-cli": "^4.7.0"
   }
 }
