@@ -99,7 +99,7 @@ const signUp = async (req, res) => {
     res.status(400).json({ message })
   } else {
     const answer = {
-      status: '',
+      message: '',
     }
 
     try {
@@ -121,33 +121,31 @@ const signUp = async (req, res) => {
         categories,
         active: true,
       })
-      answer.status = 'DONE'
-      res.status(200)
+      answer.message = 'DONE'
+      res.status(200).json(answer)
     } catch (error) {
       const err = error.message
       // Verificando que error es
       if (err.indexOf('somos_user_pkey') !== -1) {
-        answer.status = 'ERROR 103'
+        answer.message = 'ERROR 103'
       } else if (err.indexOf('no_equal_password') !== -1) {
-        answer.status = 'ERROR 104'
+        answer.message = 'ERROR 104'
       } else if (err.indexOf('«email»') !== -1) {
-        answer.status = 'ERROR 105'
+        answer.message = 'ERROR 105'
       } else if (err.indexOf('«name»') !== -1) {
-        answer.status = 'ERROR 106'
+        answer.message = 'ERROR 106'
       } else if (err.indexOf('phone') !== -1) {
-        answer.status = 'ERROR 107'
+        answer.message = 'ERROR 107'
       } else if (err.indexOf('workplace') !== -1) {
-        answer.status = 'ERROR 108'
+        answer.message = 'ERROR 108'
       } else if (err.indexOf('residence') !== -1) {
-        answer.status = 'ERROR 109'
+        answer.message = 'ERROR 109'
       } else if (err.indexOf('«fk_category_user»') !== -1) {
-        answer.status = 'ERROR 110'
+        answer.message = 'ERROR 110'
       } else {
-        answer.status = 'ERROR'
+        answer.message = 'ERROR'
       }
-      res.status(400)
-    } finally {
-      res.json(answer)
+      res.status(400).json(answer)
     }
   }
 }
