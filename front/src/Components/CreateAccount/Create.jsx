@@ -297,7 +297,7 @@ const Create = () => {
                 <h3 className="required_indicator">* </h3>
                 <h3>Confirmación de contraseña</h3>
               </div>
-              <Input value={conf} className="InputCreate" type="password" name="password" placeholder="Introduzca su contraseña" onChange={(event) => setConf(event.target.value)} />
+              <Input value={conf} className="InputCreate" type="password" name="password" placeholder="Confirme su contraseña" onChange={(event) => setConf(event.target.value)} />
               <div className="required_con">
                 <h3 className="required_indicator">* </h3>
                 <h3>Categoría perteneciente</h3>

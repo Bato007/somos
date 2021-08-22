@@ -12,7 +12,7 @@ describe('Searchbar tests', () => {
 
     const hasInputValue = (test, inputValue) => screen.getByDisplayValue(inputValue) === test
 
-    const input = searchbar.getByRole('input')
+    const input = searchbar.getByRole('textbox')
 
     userEvent.type(input, 'prueba')
     expect(hasInputValue(input, 'prueba')).toBe(true)
