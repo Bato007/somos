@@ -110,7 +110,7 @@ const AnnouncementAdmin = () => {
 
   return (
     <div>
-      <div className="Announcements">
+      <div key={(Math.random() + 1).toString(36).substring(7)} className="Announcements">
         <div className="AnnouncentsOptions">
           <label className="switch">
             <input type="checkbox" id="togBtn" onClick={() => showActualAnnouncements()} />

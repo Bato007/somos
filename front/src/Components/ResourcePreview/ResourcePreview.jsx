@@ -37,7 +37,7 @@ const ResourcePreview = ({ availableResources }) => {
   }
 
   return (
-    <div className="resourcePreview">
+    <div key={(Math.random() + 1).toString(36).substring(7)} className="resourcePreview">
       { availableResources.map((result) => (
         <div className="resourcesContainer" onClick={() => seeResource(result.id)} key={result.id}>
           <img src={getPreview(result.resource)} alt="Resource preview" />

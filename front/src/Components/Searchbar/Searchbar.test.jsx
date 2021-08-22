@@ -5,14 +5,12 @@ import Searchbar from './Searchbar'
 
 describe('Searchbar tests', () => {
   test('Searchbar renders', () => {
-    render(<Searchbar />)
+    render(<Searchbar availableResources={[{ title: 'prueba1.png', resource: 'png' }]} />)
   })
   test('Searchbar is typeable', () => {
-    const searchbar = render(<Searchbar />)
+    const searchbar = render(<Searchbar availableResources={[{ title: 'prueba1.png', resource: 'png' }]} />)
 
-    const hasInputValue = (test, inputValue) => {
-      return screen.getByDisplayValue(inputValue) === test
-    }
+    const hasInputValue = (test, inputValue) => screen.getByDisplayValue(inputValue) === test
 
     const input = searchbar.getByRole('input')
 
@@ -20,10 +18,10 @@ describe('Searchbar tests', () => {
     expect(hasInputValue(input, 'prueba')).toBe(true)
   })
   test('Searchbar shows results', () => {
-    const searchbar = render(<Searchbar search="prueba" />)
+    const searchbar = render(<Searchbar search="prueba" availableResources={[{ title: 'prueba1.png', resource: 'png' }]} />)
     const button = searchbar.getByRole('button')
     userEvent.click(button)
-    
-    expect(screen.getElementsByClassName('resourcePreview').length).toBe(4);
+
+    expect(screen.getElementsByClassName('resourcePreview').length).toBe(1)
   })
 })
