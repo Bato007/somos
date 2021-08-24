@@ -51,6 +51,13 @@ const Create = () => {
     return true
   }
 
+  const emailRequirements = (inemail) => {
+    if (/^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/.test(inemail)) {
+      return true
+    }
+    return false
+  }
+
   const checkBasic = () => {
     if (user === '') {
       setError('No se ingreso usuario')
@@ -84,6 +91,10 @@ const Create = () => {
       return
     } if (phone !== '' && phone.length !== 8) {
       setError('El telefono ingresado no es valido')
+      return
+    } if (!emailRequirements(mail)) {
+      setError('El correo ingresado no es valido')
+      return
     } else {
       setError('')
       setInfo(2)
