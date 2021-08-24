@@ -95,10 +95,9 @@ const Create = () => {
     } if (!emailRequirements(mail)) {
       setError('El correo ingresado no es valido')
       return
-    } else {
-      setError('')
-      setInfo(2)
     }
+    setError('')
+    setInfo(2)
   }
 
   const showData = () => {
