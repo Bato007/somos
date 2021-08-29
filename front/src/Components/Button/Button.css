@@ -74,28 +74,38 @@ button {
 }
 
 #active {
-  width: 3vw;
-  height: 3vw;
+  width: 2vw;
+  height: 2vw;
   background-size: cover;
   background-color: transparent;
   background-image: url('../../static/UserMgt/active.png');
-  margin-left: 4vw;
+  margin-left: 5vw;
   padding: 0;
 }
 
 #notactive {
-  width: 3vw;
-  height: 3vw;
+  width: 2vw;
+  height: 2vw;
   background-size: cover;
   background-color: transparent;
   background-image: url('../../static/UserMgt/notactive.png');
+  margin-left: 5vw;
+  padding: 0;
+}
+
+#editAccount {
+  width: 1vw;
+  height: 1vw;
+  background-size: cover;
+  background-color: transparent;
+  background-image: url('../../static/UserMgt/edit.png');
   margin-left: 4vw;
   padding: 0;
 }
 
 #removeAccount {
-  width: 3vw;
-  height: 3vw;
+  width: 2vw;
+  height: 2vw;
   background-size: cover;
   background-color: transparent;
   background-image: url('../../static/UserMgt/trash.png');

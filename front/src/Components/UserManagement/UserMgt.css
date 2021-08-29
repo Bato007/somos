@@ -36,6 +36,13 @@
     align-items: center;
   }
   
+  .name {
+    text-align: initial;
+    padding-left: 2vw;
+    width: 16%;
+    text-align: start;
+  }
+
   .titulos{
     width: 25%;
     text-align: center;
@@ -66,4 +73,24 @@
   .changeButton {
     margin-left: 47px;
   }
+}
+
+
+.nombre {
+  width: fit-content;
+  margin: 0 8.5vw 0 3.5vw;
+}
+
+.popup-content {
+  width: fit-content;
+}
+
+.popup-content h1 {
+  font-size: 1.2vw;
+  margin: 1em;
+}
+
+.popupButtons {
+  display: flex;
+  justify-content: flex-end;
 }

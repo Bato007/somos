@@ -1,12 +1,18 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react'
+import Popup from 'reactjs-popup'
 import swal from 'sweetalert'
 import Button from '../Button/Button'
+import SearchbarTo from '../SearchbarTo/SearchbarTo'
+import 'reactjs-popup/dist/index.css'
 
 import './UserMgt.css'
 
 const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
+  const [categories, setCategories] = useState(['SOMOS'])
 
   const getUsersInfo = async () => {
     const data = await fetch('http://localhost:3001/admin/user', {
@@ -81,7 +87,35 @@ const UserMgt = () => {
               <>
                 { userInfo.map((value, index) => (
                   <div className="usersmanaged" key={index}>
-                    <h3 className="titulos data">{value.name}</h3>
+
+                    <Popup
+                      modal
+                      nested
+                      trigger={
+                        <Button id="editAccount" />
+                      }
+                      position="center center"
+                    >
+                      {(close) => (
+                        <>
+                          <h1>
+                            Editar categorías del usuario:&nbsp;
+                            {value.name}
+                          </h1>
+                          <SearchbarTo
+                            setCategories={setCategories}
+                            creatingAccount
+                            lastResult={categories}
+                          />
+                          <div className="popupButtons">
+                            <Button id="CancelButton" name="Cancelar" onClick={close} />
+                            <Button id="UploadButton" name="Guardar" />
+                          </div>
+                        </>
+                      )}
+                    </Popup>
+
+                    <h3 className="name">{value.name}</h3>
                     <h3 className="titulos data">{value.username}</h3>
                     <h4 className="titulos onMobileHide">{value.email}</h4>
                     { value.active
