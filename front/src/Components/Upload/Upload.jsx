@@ -102,11 +102,11 @@ const Upload = () => {
           {resourceInfo.CargarArchivo}
           <Input className="InputFile" name="CargarArchivo" type="file" onChange={handleSelectedFile} />
         </div>
-        <h3>Titulo</h3>
+        <h3>Título</h3>
         <Input className="titleInput" type="text" name="title" placeholder="Nombre del archivo" onChange={handleChange} />
         <h3>Para</h3>
         <SearchBarTo setAccounts={setAccountUsernames} setCategories={setCategories} />
-        <h3>Descripcion del archivo</h3>
+        <h3>Descripción del archivo</h3>
         <textarea name="description" onChange={handleChange} />
         <h3>Similar a</h3>
         <SearchBarTo showSimilarTo setSimilarTo={setSimilarTo} />

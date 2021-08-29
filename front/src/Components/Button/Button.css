@@ -6,7 +6,7 @@ button {
   cursor: pointer;
 }
 
-#SignIn, #UploadButton {
+#SignIn, #UploadButton, #CancelButton {
   display: inline-block;
   border-radius: 3em;
   width: fit-content;
@@ -24,6 +24,16 @@ button {
   background-color: #212323;
   color: white;
   margin: 1em;
+}
+
+#CancelButton {
+  background-color: #cecece;
+  color: #212323;
+}
+
+#CancelButton:hover {
+  background-color: #212323;
+  color: #A7D8D7;
 }
 
 #SignIn:hover, #UploadButton:hover, #Create:hover {
@@ -91,4 +101,13 @@ button {
   background-image: url('../../static/UserMgt/trash.png');
   margin-left: 5vw;
   padding: 0;
+}
+
+#writeAnnounce {
+  width: 3vw;
+  height: 3vw;
+  background-color: transparent;
+  background-size: contain;
+  align-self: flex-end;
+  background-image: url('../../static/imagesAnnounces/write.png');
 }
