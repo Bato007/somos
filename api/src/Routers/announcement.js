@@ -19,6 +19,14 @@ const router = express.Router()
  * @swagger
  * components:
  *  schemas:
+ *    Error:
+ *      type: object
+ *      properties:
+ *        message:
+ *          type: string
+ *          description: describe el error ocurrido
+ *      example:
+ *        message: password min length is 8
  *    Anuncio:
  *      type: object
  *      properties:
@@ -45,7 +53,16 @@ const router = express.Router()
  *          description: Hasta que fecha es valido el anuncio
  *        published:
  *          type: integer
- *          description: indica el estado del anuncio = no publicado (0), publicado (1)
+ *          description: Indica el estado del anuncio = no publicado(0), publicado(1), denegado(2)
+ *      example:
+ *        id: DJf0pe8LvFB75iUkXAuV
+ *        contact: Juan
+ *        phone: 78945687
+ *        email: hola@gmail.com
+ *        title: Ayuda Mamas
+ *        description: Para todas las que tengan hijos con alguna discapacidad
+ *        toDate: 06/09/2021
+ *        published: 0
  */
 
 /**
@@ -62,6 +79,9 @@ const router = express.Router()
  *            type: array
  *            items:
  *              $ref: '#/components/schemas/Anuncio'
+ *              type:
+ *                type: string
+ *                description: El tipo del anuncio
  */
 router.get('/', (req, res) => getAll(req, res))
 
@@ -166,5 +186,53 @@ router.get('/home/nonpublished', (req, res) => getNonPublishedhHome(req, res))
  *              $ref: '#/components/schemas/Anuncio'
  */
 router.get('/home/published', (req, res) => getPublishedhHome(req, res))
+
+/**
+ * @swagger
+ * /announcements/help:
+ *  post:
+ *    summary: Crea un nuevo anuncio de los brindadores de servicio
+ *    tags: [Anuncios]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Anuncio'
+ *    responses:
+ *      200:
+ *        description: El anuncio fue creado
+ *      400:
+ *        description: Hubo un error en el request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Error'
+ */
+router.post('/help')
+
+/**
+ * @swagger
+ * /announcements/home:
+ *  post:
+ *    summary: Crea un nuevo anuncio de los hogares / iglesias
+ *    tags: [Anuncios]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Anuncio'
+ *    responses:
+ *      200:
+ *        description: El anuncio fue creado
+ *      400:
+ *        description: Hubo un error en el request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Error'
+ */
+router.post('/home')
 
 module.exports = router

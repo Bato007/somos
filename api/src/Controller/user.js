@@ -83,7 +83,7 @@ const signUp = async (req, res) => {
     username: Joi.string().min(1).required(),
     password: Joi.string().min(8).required(),
     confirm: Joi.string().required().valid(Joi.ref('password')),
-    email: Joi.string().min(5).required(),
+    email: Joi.string().email().required(),
     name: Joi.string().min(3).required(),
     phone: Joi.string(),
     workplace: Joi.string(),
@@ -154,21 +154,38 @@ const getAllUsers = async (req, res) => {
   try {
     const added = []
     const users = await cUsers.get()
-    await users.forEach((user) => {
+    users.forEach((user) => {
       const {
-        username, active, email, name,
+        username, active, email, name, categories,
       } = user.data()
       added.push({
         username,
         active,
         email,
         name,
+        categories,
       })
     })
     res.status(200).json(added)
   } catch (error) {
     console.log(error.message)
     res.status(400).json()
+  }
+}
+
+const getUserCategories = async (req, res) => {
+  try {
+    const { username } = req.params
+    const tempUser = await cUsers.doc(username).get()
+    if (!tempUser.exists) {
+      res.sendStatus(404)
+    } else {
+      const { categories } = tempUser.data()
+      res.status(200).json(categories)
+    }
+  } catch (error) {
+    console.log(error.message)
+    res.sendStatus(500)
   }
 }
 
@@ -214,6 +231,7 @@ module.exports = {
   signIn,
   signUp,
   getAllUsers,
+  getUserCategories,
   desactivateUser,
   activateUser,
   deleteUser,

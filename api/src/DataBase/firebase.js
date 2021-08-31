@@ -16,6 +16,7 @@ const cUsers = db.collection('users')
 const cResources = db.collection('resources')
 const cAnnouncements = db.collection('annoucements')
 const cKeys = db.collection('keys')
+const cCategories = db.collection('categories')
 
 module.exports = {
   admin,
@@ -24,5 +25,6 @@ module.exports = {
   cAnnouncements,
   cKeys,
   bucket,
+  cCategories,
   FieldValue,
 }
