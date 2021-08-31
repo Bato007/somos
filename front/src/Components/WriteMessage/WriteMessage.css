@@ -1,0 +1,110 @@
+.clientAnnouncements {
+    width: 100vw;
+    min-height: 100vh;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.acceptedAnnouncements {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    
+    white-space: nowrap;
+    overflow-x: hidden;
+    padding: 2vw 1vw 0 1vw;
+}
+
+.acceptedAnnouncements button {
+    text-align: initial;
+    font-weight: normal;
+    background: transparent;
+    outline: none;
+    padding: 0;
+}
+
+.acceptedAnnouncements hr {
+    margin-bottom: 0;
+    margin-top: 1em;
+}
+
+.acceptedAnnouncements h1 {
+    white-space: break-spaces;
+    font-size: 1.2vw;
+    margin-top: 1em;
+}
+
+.acceptedAnnouncements p {
+    font-size: 1vw;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: break-spaces;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.writeAnnouncement {
+    padding: 2vw 4vw;
+}
+
+.writeAnnouncement h1 {
+    font-size: 2vw;
+}
+
+.writeAnnouncement p {
+    font-size: 1.2vw;
+}
+
+.visualizeAnnouncement {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.writeAnnounce {
+    width: 80%;
+    margin: auto
+}
+
+.writeAnnounce h1 {
+    text-align: center;
+    font-size: 1em;
+  }
+  
+.writeAnnounce h3 {
+    font-size: 1.3vw;
+    margin: 1vw 0;
+}
+  
+.writeAnnounce textarea {
+    resize: none;
+    border-radius: 0.5em;
+    margin: 1em;
+    max-width: 95%;
+    height: 20vh;
+    border: 1px solid #ccc;
+
+    width: 80%;
+    margin: 0;
+    font-size: 1.2em;
+    padding: 1em 2em 1em 2em;
+}
+
+.writeAnnounce input {
+    margin: 0;
+}
+
+.writeAnnounce input:not([type='date']) {
+    width: 80%;
+}
+
+.writeAnnounce .UploadEnd {
+    display: flex;
+    justify-content: space-between;
+    width: 81%;
+}

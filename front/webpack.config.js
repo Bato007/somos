@@ -35,6 +35,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      favicon: './src/static/favicon.png',
       templateContent:
       `<html>
         <title>SOMOS</title>
