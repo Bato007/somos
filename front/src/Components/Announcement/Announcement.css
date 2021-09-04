@@ -64,12 +64,6 @@
   right: 0;
   bottom: 0;
   background-color: #ca2222;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2ab934;
 }
 
 .on
@@ -87,10 +81,14 @@ input:checked + .slider {
   font-family: Verdana, sans-serif;
 }
 
-input:checked+ .slider .on {
+#togBtn:checked + .slider {
+  background-color: #2ab934;
+}
+
+#togBtn:checked+ .slider .on {
     display: block;
 }
 
-input:checked + .slider .off {
+#togBtn:checked + .slider .off {
     display: none;
 }

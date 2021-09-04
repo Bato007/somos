@@ -33,7 +33,7 @@ const ManageAccount = () => {
 
           <div className="manageAccountBox">
             <h1>Contraseña</h1>
-            <Input name="password" type="text" onChange={handleManageAccount} />
+            <Input name="password" type="password" onChange={handleManageAccount} />
           </div>
 
           <div className="manageAccountBox">

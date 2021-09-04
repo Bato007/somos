@@ -12,7 +12,7 @@ import './UserMgt.css'
 
 const UserMgt = () => {
   const [userInfo, setUserInfo] = useState([])
-  const [categories, setCategories] = useState(['SOMOS'])
+  const [categories, setCategories] = useState([])
 
   const getUsersInfo = async () => {
     const data = await fetch('http://localhost:3001/admin/user', {
@@ -68,6 +68,13 @@ const UserMgt = () => {
     getUsersInfo()
   }
 
+  const getCategories = async (user) => {
+    const userCategories = await fetch(`http://localhost:3001/admin/user/${user}/categories`, {
+      method: 'GET',
+    })
+    setCategories(userCategories)
+  }
+
   useEffect(() => {
     getUsersInfo()
   }, [])
@@ -92,7 +99,7 @@ const UserMgt = () => {
                       modal
                       nested
                       trigger={
-                        <Button id="editAccount" />
+                        <Button id="editAccount" onClick={() => getCategories(value.username)} />
                       }
                       position="center center"
                     >

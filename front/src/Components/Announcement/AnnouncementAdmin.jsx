@@ -13,7 +13,7 @@ const AnnouncementAdmin = () => {
   const [actualAnnounces, setActualAnnounces] = useState([])
   const [actualStatus, setActualStatus] = useState(0)
 
-  const getAnnounces = () => {
+  const getAnnounces = async () => {
     // fetch de los anuncios
     /**
      * Obtengo cada anuncio con un id, title, description, status
@@ -26,20 +26,11 @@ const AnnouncementAdmin = () => {
      *         2 (se ha denegado el anuncio y se procede a mandar una notificacion)
      * Email: Correo del que haya escrito el anuncio
      */
-    setActualAnnounces([
-      {
-        id: 0,
-        title: 'Petición de ayuda',
-        description: 'Buenas tardes a todos, el día de hoy les quiero pedir ayuda a los integrantes para donaciones de víveres, sábanas o ropa de niños/as de 6-8 años.\nSi desean ayudar, se pueden contactar al número +502 5018-2365 o mandar un correo a ayudahogar@gmail.com\n\nGracias',
-        status: 0,
-      },
-      {
-        id: 1,
-        title: 'Jornada de voluntariado el día 06 de octubre',
-        description: '​De parte del hogar temporal tal, los invitamos a ser parte de la jornada de voluntariado de venta de útiles escolares. Donde todos los ingresos a obtener serán utilizados para comprar víveres, juguetes y sábanas.\nLa dirección en donde se llevará a cabo es: 13 ave 67-8 zona 17, Guatemala, Guatemala\nSi desean ser parte, comunicarse al +502 5936-7744\n\nTengan un buen día,\nMelanie Cruz,\nencargada general del hogar de niños',
-        status: 0,
-      },
-    ])
+    const anuncios = await fetch('http://localhost:3001/announcements', {
+      method: 'GET',
+    }).then((res) => res.json())
+
+    setActualAnnounces(anuncios)
   }
 
   useEffect(() => {
@@ -62,9 +53,12 @@ const AnnouncementAdmin = () => {
           text: '¿Estas seguro de aceptar el anuncio?',
           icon: 'success',
           buttons: ['Cancelar', 'Aceptar'],
-        }).then((res) => {
+        }).then(async (res) => {
           if (res) {
-            temporalAnnounces[i].status = 1
+            await fetch(`http://localhost:3001/announcements/accept/${result.id}`, {
+              method: 'PUT',
+            })
+            temporalAnnounces[i].published = 1
           }
         })
       }
@@ -87,8 +81,11 @@ const AnnouncementAdmin = () => {
           text: '¿Estas seguro de eliminar el anuncio? Este proceso es no revertible',
           icon: 'warning',
           buttons: ['Cancelar', 'Eliminar'],
-        }).then((res) => {
+        }).then(async (res) => {
           if (res) {
+            await fetch(`http://localhost:3001/announcements/${result.id}`, {
+              method: 'DELETE',
+            })
             temporalAnnounces.splice(i, 1)
           }
         })
@@ -109,8 +106,8 @@ const AnnouncementAdmin = () => {
   }
 
   return (
-    <div>
-      <div key={(Math.random() + 1).toString(36).substring(7)} className="Announcements">
+    <>
+      <div className="Announcements">
         <div className="AnnouncentsOptions">
           <label className="switch">
             <input type="checkbox" id="togBtn" onClick={() => showActualAnnouncements()} />
@@ -122,17 +119,17 @@ const AnnouncementAdmin = () => {
         </div>
         {actualAnnounces.map((result) => (
           <>
-            {result.status === actualStatus
+            {result.published === actualStatus
               ? (
                 <div className="announcement" key={result.id}>
-                  {result.status === 0
+                  {result.published === 0
               && (
               <div className="announcementOptions">
                 <Button id="decline" onClick={() => deleteAnnouncement(result)} />
                 <Button id="accept" onClick={() => acceptAnnouncement(result)} />
               </div>
               ) }
-                  {result.status > 0
+                  {result.published > 0
               && (
               <div className="announcementOptions">
                 <Button id="remove" onClick={() => deleteAnnouncement(result)} />
@@ -146,7 +143,7 @@ const AnnouncementAdmin = () => {
           </>
         ))}
       </div>
-    </div>
+    </>
   )
 }
 

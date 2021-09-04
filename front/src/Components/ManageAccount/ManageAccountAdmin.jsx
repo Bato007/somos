@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Button from '../Button/Button'
 import Management from '../UserManagement/UserMgt'
 import ManageAccount from './ManageAccount'
+import Request from '../Requests/Request'
 import './ManageAccount.css'
 
 const ManageAccountAdmin = () => {
@@ -16,7 +17,7 @@ const ManageAccountAdmin = () => {
       { selectedOption === 1
         ? <ManageAccount /> : ''}
       { selectedOption === 2
-        ? <Management /> : ''}
+        ? <Request /> : ''}
       { selectedOption === 3
         ? <Management /> : ''}
     </>
