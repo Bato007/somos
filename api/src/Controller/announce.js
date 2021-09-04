@@ -6,17 +6,31 @@ const { cAnnouncements } = require('../DataBase/firebase')
 const getAll = async (req, res) => {
   try {
     const tempAnnouncements = await cAnnouncements.get()
-    const announcements = tempAnnouncements.data()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
     res.status(200).json(announcements)
   } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
+    res.status(500).json({ message: 'Unexpected' })
   }
 }
 
 const getAllHelp = async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where({ type: 'help' }).get()
-    const announcements = tempAnnouncements.data()
+    const tempAnnouncements = await cAnnouncements.where('type', '==', 'help').get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -25,11 +39,16 @@ const getAllHelp = async (req, res) => {
 
 const getNonPublishedhHelp = async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where({
-      type: 'help',
-      published: 0,
-    }).get()
-    const announcements = tempAnnouncements.data()
+    const aux = cAnnouncements.where('type', '==', 'help')
+    const tempAnnouncements = await aux.where('published', '==', 0).get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -38,12 +57,16 @@ const getNonPublishedhHelp = async (req, res) => {
 
 const getPublishedhHelp = async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where({
-      type: 'help',
-      published: 1,
-    }).get()
-    const announcements = tempAnnouncements.data()
-    res.status(200).json(announcements)
+    const aux = cAnnouncements.where('type', '==', 'help')
+    const tempAnnouncements = await aux.where('published', '==', 1).get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
   }
@@ -51,8 +74,15 @@ const getPublishedhHelp = async (req, res) => {
 
 const getAllHomes = async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where({ type: 'home' }).get()
-    const announcements = tempAnnouncements.data()
+    const tempAnnouncements = await cAnnouncements.where('type', '==', 'home').get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -61,11 +91,16 @@ const getAllHomes = async (req, res) => {
 
 const getNonPublishedhHome = async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where({
-      type: 'home',
-      published: 0,
-    }).get()
-    const announcements = tempAnnouncements.data()
+    const aux = cAnnouncements.where('type', '==', 'home')
+    const tempAnnouncements = await aux.where('published', '==', 0).get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -74,11 +109,16 @@ const getNonPublishedhHome = async (req, res) => {
 
 const getPublishedhHome = async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where({
-      type: 'home',
-      published: 1,
-    }).get()
-    const announcements = tempAnnouncements.data()
+    const aux = cAnnouncements.where('type', '==', 'home')
+    const tempAnnouncements = await aux.where('published', '==', 1).get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate, fromDate } = data
+      toDate = toDate.toDate()
+      fromDate = fromDate.toDate()
+      announcements.push({ ...data, toDate, fromDate })
+    })
     res.status(200).json(announcements)
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -101,29 +141,29 @@ const postHome = async (req, res) => {
   if (result.error) {
     const { message } = result.error.details[0]
     res.status(400).json({ message })
-  }
+  } else {
+    try {
+      const {
+        contact, phone, email, title, description, date,
+      } = req.body
 
-  try {
-    const {
-      contact, phone, email, title, description, date,
-    } = req.body
-
-    const id = tokenGenerator()
-    await cAnnouncements.doc(id).set({
-      id,
-      contact,
-      phone,
-      email,
-      title,
-      description,
-      toDate: date,
-      fromDate: new Date(),
-      type: 'home',
-      published: 0,
-    })
-    res.status(200).json({ message: 'Added' })
-  } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
+      const id = tokenGenerator()
+      await cAnnouncements.doc(id).set({
+        id,
+        contact,
+        phone,
+        email,
+        title,
+        description,
+        toDate: date,
+        fromDate: new Date(),
+        type: 'home',
+        published: 0,
+      })
+      res.status(200).json({ message: 'Added' })
+    } catch (error) {
+      res.status(500).json({ message: 'Unexpected' })
+    }
   }
 }
 
@@ -164,7 +204,7 @@ const postHelp = async (req, res) => {
     })
     res.status(200).json({ message: 'Added' })
   } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
+    res.status(500).json({ message: 'Unexpected' })
   }
 }
 

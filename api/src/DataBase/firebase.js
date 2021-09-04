@@ -14,9 +14,10 @@ db.settings({ ignoreUndefinedProperties: true })
 // Obteniendo las colecciones
 const cUsers = db.collection('users')
 const cResources = db.collection('resources')
-const cAnnouncements = db.collection('annoucements')
+const cAnnouncements = db.collection('announcements')
 const cKeys = db.collection('keys')
 const cCategories = db.collection('categories')
+const cTags = db.collection('tags')
 
 module.exports = {
   admin,
@@ -26,5 +27,6 @@ module.exports = {
   cKeys,
   bucket,
   cCategories,
+  cTags,
   FieldValue,
 }
