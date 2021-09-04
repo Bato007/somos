@@ -56,3 +56,8 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
 })
+
+app.use(PORT, (req, res) => {
+  res.send({ message: 'Hola mundo' })
+})
+
