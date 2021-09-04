@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
+const lookup = require('country-code-lookup')
 
 const app = express()
 const PORT = 3001
@@ -11,6 +12,7 @@ const authenticationRouter = require('./src/Routers/authentication')
 const resourcesRouter = require('./src/Routers/resources')
 const announcementRouter = require('./src/Routers/announcement')
 const userRouter = require('./src/Routers/usermanagment')
+const utilRouter = require('./src/Routers/utils')
 
 const { authorizate } = require('./src/Middleware/authorization')
 
@@ -47,6 +49,7 @@ app.use('/authentication', authenticationRouter)
 app.use('/resources', resourcesRouter)
 app.use('/announcements', announcementRouter)
 app.use('/user', userRouter)
+app.use('/', utilRouter)
 
 // Ahora se tira error de que no encontro la ruta
 app.use((req, res) => {
@@ -56,3 +59,8 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
 })
+
+app.use(PORT, (req, res) => {
+  res.send({ message: 'Hola mundo' })
+})
+

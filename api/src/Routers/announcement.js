@@ -56,6 +56,7 @@ const router = express.Router()
  *          description: Indica el estado del anuncio = no publicado(0), publicado(1), denegado(2)
  *      example:
  *        id: DJf0pe8LvFB75iUkXAuV
+ *        country: Guatemala
  *        contact: Juan
  *        phone: 78945687
  *        email: hola@gmail.com
