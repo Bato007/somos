@@ -6,13 +6,13 @@ import Upload from './Components/Upload/Upload'
 import Create from './Components/CreateAccount/Create'
 import VResources from './Components/ViewResources/ViewResources'
 import AnnouncementAdmin from './Components/Announcement/AnnouncementAdmin'
-import Management from './Components/UserManagement/UserMgt'
 import NavBarAdmin from './Components/NavBar/NavBarAdmin'
+import ManageAccountAdmin from './Components/ManageAccount/ManageAccountAdmin'
 
 const AdminRoutes = () => (
   <>
     <NavBarAdmin />
-    <Route path="/admin/management" component={Management} />
+    <Route path="/admin/management" component={ManageAccountAdmin} />
     <Route path="/admin/announcement" component={AnnouncementAdmin} />
     <Route path="/admin/viewresources" component={VResources} />
     <Route path="/admin/createaccount" component={Create} />

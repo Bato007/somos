@@ -1,0 +1,62 @@
+#ManageAccount {
+  background-color: #A7D8D7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  padding: 5% 0%;
+}
+
+.ManageAccountContainer {
+    width: fit-content;
+    margin: auto;
+    padding: 4vw;
+    border-radius: 2vw;
+    background-color: white;
+}
+
+.ManageAccountContainer .title {
+    font-size: 2vw;
+    margin-bottom: 4vw;
+    text-align: center;
+}
+
+.ManageAccountContainer .searchbarTo {
+    margin-left: 0;
+}
+
+.ManageAccount {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.manageAccountBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.manageAccount input, h1 {
+    font-size: 1vw;
+    margin-left: 0;
+}
+
+.manageAccount h1 {
+    margin: 0;
+}
+
+.manageOptions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #A7D8D7;
+    padding: 0px 20%;
+}
+
+.ButtonOptions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5%;
+}
