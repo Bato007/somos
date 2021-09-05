@@ -31,15 +31,3 @@ Feature: Proveer servicios
     | dia | hora | minuto | hora2 | minuto2 | dia2 | resultado |
     | 20 | 19 | 25 | 20 | 25 | 20 | rechazada |
     | 20 | 19 | 25 | 20 | 25 | 25 | enviada |
-
-  Scenario Outline: Usuario provee servicios
-    Given El usuario no este en la lista negra "<email>" y <telefono>
-    When El usuario le da submit
-    Then Debe ser tratado por medio del "<estado>"
-
-  Examples:
-      | email | telefono | estado |
-      | ama19020@uvg.edu.gt  | 54136877  | restringido  |
-      |   | 25442544  | restringido  |
-      | her20369@uvg.edu.gt  |  0  | restringido  |
-      |    |  0  | irrestricto  |
