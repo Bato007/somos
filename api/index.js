@@ -39,7 +39,7 @@ const options = {
 const specs = swaggerJsDoc(options)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
 
-// app.use('/', authorizate)
+app.use('/', authorizate)
 
 // Todas las rutas validas para administrador
 app.use('/admin', adminRouter)
@@ -59,8 +59,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
 })
-
-app.use(PORT, (req, res) => {
-  res.send({ message: 'Hola mundo' })
-})
-
