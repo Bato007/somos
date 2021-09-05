@@ -68,13 +68,6 @@ const UserMgt = () => {
     getUsersInfo()
   }
 
-  const getCategories = async (user) => {
-    const userCategories = await fetch(`http://localhost:3001/admin/user/${user}/categories`, {
-      method: 'GET',
-    })
-    setCategories(userCategories)
-  }
-
   useEffect(() => {
     getUsersInfo()
   }, [])
@@ -94,12 +87,11 @@ const UserMgt = () => {
               <>
                 { userInfo.map((value, index) => (
                   <div className="usersmanaged" key={index}>
-
                     <Popup
                       modal
                       nested
                       trigger={
-                        <Button id="editAccount" onClick={() => getCategories(value.username)} />
+                        <Button id="editAccount" />
                       }
                       position="center center"
                     >

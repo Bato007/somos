@@ -37,7 +37,7 @@
     flex-direction: column;
 }
 
-.manageAccount input, .manageAccount h1 {
+.manageAccount input, .ManageAccountContainer h1 {
     font-size: 1vw;
     margin-left: 0;
 }
