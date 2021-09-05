@@ -25,9 +25,9 @@ const authorizate = async (req, res, next) => {
       if (tempKey.empty) {
         res.status(400).json({ message: 'ERROR 901' })
       } else {
-        const { expires, isSomos } = tempKey.data()
+        const { expires, isSomos } = tempKey
         // Ahora se verifica si la llave expiro
-        if (expires.toDate() <= new Date()) {
+        if (expires.toDate() < new Date()) {
           continuar = false
           res.status(401).json({ message: 'ERROR 902' })
         }
@@ -35,7 +35,7 @@ const authorizate = async (req, res, next) => {
         // Ahora se verifica si la ruta esta permitida
         if ((url.indexOf('admin') > -1) && (!isSomos)) {
           continuar = false
-          res.status(403).json({ message: 'ERROR 902' })
+          res.status(403).json({ message: 'ERROR 903' })
         }
 
         if (continuar) {
