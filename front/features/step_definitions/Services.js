@@ -5,11 +5,7 @@
 /* eslint-disable no-console */
 const { Given, When, Then } = require('@cucumber/cucumber')
 const assert = require('assert')
-const { time } = require('console')
 
-let email
-let phone
-let restricted
 let result1
 let result2
 let hour1
@@ -42,31 +38,6 @@ const checkTimeDiff = (day, hour, min) => {
   }
   result2 = 'rechazada'
 }
-
-Given('El usuario no este en la lista negra {string} y {int}', function (mail, num) {
-  email = mail
-  phone = num
-})
-
-When('El usuario le da submit', function () {
-  if (email !== '' && phone !== 0) {
-    console.log(email, 'cumple ambos')
-    restricted = 'restringido'
-  } else if (email !== '' && phone === 0) {
-    console.log(email, 'cumple email')
-    restricted = 'restringido'
-  } else if (email === '' && phone !== 0) {
-    console.log(phone, 'cumple telefono')
-    restricted = 'restringido'
-  } else {
-    console.log('No cumple')
-    restricted = 'irrestricto'
-  }
-})
-
-Then('Debe ser tratado por medio del {string}', function (validacion) {
-  assert.strictEqual(restricted, validacion)
-})
 
 Given('Se crea la cuenta de un brindador de servicios', function () {
   console.log('Creando cuenta')
