@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import './ResourcesPreview.css'
 import previewPdf from '../../static/imagesResourcesPreview/pdf.png'
@@ -19,11 +19,12 @@ import previewDefault from '../../static/imagesResourcesPreview/default.png'
  */
 const ResourcePreview = ({ availableResources }) => {
   const history = useHistory()
+  const location = useLocation()
 
   // Metodo onClick para abrir el recurso seleccionado
   const seeResource = (resourceId) => {
     // Se abriria la pantalla de ver recursos dependiendo del archivo
-    history.push({ pathname: './admin/viewResources', state: { detail: resourceId } })
+    history.push({ pathname: `${location.pathname}/viewResources`, state: { detail: resourceId } })
   }
 
   // Metodo para colocar la imagen correspondiente del recurso dependiendo la extension

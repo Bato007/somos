@@ -74,6 +74,9 @@ const Upload = () => {
 
       await fetch('http://localhost:3001/admin/resources/upload', {
         method: 'POST',
+        headers: {
+          somoskey: `${localStorage.getItem('somoskey')}`,
+        },
         body: formData,
       }).then((res) => {
         status = res.status
@@ -85,6 +88,7 @@ const Upload = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            somoskey: `${localStorage.getItem('somoskey')}`,
           },
           body: JSON.stringify({
             filename, title, description, tags, category, users, date: fecha,

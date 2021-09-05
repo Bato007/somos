@@ -13,6 +13,7 @@ const DeleteButton = ({ resourceId }) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        somoskey: `${localStorage.getItem('somoskey')}`,
       },
     })
   }
@@ -22,7 +23,7 @@ const DeleteButton = ({ resourceId }) => {
       title: 'Eliminar recurso',
       text: '¿Está seguro que desea eliminar el recurso?',
       icon: 'warning',
-      buttons: ['Cancelar', 'aAceptar'],
+      buttons: ['Cancelar', 'Aceptar'],
     }).then((res) => {
       if (res) {
         const deleteFun = delResource()

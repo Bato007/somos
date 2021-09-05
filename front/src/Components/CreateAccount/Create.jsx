@@ -60,19 +60,19 @@ const Create = () => {
 
   const checkBasic = () => {
     if (user === '') {
-      setError('No se ingreso usuario')
+      setError('No se ingresó usuario')
       return
     } if (pass === '') {
-      setError('No se ingreso contraseña')
+      setError('No se ingresó contraseña')
       return
     } if (conf === '') {
-      setError('No se ingreso confirmacion')
+      setError('No se ingresó confirmación')
       return
     } if (pass !== conf) {
       setError('Las contraseñas no coinciden')
       return
     } if (categories.length === 0) {
-      setError('No se han seleccionado categorias')
+      setError('No se han seleccionado categorías')
       return
     } if (!validarClave(pass)) {
       setError('La contraseña no cumple con las condiciones')
@@ -127,7 +127,7 @@ const Create = () => {
         {
           method: 'POST',
           body: JSON.stringify(data),
-          headers: { 'Content-type': 'application/json' },
+          headers: { 'Content-type': 'application/json', somosKey: `${localStorage.getItem('somosKey')}` },
         })
         .then((res) => {
           if (res.status === 200) {
@@ -325,6 +325,7 @@ const Create = () => {
 
   return (
     <div id="info">
+      <img src={back} alt="alo" />
       <div className="division">
         <div className="left">
           <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../home')} />

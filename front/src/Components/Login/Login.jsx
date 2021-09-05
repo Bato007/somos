@@ -32,6 +32,7 @@ const Login = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        somoskey: `${localStorage.getItem('somoskey')}`,
       },
       body: JSON.stringify({ username, password }),
     }).then((res) => {
@@ -41,9 +42,10 @@ const Login = () => {
 
     if (status === 200) {
       setError('')
-      // const { somoskey } = json
+      const { somoskey } = json
       authentication.onAuthentication()
       localStorage.setItem('username', username)
+      localStorage.setItem('somoskey', somoskey)
       if (!json.isSOMOS) {
         history.push('/client')
       } else if (json.isSOMOS) {

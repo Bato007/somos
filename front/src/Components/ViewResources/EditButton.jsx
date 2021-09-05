@@ -19,6 +19,9 @@ const EditButton = ({ resourceId }) => {
   const setResourceInfo = async () => {
     const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
       method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
     }).then((res) => res.json())
     setResInfo(json)
   }
@@ -79,6 +82,7 @@ const EditButton = ({ resourceId }) => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            somoskey: `${localStorage.getItem('somoskey')}`,
           },
           body: JSON.stringify({
             id, title: titleUpd || title, description: descUpd || description, tags, category, users, date: dateUpd || available,

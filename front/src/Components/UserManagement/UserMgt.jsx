@@ -17,6 +17,9 @@ const UserMgt = () => {
   const getUsersInfo = async () => {
     const data = await fetch('http://localhost:3001/admin/user', {
       method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
     }).then((res) => res.json()).then((res) => res)
 
     setUserInfo(data)
@@ -25,6 +28,9 @@ const UserMgt = () => {
   const deleteUser = async (username) => {
     await fetch(`http://localhost:3001/admin/user/${username}`, {
       method: 'DELETE',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
     })
 
     getUsersInfo()
@@ -37,7 +43,7 @@ const UserMgt = () => {
     await fetch('http://localhost:3001/admin/user/activate', {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
     })
     getUsersInfo()
   }
@@ -62,7 +68,7 @@ const UserMgt = () => {
     await fetch('http://localhost:3001/admin/user/desactivate', {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
     })
 
     getUsersInfo()

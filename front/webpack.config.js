@@ -20,8 +20,11 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|otf|mp4)$/i,
-        use: ['file-loader'],
+        test: /\.(jpe?g|jpg|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        loader: 'url-loader',
+        options: {
+          outputPath: 'images',
+        },
       },
     ],
   },

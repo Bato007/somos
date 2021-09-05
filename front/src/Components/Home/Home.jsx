@@ -10,6 +10,9 @@ const Home = () => {
   const setResourcesInfo = async () => {
     await fetch(`http://localhost:3001/resources/files/${username}`, {
       method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
     }).then((res) => {
       res.json().then((data) => {
         // eslint-disable-next-line no-unused-expressions

@@ -12,6 +12,9 @@ const AdminButtons = () => {
   const setResourceInfo = async () => {
     const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
       method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
     }).then((res) => res.json())
     setResInfo(json)
   }
@@ -22,6 +25,7 @@ const AdminButtons = () => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        somoskey: `${localStorage.getItem('somoskey')}`,
       },
     }).then((response) => response.text())
     setResInfo(json)

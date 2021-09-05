@@ -28,6 +28,9 @@ const AnnouncementAdmin = () => {
      */
     const anuncios = await fetch('http://localhost:3001/announcements', {
       method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
     }).then((res) => res.json())
 
     setActualAnnounces(anuncios)
@@ -57,6 +60,9 @@ const AnnouncementAdmin = () => {
           if (res) {
             await fetch(`http://localhost:3001/announcements/accept/${result.id}`, {
               method: 'PUT',
+              headers: {
+                somoskey: `${localStorage.getItem('somoskey')}`,
+              },
             })
             temporalAnnounces[i].published = 1
           }
@@ -85,6 +91,9 @@ const AnnouncementAdmin = () => {
           if (res) {
             await fetch(`http://localhost:3001/announcements/${result.id}`, {
               method: 'DELETE',
+              headers: {
+                somoskey: `${localStorage.getItem('somoskey')}`,
+              },
             })
             temporalAnnounces.splice(i, 1)
           }
