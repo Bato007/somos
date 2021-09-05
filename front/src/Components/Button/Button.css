@@ -121,3 +121,17 @@ button {
   align-self: flex-end;
   background-image: url('../../static/imagesAnnounces/write.png');
 }
+
+#Manage {
+  font-size: 1vw;
+  background-color: transparent;
+  color: black;
+  border-bottom: 4px solid #6d9c9c;
+}
+
+#ManageClicked {
+  font-size: 1vw;
+  background-color: transparent;
+  color: black;
+  border-bottom: 4px solid rgb(255, 255, 255);
+}
