@@ -184,6 +184,24 @@ const getUserCategories = async (req, res) => {
       res.status(200).json(categories)
     }
   } catch (error) {
+    res.sendStatus(500)
+  }
+}
+
+const getCategoriesPerUser = async (req, res) => {
+  try {
+    const tempUsers = await cUsers.get()
+    const users = []
+    tempUsers.forEach((user) => {
+      const { username, categories } = user.data()
+      users.push({
+        username,
+        type: categories,
+      })
+    })
+
+    res.status(200).json(users)
+  } catch (error) {
     console.log(error.message)
     res.sendStatus(500)
   }
@@ -232,6 +250,7 @@ module.exports = {
   signUp,
   getAllUsers,
   getUserCategories,
+  getCategoriesPerUser,
   desactivateUser,
   activateUser,
   deleteUser,
