@@ -15,7 +15,11 @@ const authorizate = async (req, res, next) => {
         res.status(400).json({ message: 'ERROR 900' })
       }
 
-      const tempKey = await cKeys.where('somoskey', '==', somoskey).get()
+      const keys = await cKeys.where('somoskey', '==', somoskey).get()
+      let tempKey
+      keys.forEach((key) => {
+        tempKey = key.data()
+      })
 
       // Ahora se verifica que exista la llave
       if (tempKey.empty) {
