@@ -71,9 +71,19 @@
   align-items: center;
   justify-content: flex-end;
   max-width: 400px;
-  margin: 250 auto;
+  margin: 50 auto;
   align-self: center;
   border-radius: 15px;
+}
+
+.tagsButtons{
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between
+}
+
+#edit .MuiChip-root {
+  margin: 12px 5px 0;
 }
 
 .MuiButton-label {
