@@ -325,7 +325,6 @@ const Create = () => {
 
   return (
     <div id="info">
-      <img src={back} alt="alo" />
       <div className="division">
         <div className="left">
           <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../home')} />
