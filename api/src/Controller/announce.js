@@ -191,8 +191,8 @@ const postHelp = async (req, res) => {
     .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
     .email({ tlds: {allow: false} })
     .required(),
-    title: Joi.string().min(1).required(),
-    description: Joi.string().min(1).required(),
+    title: Joi.string().min(10).required(),
+    description: Joi.string().min(10).required(),
     date: Joi.date().required(),
   })
 
