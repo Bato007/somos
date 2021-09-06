@@ -2,17 +2,22 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
+import Chip from '@material-ui/core/Chip'
 import './VResources.css'
 
 const EditButton = ({ resourceId }) => {
-  const [editInfo, setEditInfo] = useState({ title: ' ', description: ' ', available: ' ' })
+  const [editInfo, setEditInfo] = useState({
+    title: ' ', description: ' ', available: ' ', tags: ' ',
+  })
   let { title } = editInfo
   let description = editInfo.title
   let { available } = editInfo
+  let { tags } = editInfo
   const [modal, setModal] = useState(false)
   const [titleUpd, setTitleUpd] = useState('')
   const [descUpd, setDescUpd] = useState('')
   const [dateUpd, setDateUpd] = useState('')
+  const [tagUpd, setTagUpd] = useState('')
 
   const [resInfo, setResInfo] = useState({ })
   // Fetch para obtener la informacion del recurso seleccionado
@@ -56,7 +61,7 @@ const EditButton = ({ resourceId }) => {
   const actualDate = dateF()
 
   const EditSource = async () => {
-    if (title !== '' || description !== '' || available !== '') {
+    if (title !== '' || description !== '' || available !== '' || tags !== '') {
       if (editInfo.title === '') {
         title = titleUpd
       }
@@ -72,10 +77,16 @@ const EditButton = ({ resourceId }) => {
       if (editInfo.available !== '') {
         available = resInfo.available
       }
+      if (editInfo.tags === '') {
+        tags = tagUpd
+      }
+      if (editInfo.tags !== '') {
+        tags = resInfo.tags
+      }
       if (editInfo.title !== '') {
         title = resInfo.title
         const id = resourceId
-        const { tags } = resInfo
+        // const { tags } = resInfo
         const category = resInfo.categories
         const { users } = resInfo
         await fetch(`http://localhost:3001/resources/${resourceId}`, {
@@ -85,7 +96,7 @@ const EditButton = ({ resourceId }) => {
             somoskey: `${localStorage.getItem('somoskey')}`,
           },
           body: JSON.stringify({
-            id, title: titleUpd || title, description: descUpd || description, tags, category, users, date: dateUpd || available,
+            id, title: titleUpd || title, description: descUpd || description, tags: tagUpd || tags, category, users, date: dateUpd || available,
           }),
         }).then((response) => response.json())
       }
@@ -103,12 +114,22 @@ const EditButton = ({ resourceId }) => {
   const handleDateChange = () => {
     setDateUpd(document.getElementById('dateModify').value)
   }
+
+  const handleTagChange = () => {
+    setTagUpd(document.getElementById('tagModify').value)
+  }
+  const handleDelete = (chipToDelete) => () => {
+    setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
+  }
+
   const body = (
     <div id="edit">
       <div className=" makeStyles-modal makeStyles-modal-1">
         <h2>Edición del recurso</h2>
         <TextField id="titleChangeVR" label={resInfo.title} onChange={() => handleTitleChange()} />
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
+        <TextField id="tagModify" label={resInfo.tags} onChange={() => handleTagChange()} />
+        <Chip label={resInfo.tags} onDelete={handleDelete(resInfo)} />
         <TextField id="dateModify" type="date" label={resInfo.available} min={actualDate} onChange={() => handleDateChange()} />
         <div className="buttonsEdit">
           <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>cancel</button>

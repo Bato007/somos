@@ -2,8 +2,9 @@
   background-color: #A7D8D7;
   display: flex;
   flex-direction: column;
+  height: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0 0 3em 0;
   min-width: 100vw;
 }
@@ -11,14 +12,13 @@
 #vresources {
   display: flex;
   flex-direction: column;
-  width: 850px;
   justify-content: center;
   background-color: white;
   border-radius: 0.5em;
-  margin-top: 3em;
-  padding: 15px;
-  padding-left: 170px;
-  padding-right: 170px;
+  margin: 3em 50px;
+  padding: 15px 6px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 #editResource{
