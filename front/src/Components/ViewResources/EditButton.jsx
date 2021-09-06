@@ -118,9 +118,10 @@ const EditButton = ({ resourceId }) => {
   const handleTagChange = () => {
     setTagUpd(document.getElementById('tagModify').value)
   }
-  const handleDelete = (chipToDelete) => () => {
-    setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
-  }
+  // Necesito ver si esta funcion funciona como debe
+  // const handleDelete = (chipToDelete) => () => {
+  //   setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
+  // }
 
   const body = (
     <div id="edit">
@@ -129,7 +130,11 @@ const EditButton = ({ resourceId }) => {
         <TextField id="titleChangeVR" label={resInfo.title} onChange={() => handleTitleChange()} />
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
         <TextField id="tagModify" label={resInfo.tags} onChange={() => handleTagChange()} />
-        <Chip label={resInfo.tags} onDelete={handleDelete(resInfo)} />
+        {resInfo.tags !== undefined
+          // eslint-disable-next-line react/no-array-index-key
+          ? resInfo.tags.map((tag) => <Chip label={tag} />)
+          : null}
+        {/* <Chip label={resInfo.tags} onDelete={handleDelete(resInfo)} /> */}
         <TextField id="dateModify" type="date" label={resInfo.available} min={actualDate} onChange={() => handleDateChange()} />
         <div className="buttonsEdit">
           <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>cancel</button>
