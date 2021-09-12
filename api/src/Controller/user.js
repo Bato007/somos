@@ -207,6 +207,37 @@ const getCategoriesPerUser = async (req, res) => {
   }
 }
 
+const updateInformation = async (req, res) => {
+  const schema = Joi.object({
+    username: Joi.string().required(),
+    email: Joi.email().required(),
+    password: Joi.string().min(8).required(),
+    confirm: Joi.string().required().valid(Joi.ref('password')),
+    phone: Joi.number().required(),
+    residence: Joi.string().required(),
+    categories: Joi.array().min(1).required(),
+  })
+
+  // Validar informacion
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.status(400).json({ username: 'ERROR', name: message })
+  } else {
+    try {
+      const {
+        username, password, confirm, email, phone, residence, categories,
+      } = req.body
+
+      // Se verifica que la llave coincida
+      const temp = await cKeys.doc(username).get()
+      // Se realiza el update de todo
+    } catch (error) {
+      res.sendStatus(500)
+    }
+  }
+}
+
 const desactivateUser = async (req, res) => {
   const { username } = req.body
   try {

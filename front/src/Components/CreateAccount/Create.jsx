@@ -127,7 +127,7 @@ const Create = () => {
         {
           method: 'POST',
           body: JSON.stringify(data),
-          headers: { 'Content-type': 'application/json', somosKey: `${localStorage.getItem('somosKey')}` },
+          headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
         })
         .then((res) => {
           if (res.status === 200) {

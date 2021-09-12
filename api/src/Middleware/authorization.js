@@ -17,14 +17,15 @@ const authorizate = async (req, res, next) => {
 
       const keys = await cKeys.where('somoskey', '==', somoskey).get()
       let tempKey
-      keys.forEach((key) => {
-        tempKey = key.data()
-      })
 
       // Ahora se verifica que exista la llave
-      if (tempKey.empty) {
+      if (keys.empty) {
         res.status(400).json({ message: 'ERROR 901' })
       } else {
+        keys.forEach((key) => {
+          tempKey = key.data()
+        })
+
         const { expires, isSomos } = tempKey
         // Ahora se verifica si la llave expiro
         if (expires.toDate() < new Date()) {

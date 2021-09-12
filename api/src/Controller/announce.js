@@ -131,16 +131,16 @@ const postHome = async (req, res) => {
   const schema = Joi.object({
     contact: Joi.string().min(1).required(),
     phone: customJoi.string()
-    .phoneNumber({
-      defaultCountry: 'GT',
-      format: 'national',
-      strict: false //Bajo visor
-    })
-    .required(),
-    email: Joi.string() 
-    .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
-    .email({ tlds: {allow: false} })
-    .required(),
+      .phoneNumber({
+        defaultCountry: 'GT',
+        format: 'national',
+        strict: false, // Bajo visor
+      })
+      .required(),
+    email: Joi.string()
+      .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
+      .email({ tlds: { allow: false } })
+      .required(),
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
     date: Joi.date().required(),
@@ -181,16 +181,16 @@ const postHelp = async (req, res) => {
   const schema = Joi.object({
     contact: Joi.string().min(1).required(),
     phone: customJoi.string()
-    .phoneNumber({
-      defaultCountry: 'GT',
-      format: 'national',
-      strict: false //Bajo visor
-    })
-    .required(),
-    email: Joi.string() 
-    .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
-    .email({ tlds: {allow: false} })
-    .required(),
+      .phoneNumber({
+        defaultCountry: 'GT',
+        format: 'national',
+        strict: false, // Bajo visor
+      })
+      .required(),
+    email: Joi.string()
+      .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
+      .email({ tlds: { allow: false } })
+      .required(),
     title: Joi.string().min(10).required(),
     description: Joi.string().min(10).required(),
     date: Joi.date().required(),

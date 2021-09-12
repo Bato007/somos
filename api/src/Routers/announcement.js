@@ -3,7 +3,7 @@ const express = require('express')
 // Logica
 const {
   getAll, getAllHelp, getNonPublishedhHelp, getPublishedhHelp,
-  getAllHomes, getNonPublishedhHome, getPublishedhHome
+  getAllHomes, getNonPublishedhHome, getPublishedhHome,
 } = require('../Controller/announce')
 
 const router = express.Router()
