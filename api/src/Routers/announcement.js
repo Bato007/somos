@@ -37,7 +37,7 @@ const router = express.Router()
  *          type: string
  *          description: Es la persona a quien se contactan
  *        phone:
- *          type: integer
+ *          type: string
  *          description: El numero de celular de la persona
  *        email:
  *          type: string

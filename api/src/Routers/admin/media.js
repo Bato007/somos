@@ -21,7 +21,7 @@ const option = multer.diskStorage({
 const upload = multer({ storage: option })
 
 router.post('/upload', upload.single('resource'), (req, res) => {
-  res.sendStatus(200)
+  res.status(200).json()
 })
 
 /**

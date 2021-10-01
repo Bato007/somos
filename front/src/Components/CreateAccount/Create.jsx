@@ -127,7 +127,7 @@ const Create = () => {
         {
           method: 'POST',
           body: JSON.stringify(data),
-          headers: { 'Content-type': 'application/json', somosKey: `${localStorage.getItem('somosKey')}` },
+          headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
         })
         .then((res) => {
           if (res.status === 200) {
@@ -325,7 +325,6 @@ const Create = () => {
 
   return (
     <div id="info">
-      <img src={back} alt="alo" />
       <div className="division">
         <div className="left">
           <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../home')} />
