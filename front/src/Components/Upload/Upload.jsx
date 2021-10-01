@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
+import swal from 'sweetalert'
 import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
@@ -30,6 +32,7 @@ const Upload = () => {
   const [resourceInfo, setResourceInfo] = useState({
     CargarArchivo: 'Cargar Archivo', file: '', title: '', date: '', description: '', similarTo: [],
   })
+  const history = useHistory()
   // Leyendo el valor actual del file
   const handleSelectedFile = (event) => {
     if (event.target.value === '') {
@@ -67,7 +70,13 @@ const Upload = () => {
     const filename = upload.name
     let status
 
-    if (upload === 'Cargar Archivo' || title === '' || description === '' || fecha === '' || (category.length === 0 && users.length === 0)) {
+    if (upload === 'Cargar Archivo' || !upload) {
+      swal({
+        title: 'Oops! Hace falta carga el archivo',
+        icon: 'warning',
+        buttons: ['Cancelar'],
+      })
+    } else if (title === '' || description === '' || fecha === '' || (category.length === 0 && users.length === 0)) {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
@@ -80,8 +89,9 @@ const Upload = () => {
         body: formData,
       }).then((res) => {
         status = res.status
-        return res.json()
       })
+
+      console.log('el status es', status)
 
       if (status === 200) {
         await fetch('http://localhost:3001/admin/resources', {
@@ -93,7 +103,20 @@ const Upload = () => {
           body: JSON.stringify({
             filename, title, description, tags, category, users, date: fecha,
           }),
-        }).then((res) => res.json())
+        }).then((res) => {
+          res.json()
+          swal({
+            title: 'Tu archivo se ha cargado con éxito',
+            icon: 'success',
+          }).then(() => {
+            history.goBack()
+          })
+        })
+      } else {
+        swal({
+          title: 'Tu archivo no se ha podido subir',
+          icon: 'error',
+        })
       }
     }
   }

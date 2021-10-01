@@ -42,6 +42,7 @@ module.exports = {
       templateContent:
       `<html>
         <title>SOMOS</title>
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
         <body>
           <div id="root"></div>
         </body>
