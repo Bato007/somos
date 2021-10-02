@@ -28,7 +28,7 @@ const Login = () => {
     const { password } = account
     let status
 
-    const json = await fetch('http://localhost:3001/authentication/signin', {
+    const json = await fetch('http://localhost:3001/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

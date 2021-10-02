@@ -1,10 +1,7 @@
 const express = require('express')
+const Joi = require('joi')
 
-const {
-  getCategories,
-  getCategoriesNames,
-  createCategories,
-} = require('../../Controller/category')
+const { cCategories } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
@@ -50,7 +47,18 @@ const router = express.Router()
  *      500:
  *        description: Hubo un error del server
  */
-router.get('/names', async (req, res) => getCategories(req, res))
+router.get('/', async (req, res) => {
+  try {
+    const categories = await cCategories.get()
+    const aux = []
+    categories.forEach((category) => {
+      aux.push(category.data())
+    })
+    res.status(200).json(aux)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
 
 /**
  * @swagger
@@ -82,6 +90,36 @@ router.get('/names', async (req, res) => getCategories(req, res))
  *      500:
  *        description: Hubo un error del server
  */
-router.post('/', async (req, res) => createCategories(req, res))
+router.post('/', async (req, res) => {
+  const schema = Joi.object({
+    categories: Joi.array().min(1).required(),
+  })
+
+  // Validar informacino
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.status(400).json({ message })
+  } else {
+    try {
+      const { categories } = req.body
+      // Para cada categoria se agrega el usuario
+      const users = []
+      categories.forEach(async (category) => {
+        // Se verifica que no esta en firebase
+        const tempCategory = await cCategories.doc(category).get()
+        if (!tempCategory.exists) {
+          cCategories.doc(category).set({
+            category,
+            users,
+          })
+        }
+      })
+      res.sendStatus(200)
+    } catch (error) {
+      res.sendStatus(500)
+    }
+  }
+})
 
 module.exports = router

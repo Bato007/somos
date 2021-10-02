@@ -1,13 +1,7 @@
 const express = require('express')
 
-const {
-  getCategoriesNames,
-} = require('../Controller/category')
-
-const {
-  getTags,
-  getTagsName,
-} = require('../Controller/tags')
+const { cCategories } = require('../DataBase/firebase')
+const { cTags } = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -33,7 +27,18 @@ const router = express.Router()
  *      500:
  *        description: Hubo un error del server
  */
-router.get('/categories/name', async (req, res) => getCategoriesNames(req, res))
+router.get('/categories/name', async (req, res) => {
+  try {
+    const categories = await cCategories.get()
+    const aux = []
+    categories.forEach((category) => {
+      aux.push(category.id)
+    })
+    res.status(200).json(aux)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
 
 /**
  * @swagger
@@ -50,7 +55,18 @@ router.get('/categories/name', async (req, res) => getCategoriesNames(req, res))
  *      500:
  *        description: Hubo un error del server
  */
-router.get('/tags/name', async (req, res) => getTagsName(req, res))
+router.get('/tags/name', async (req, res) => {
+  try {
+    const tags = await cTags.get()
+    const aux = []
+    tags.forEach((tag) => {
+      aux.push(tag.id)
+    })
+    res.status(200).json(aux)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
 
 /**
  * @swagger
@@ -67,6 +83,17 @@ router.get('/tags/name', async (req, res) => getTagsName(req, res))
  *      500:
  *        description: Hubo un error del server
  */
-router.get('/tags', async (req, res) => getTags(req, res))
+router.get('/tags', async (req, res) => {
+  try {
+    const tags = await cTags.get()
+    const aux = []
+    tags.forEach((tag) => {
+      aux.push(tag.data())
+    })
+    res.status(200).json(aux)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
 
 module.exports = router

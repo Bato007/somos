@@ -1,8 +1,7 @@
 const express = require('express')
+const Joi = require('joi')
 
-const {
-  createTags,
-} = require('../../Controller/tags')
+const { cTags } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
@@ -54,6 +53,36 @@ const router = express.Router()
  *      500:
  *        description: Hubo un error del server
  */
-router.post('/', async (req, res) => createTags(req, res))
+router.post('/', async (req, res) => {
+  const schema = Joi.object({
+    tags: Joi.array().min(1).required(),
+  })
+
+  // Validar informacino
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.status(400).json({ message })
+  } else {
+    try {
+      const { tags } = req.body
+      // Para cada categoria se agrega el usuario
+      const resources = []
+      tags.forEach(async (tag) => {
+        // Se verifica que no esta en firebase
+        const tempCategory = await cTags.doc(tag).get()
+        if (!tempCategory.exists) {
+          cTags.doc(tag).set({
+            tag,
+            resources,
+          })
+        }
+      })
+      res.sendStatus(200)
+    } catch (error) {
+      res.sendStatus(500)
+    }
+  }
+})
 
 module.exports = router
