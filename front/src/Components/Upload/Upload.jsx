@@ -74,7 +74,6 @@ const Upload = () => {
       swal({
         title: 'Oops! Hace falta carga el archivo',
         icon: 'warning',
-        buttons: ['Cancelar'],
       })
     } else if (title === '' || description === '' || fecha === '' || (category.length === 0 && users.length === 0)) {
       setError('Por favor, llena todos los campos')
@@ -90,8 +89,6 @@ const Upload = () => {
       }).then((res) => {
         status = res.status
       })
-
-      console.log('el status es', status)
 
       if (status === 200) {
         await fetch('http://localhost:3001/admin/resources', {
@@ -124,20 +121,37 @@ const Upload = () => {
   return (
     <div className="Upload">
       <div id="Upload">
-        <h1>Subir recurso</h1>
+        <h1>
+          Subir recurso
+        </h1>
         <div className="ChooseFile">
           {resourceInfo.CargarArchivo}
           <Input className="InputFile" name="CargarArchivo" type="file" onChange={handleSelectedFile} />
         </div>
-        <h3>Título</h3>
+        <h3>
+          <span className="obligatory">* </span>
+          Título
+        </h3>
         <Input className="titleInput" type="text" name="title" placeholder="Nombre del archivo" onChange={handleChange} />
-        <h3>Para</h3>
+        <h3>
+          <span className="obligatory">* </span>
+          Para
+        </h3>
         <SearchBarTo setAccounts={setAccountUsernames} setCategories={setCategories} />
-        <h3>Descripción del archivo</h3>
+        <h3>
+          <span className="obligatory">* </span>
+          Descripción del archivo
+        </h3>
         <textarea name="description" onChange={handleChange} />
-        <h3>Similar a</h3>
+        <h3>
+          <span className="obligatory">* </span>
+          Similar a
+        </h3>
         <SearchBarTo showSimilarTo setSimilarTo={setSimilarTo} />
-        <h3>Disponible hasta</h3>
+        <h3>
+          <span className="obligatory">* </span>
+          Disponible hasta
+        </h3>
         <div className="UploadEnd">
           <Input className="titleInput" type="date" min={actualDate} name="date" placeholder="Fecha de vigencia" onChange={handleChange} />
           <Button name="Subir" id="UploadButton" onClick={submitResource} />
