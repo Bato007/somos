@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import ErrorScreen from '../Error/ErrorScreen'
 import Searchbar from '../Searchbar/Searchbar'
 import './Home.css'
 
 const Home = () => {
   const [availableResources, setAvailableResources] = useState()
+  const [loading, setLoading] = useState(true)
   const username = localStorage.getItem('username')
 
   // Fetch para obtener la informacion de los recursos [{id: '', title: '', resource: file}, ...]
@@ -17,6 +19,7 @@ const Home = () => {
       res.json().then((data) => {
         // eslint-disable-next-line no-unused-expressions
         data.message ? setAvailableResources([data]) : setAvailableResources(data)
+        setLoading(false)
       })
     })
   }
@@ -27,9 +30,23 @@ const Home = () => {
   }, [])
 
   return (
-    <div>
-      { availableResources ? <Searchbar availableResources={availableResources} /> : '' }
-    </div>
+    <>
+      {
+      loading
+        ? (
+          <div className="loadingScreen">
+            <div className="loader" />
+          </div>
+        )
+        : (
+          <div>
+            { availableResources.length > 0
+              ? <Searchbar availableResources={availableResources} />
+              : <ErrorScreen /> }
+          </div>
+        )
+    }
+    </>
   )
 }
 export default Home

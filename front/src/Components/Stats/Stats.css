@@ -1,0 +1,77 @@
+.statsPage {
+  background-color: #A7D8D7;
+  min-height: 100%;
+  padding: 30px 20px;
+}
+
+.statsSquare {
+  background-color: white;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.statsTitle {
+  text-align: center;
+  font-size: 20px;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.manageOptions {
+  display: flex;
+  background-color: white;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+#ManageClicked {
+  font-size: 3vw;
+  border-bottom: 2px solid black;
+}
+
+#Manage {
+  font-size: 3vw;
+  border-bottom: 2px solid lightgray;
+}
+
+.statsContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statsGraph {
+  margin-bottom: 30px;
+}
+
+.statsTable {
+
+}
+
+@media (min-width: 1024px) {
+  .statsPage {
+    padding: 70px 80px;
+  }
+
+  .statsTitle {
+    font-size: 32px;
+    padding: 24px 0;
+  }
+
+  #ManageClicked {
+    font-size: 2vw;
+  }
+  
+  #Manage {
+    font-size: 2vw;
+  }
+
+  .statsContainer {
+    padding: 30px 40px;
+  }
+
+  .statsGraph {
+    margin-bottom: 50px;
+  }
+}

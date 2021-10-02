@@ -44,17 +44,30 @@ const List = ({
   let iteration = 0
 
   // Funcion llamada para obtener la informacion de la base
-  const getMembers = () => {
+  const getMembers = async () => {
     // Aqui iria el fetch para obtener los miembros inscritos
     // Es un diccionario miembro: tipo
+    // const members = await fetch('http://localhost:3001/admin/categories', {
+    //   method: 'GET',
+    //   headers: {
+    //     somoskey: `${localStorage.getItem('somoskey')}`,
+    //   },
+    // }).then((res) => res.json())
+    // setMembers(members)
     setMembers([{ username: 'bato', type: ['church', 'somos'] }, { username: 'andrea', type: ['mentor', 'somos'] }])
   }
 
   // Funcion llamada para obtener la informacion de la base
-  const getSimilarToTags = () => {
+  const getSimilarToTags = async () => {
     // Aqui iria el fetch para obtener las tags guardadas
     // Se recibe una lista con todas las tags
-    setTagsSimilarTo(['ppt', 'capacitación', 'voluntariado', 'ayuda a familias'])
+    const tags = await fetch('http://localhost:3001/tags/name', {
+      method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
+    }).then((res) => res.json())
+    setTagsSimilarTo(tags)
   }
 
   // Funcion para guardar el elemento anterior al mostrado actualmente
@@ -180,7 +193,7 @@ const List = ({
     } else {
       getMembers() // Obtenemos miembros y sus categorias
     }
-  }, [])
+  })
 
   useEffect(() => {
     document.addEventListener('click', async (event) => {
