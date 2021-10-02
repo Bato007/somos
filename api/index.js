@@ -39,7 +39,7 @@ const options = {
 const specs = swaggerJsDoc(options)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
 
-app.use('/', authorizate)
+//app.use('/', authorizate)
 
 // Todas las rutas validas para administrador
 app.use('/admin', adminRouter)

@@ -15,22 +15,14 @@ const Announcement = () => {
   const [writingAnnouncement, setWritingAnnouncement] = useState(true)
   const [completeAnnounce, setCompleteAnnounce] = useState({ title: '', description: '' })
 
-  const getAnnounces = () => {
-    // fetch de los anuncios aceptados -> Status 1
-    setActualAnnounces([
-      {
-        id: 0,
-        title: 'Petición de ayuda',
-        description: 'Buenas tardes a todos, el día de hoy les quiero pedir ayuda a los integrantes para donaciones de víveres, sábanas o ropa de niños/as de 6-8 años.\nSi desean ayudar, se pueden contactar al número +502 5018-2365 o mandar un correo a ayudahogar@gmail.com\n\nGracias',
-        status: 1,
+  const getAnnounces = async () => {
+    const data = await fetch('http://localhost:3001/announcements', {
+      method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
       },
-      {
-        id: 1,
-        title: 'Jornada de voluntariado el día 06 de octubre',
-        description: '​De parte del hogar temporal tal, los invitamos a ser parte de la jornada de voluntariado de venta de útiles escolares. Donde todos los ingresos a obtener serán utilizados para comprar víveres, juguetes y sábanas.\nLa dirección en donde se llevará a cabo es: 13 ave 67-8 zona 17, Guatemala, Guatemala\nSi desean ser parte, comunicarse al +502 5936-7744\n\nTengan un buen día,\nMelanie Cruz,\nencargada general del hogar de niños',
-        status: 1,
-      },
-    ])
+    }).then((res) => res.json()).then((res) => res)
+    setActualAnnounces(data)
   }
 
   const showAnnouncement = (result) => {
