@@ -6,6 +6,7 @@ import DeleteButton from './DeleteButton'
 import Previous from '../../static/imagesViewResources/previous.png'
 import './VResources.css'
 import EditButton from './EditButton'
+import apiURL from '../fetch'
 
 const VResources = () => {
   const location = useLocation()
@@ -14,7 +15,7 @@ const VResources = () => {
 
   // Fetch para obtener la informacion del recurso seleccionado
   const setResourceInfo = async () => {
-    const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
+    const json = await fetch(`${apiURL}/resources/${resourceId}`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,

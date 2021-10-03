@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ErrorScreen from '../Error/ErrorScreen'
 import Searchbar from '../Searchbar/Searchbar'
+import apiURL from '../fetch'
 import './Home.css'
 
 const Home = () => {
@@ -10,7 +11,7 @@ const Home = () => {
 
   // Fetch para obtener la informacion de los recursos [{id: '', title: '', resource: file}, ...]
   const setResourcesInfo = async () => {
-    await fetch(`http://localhost:3001/resources/files/${username}`, {
+    await fetch(`${apiURL}/resources/files/${username}`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,

@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
       } = req.body
 
       // Guardando la imagen en firebase
-      const filenaPath = `./upload/${filename}`
+      const filenaPath = `./functions/upload/${filename}`
       const token = tokenGenerator()
       await bucket.upload(filenaPath,
         {
@@ -101,7 +101,7 @@ router.post('/', async (req, res) => {
       res.end()
     } catch (error) {
       res.statusCode = 500
-      res.json({ message: 'Unexpected' })
+      res.json({ message: error.message })
     }
   }
 })

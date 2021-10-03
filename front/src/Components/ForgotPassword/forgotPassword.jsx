@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import apiURL from '../fetch'
 import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
   const existingAccounts = async () => {
     const { email } = account
     let status
-    const json = await fetch('http://localhost:3001/login', {
+    const json = await fetch(`${apiURL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,9 +39,7 @@ const ForgotPassword = () => {
       localStorage.setItem('email', email)
       localStorage.setItem('somoskey', somoskey)
       if (!json.isSOMOS) {
-        history.push('/client')
-      } else if (json.isSOMOS) {
-        history.push('/admin')
+        history.push('/forgotPassword/token')
       }
     } else if (json.username === 'ERROR 101') {
       setError('Correo electrónico incorrecto')
@@ -57,7 +56,7 @@ const ForgotPassword = () => {
         <Input name="email" type="text" placeholder="Correo electrónico" onChange={handleChange} onEnter={existingAccounts} />
         <div className="buttonsFp">
           <Button id="returnToSignIn" name="Cancel" onClick={() => history.replace('/')} />
-          <Button id="SignIn" name="Continue" onClick={existingAccounts} />
+          <Button id="SignIn" name="Continue" onClick={() => history.push('/forgotPassword/token')} />
         </div>
         <Error error={error} />
       </div>
