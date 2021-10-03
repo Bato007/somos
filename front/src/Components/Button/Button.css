@@ -16,6 +16,20 @@ button {
   margin: 1em;
 }
 
+#returnToSignIn {
+  display: inline-block;
+  border-radius: 3em;
+  width: fit-content;
+  font-size: 1em;
+  background-color: #cfcccc;
+  color: black;
+  margin: 1em;
+}
+
+#returnToSignIn:hover {
+  background-color: #b6b6b6;
+}
+
 #Create {
   display: inline-block;
   border-radius: 3em;
