@@ -38,9 +38,7 @@ const ForgotPassword = () => {
       localStorage.setItem('email', email)
       localStorage.setItem('somoskey', somoskey)
       if (!json.isSOMOS) {
-        history.push('/client')
-      } else if (json.isSOMOS) {
-        history.push('/admin')
+        history.push('/forgotPassword/token')
       }
     } else if (json.username === 'ERROR 101') {
       setError('Correo electrónico incorrecto')
