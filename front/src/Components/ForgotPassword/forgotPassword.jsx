@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import apiURL from '../fetch'
 import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
   const existingAccounts = async () => {
     const { email } = account
     let status
-    const json = await fetch('http://localhost:3001/login', {
+    const json = await fetch(`${apiURL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

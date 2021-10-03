@@ -2,6 +2,7 @@
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
 import swal from 'sweetalert'
+import apiURL from '../fetch'
 import Button from '../Button/Button'
 import './Announcement.css'
 
@@ -26,7 +27,7 @@ const AnnouncementAdmin = () => {
      *         2 (se ha denegado el anuncio y se procede a mandar una notificacion)
      * Email: Correo del que haya escrito el anuncio
      */
-    const anuncios = await fetch('http://localhost:3001/announcements', {
+    const anuncios = await fetch(`${apiURL}/announcements`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
@@ -58,7 +59,7 @@ const AnnouncementAdmin = () => {
           buttons: ['Cancelar', 'Aceptar'],
         }).then(async (res) => {
           if (res) {
-            await fetch(`http://localhost:3001/announcements/accept/${result.id}`, {
+            await fetch(`${apiURL}/announcements/accept/${result.id}`, {
               method: 'PUT',
               headers: {
                 somoskey: `${localStorage.getItem('somoskey')}`,
@@ -89,7 +90,7 @@ const AnnouncementAdmin = () => {
           buttons: ['Cancelar', 'Eliminar'],
         }).then(async (res) => {
           if (res) {
-            await fetch(`http://localhost:3001/announcements/${result.id}`, {
+            await fetch(`${apiURL}/announcements/${result.id}`, {
               method: 'DELETE',
               headers: {
                 somoskey: `${localStorage.getItem('somoskey')}`,

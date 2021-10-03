@@ -6,6 +6,7 @@ import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import Somos from '../../static/imagesLogin/logo.png'
+import apiURL from '../fetch'
 import './Login.css'
 
 /* Form para ingresar a los recursos */
@@ -28,7 +29,7 @@ const Login = () => {
     const { password } = account
     let status
 
-    const json = await fetch('http://localhost:3001/login', {
+    const json = await fetch(`${apiURL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
