@@ -1,5 +1,5 @@
 const express = require('express')
-const { cResources, cViews, cUsers } = require('../../DataBase/firebase')
+const { cViews, cUsers } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
@@ -38,21 +38,26 @@ router.get('/', async (req, res) => {
 
  router.get('/countries', async (req, res) => {
     try{
-
-        /**const tempViews = await cViews.get()
-         * const tempUsers = await cUsers.get()
-         *
-         * const views = []
-         * tempViews.forEach((viewID)=>{
-         *  const viewData = viewID.data()
-         *  let { resource } = viewData
-         *  
-         *  
-         *  
-         * })
-         */
+        const tempViews = await cViews.get()
+        const views = []
         const countries = []
-        res.status(200).json(countries)
+        tempViews.forEach((viewID) =>{
+            let username = viewID.user
+            const aux = cUsers.where('type', '==', username).get()
+            aux.forEach((userID) =>{
+                if (!countries.includes(userID.residence)) {
+                    countries.push(userID.residence)
+                    views.push({
+                    country: userID.residence,
+                    views: 1
+                    })
+                } else {
+                    objIndex = views.findIndex((obj => obj.country == userID.residence))
+                    views[objIndex].views += 1
+                }
+            })
+        })
+        res.status(200).json(views)
     } catch (error) {
         res.status(400).json({ message: 'Unexpected' })
     }
