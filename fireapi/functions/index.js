@@ -1,12 +1,11 @@
+const functions = require('firebase-functions')
 const express = require('express')
 const cors = require('cors')
-const swaggerUI = require('swagger-ui-express')
-const swaggerJsDoc = require('swagger-jsdoc')
-const lookup = require('country-code-lookup')
 
-const app = express()
-const PORT = 3001
+// Local imports
+const { serve, setup } = require('./swagger.config')
 
+// Router Imports
 const publicRouter = require('./src/Routers/publicRouter')
 
 // Usuarios de SOMOS
@@ -25,35 +24,23 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
 
+const app = express()
+const PORT = 3001
+
 app.use(cors())
 app.use(express.json())
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'SOMOS API',
-      version: '1.0.0',
-      description: 'Documentacion del api',
-    },
-    servers: [
-      {
-        url: `http://localhost:${PORT}`,
-      },
-    ],
-  },
-  apis: ['./src/Routers/*.js', './src/Routers/admin/*.js'],
-}
-
-const specs = swaggerJsDoc(options)
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
+app.get('/', (req, res) => {
+  res.statusCode = 200
+  res.json({ message: 'Develop' })
+})
 
 // Routers Sin autenticacion
 app.use('/', publicRouter)
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
+app.use('/docs', serve, setup)
 
 // Routers Protegidos a los usuarios
-// app.use('/', authorizate)
+app.use('/', authorizate)
 app.use('/user', userRouter)
 app.use('/resources', resourcesRouter)
 app.use('/announcements', advertRouter)
@@ -70,11 +57,4 @@ app.use((req, res) => {
   res.status(404).json({ message: 'NOT FOUND' })
 })
 
-// Ahora se tira error de que no encontro la ruta
-app.use((req, res) => {
-  res.status(404).json({ message: 'NOT FOUND' })
-})
-
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
-})
+exports.api = functions.https.onRequest(app)
