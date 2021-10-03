@@ -1,41 +1,9 @@
 const express = require('express')
-const multer = require('multer')
 const Joi = require('joi')
-const tokenGenerator = require('uuid-v4')
-const fs = require('fs')
 
 const { cResources, bucket } = require('../../DataBase/firebase')
 
 const router = express.Router()
-
-// Multer
-const option = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './upload/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  },
-})
-const upload = multer({ storage: option })
-
-/**
- * Sube un recurso al bucket, se le manda el
- * con el siguiente formato:
- * {
- *  title: 'ejemplo',
- *  description: 'ejemplo',
- *  tags: ['tag1', 'tag2', 'tag3', ..., 'tagn'],
- *  category: ['categoria1', 'categoria2', ..., 'categorian'],
- *  users: ['user1', 'user2', ..., 'user3'],
- *  date: '2021-01-01',
- *  file: { }
- * }
- */
-router.post('/upload', upload.single('resource'), (req, res) => {
-  res.statusCode = 200
-  res.end()
-})
 
 router.post('/', async (req, res) => {
   const schema = Joi.object({
@@ -60,17 +28,10 @@ router.post('/', async (req, res) => {
     // Luego de validar todos los datos se pasa al try
     try {
       const {
-        title, description, tags, category, users, date, filename,
+        title, description, tags, category, users, date, filename, token,
       } = req.body
 
       // Guardando la imagen en firebase
-      const filenaPath = `./functions/upload/${filename}`
-      const token = tokenGenerator()
-      await bucket.upload(filenaPath,
-        {
-          metadata: { metadata: { firebaseStorageDownloadTokens: token } },
-          public: true,
-        })
       const uploaded = bucket.file(filename)
       const url = await uploaded.getSignedUrl({
         action: 'read',
@@ -92,12 +53,7 @@ router.post('/', async (req, res) => {
         url,
       })
 
-      try {
-        fs.unlinkSync(filenaPath)
-        res.statusCode = 200
-      } catch (err) {
-        res.statusCode = 500
-      }
+      res.statusCode = 200
       res.end()
     } catch (error) {
       res.statusCode = 500
