@@ -57,9 +57,8 @@ router.get('/files/:username', async (req, res) => {
         // Obtenemos la data por usuario
         let added = false
         const data = resource.data()
-        const limit = new Date(data.available)
         data.users.forEach((user) => {
-          if (user === username && new Date() <= limit) { // Verificando si esta el usuario
+          if (user === username) { // Verificando si esta el usuario
             added = true
             const { id, title, type } = data
             accepted.push({
@@ -71,7 +70,7 @@ router.get('/files/:username', async (req, res) => {
         })
 
         // Obtenemos la data por categoria
-        if (!added && new Date() <= limit) {
+        if (!added) {
           data.categories.forEach((category) => {
             if (categories.includes(category) && !added) { // Verificando si esta el usuario
               const { id, title, type } = data
@@ -100,8 +99,7 @@ router.get('/files/:username', async (req, res) => {
     res.statusCode = 200
     res.json(accepted)
   } catch (error) {
-    console.log(error.message)
-    res.statusCode = 400
+    res.statusCode = 404
     res.end()
   }
 })

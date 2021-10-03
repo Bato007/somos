@@ -2,6 +2,7 @@ const express = require('express')
 const multer = require('multer')
 const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
+const fs = require('fs')
 
 const { cResources, bucket } = require('../../DataBase/firebase')
 
@@ -31,7 +32,10 @@ const upload = multer({ storage: option })
  *  file: { }
  * }
  */
-router.post('/upload', upload.single('resource'))
+router.post('/upload', upload.single('resource'), (req, res) => {
+  res.statusCode = 200
+  res.end()
+})
 
 router.post('/', async (req, res) => {
   const schema = Joi.object({
@@ -88,8 +92,13 @@ router.post('/', async (req, res) => {
         url,
       })
 
-      res.statusCode = 200
-      res.json({ message: 'DONE' })
+      try {
+        fs.unlinkSync(filenaPath)
+        res.statusCode = 200
+      } catch (err) {
+        res.statusCode = 500
+      }
+      res.end()
     } catch (error) {
       res.statusCode = 500
       res.json({ message: 'Unexpected' })

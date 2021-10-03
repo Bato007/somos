@@ -117,18 +117,35 @@ router.put('/information', async (req, res) => {
   const result = schema.validate(req.body)
   if (result.error) {
     const { message } = result.error.details[0]
-    res.status(400).json({ username: 'ERROR', name: message })
+    res.statusCode = 400
+    res.json({ username: 'ERROR', name: message })
   } else {
     try {
       const {
         username, password, confirm, email, phone, residence, categories,
       } = req.body
+      const { somoskey } = req.headers
 
       // Se verifica que la llave coincida
-      const temp = await cKeys.doc(username).get()
+      const key = await cKeys.doc(username).get()
+      if (key.somoskey !== somoskey) {
+        res.statusCode = 401
+        res.end()
+      } else if (password !== confirm) {
+        // Si las claves no son iguales
+        res.statusCode = 400
+        res.end()
+      } else {
+        await cUsers.doc(username).update({
+          password, email, phone, residence, categories,
+        })
+        res.statusCode = 200
+        res.end()
+      }
       // Se realiza el update de todo
     } catch (error) {
-      res.sendStatus(500)
+      res.statusCode = 500
+      res.end()
     }
   }
 })

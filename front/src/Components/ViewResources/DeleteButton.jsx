@@ -9,7 +9,7 @@ const DeleteButton = ({ resourceId }) => {
 
   // Eliminar recurso
   const delResource = () => {
-    fetch(`http://localhost:3001/resources/${resourceId}`, {
+    fetch(`http://localhost:3001/admin/resources/${resourceId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -26,11 +26,8 @@ const DeleteButton = ({ resourceId }) => {
       buttons: ['Cancelar', 'Aceptar'],
     }).then((res) => {
       if (res) {
-        const deleteFun = delResource()
-        const back = history.push('./home')
-
-        deleteFun()
-        back()
+        delResource()
+        history.push('./home')
       }
     })
   }
