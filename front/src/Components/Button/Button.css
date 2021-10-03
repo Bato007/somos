@@ -31,6 +31,18 @@ button {
   background-color: #A7D8D7;
   color: #212323;
 }
+
+#forgot{
+  background-color: #a7d8d700;
+  color: #727272;
+  text-decoration: underline;
+}
+
+#forgot:hover{
+  color: rgb(48, 48, 48);
+}
+
+
 #returnToSignIn {
   display: inline-block;
   border-radius: 3em;

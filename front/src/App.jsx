@@ -14,7 +14,7 @@ const App = () => (
       <Switch>
         <Route path="/client" component={ClientRoutes} />
         <Route path="/admin" component={AdminRoutes} />
-        <Route path="/forgotPasswordToken" component={TokenForgetPass} />
+        <Route path="/forgotPassword/token" component={TokenForgetPass} />
         <Route path="/forgotPassword" component={ForgotPassword} />
         <Route path="/serviceProvider" component={serviceProvider} />
         <Route path="/" component={Login} />

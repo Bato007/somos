@@ -67,6 +67,7 @@ const Login = () => {
         <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange} onEnter={existingAccounts} />
         <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange} onEnter={existingAccounts} />
         <Button id="SignIn" name="Sign In" onClick={existingAccounts} />
+        <Button id="forgot" name="¿olvidó su contraseña?" onClick={() => history.push('./forgotPassword')} />
         <Error error={error} />
       </div>
     </div>
