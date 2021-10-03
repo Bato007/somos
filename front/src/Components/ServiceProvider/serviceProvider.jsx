@@ -23,10 +23,13 @@ const serviceProvider = () => {
           <Input name="email" type="text" placeholder="Correo electrónico" />
         </div>
         <div className="footerService">
-          <p>
-            Se le avisará por vía correo electrónico si el servicio es aprobado
-            o denegado.
-          </p>
+          <div>
+            <p>
+              Se le avisará por vía correo electrónico si el servicio es aprobado
+              o denegado.
+            </p>
+            <p>Gracias.</p>
+          </div>
           <Button id="SendRequest" name="Enviar solicitud" onClick={() => history.replace('/')} />
         </div>
       </div>
