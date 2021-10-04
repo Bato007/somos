@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
         const countries = []
         tempViews.forEach((viewID) =>{
             let username = viewID.user
-            const aux = cUsers.where('type', '==', username).get()
+            const aux = cUsers.where('user', '==', username).get()
             aux.forEach((userID) =>{
                 if (!countries.includes(userID.residence)) {
                     countries.push(userID.residence)
