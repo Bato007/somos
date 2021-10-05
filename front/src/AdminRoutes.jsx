@@ -15,7 +15,7 @@ const AdminRoutes = () => (
   <>
     <NavBarAdmin />
     <Route path="/admin/management" component={ManageAccountAdmin} />
-    <Route path="/admin/announcement" component={Stats} />
+    <Route path="/admin/announcement" component={AnnouncementAdmin} />
     <Route path="/admin/viewresources" component={VResources} />
     <Route path="/admin/createaccount" component={Create} />
     <Route path="/admin/upload" component={Upload} />
