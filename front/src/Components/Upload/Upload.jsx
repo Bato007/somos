@@ -6,6 +6,7 @@ import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import SearchBarTo from '../SearchbarTo/SearchbarTo'
+import apiURL from '../fetch'
 import './Upload.css'
 
 /**
@@ -80,7 +81,7 @@ const Upload = () => {
     } else {
       setError('')
 
-      await fetch('http://localhost:3001/admin/resources/upload', {
+      await fetch(`${apiURL}/admin/resources/upload`, {
         method: 'POST',
         headers: {
           somoskey: `${localStorage.getItem('somoskey')}`,
@@ -91,7 +92,7 @@ const Upload = () => {
       })
 
       if (status === 200) {
-        await fetch('http://localhost:3001/admin/resources', {
+        await fetch(`${apiURL}/admin/resources`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

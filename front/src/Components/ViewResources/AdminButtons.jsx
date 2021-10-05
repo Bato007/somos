@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import BotonesRecursos from './ResourceButton'
+import apiURL from '../fetch'
 import './VResources.css'
 
 const AdminButtons = () => {
@@ -10,7 +11,7 @@ const AdminButtons = () => {
 
   // Fetch para obtener la informacion del recurso seleccionado
   const setResourceInfo = async () => {
-    const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
+    const json = await fetch(`${apiURL}/resources/${resourceId}`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
@@ -21,7 +22,7 @@ const AdminButtons = () => {
 
   // Eliminar recurso
   const delResource = () => {
-    const json = fetch(`http://localhost:3001/resources/${resourceId}`, {
+    const json = fetch(`${apiURL}/resources/${resourceId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

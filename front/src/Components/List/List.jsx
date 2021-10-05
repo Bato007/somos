@@ -4,6 +4,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import './List.css'
+import apiURL from '../fetch'
 
 /**
  *
@@ -47,7 +48,7 @@ const List = ({
   const getMembers = async () => {
     // Aqui iria el fetch para obtener los miembros inscritos
     // Es un diccionario miembro: tipo
-    // const members = await fetch('http://localhost:3001/admin/categories', {
+    // const members = await fetch(`${apiURL}/admin/categories`, {
     //   method: 'GET',
     //   headers: {
     //     somoskey: `${localStorage.getItem('somoskey')}`,
@@ -61,7 +62,7 @@ const List = ({
   const getSimilarToTags = async () => {
     // Aqui iria el fetch para obtener las tags guardadas
     // Se recibe una lista con todas las tags
-    const tags = await fetch('http://localhost:3001/tags/name', {
+    const tags = await fetch(`${apiURL}/tags/name`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,

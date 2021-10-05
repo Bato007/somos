@@ -6,6 +6,7 @@ import Popup from 'reactjs-popup'
 import swal from 'sweetalert'
 import Button from '../Button/Button'
 import SearchbarTo from '../SearchbarTo/SearchbarTo'
+import apiURL from '../fetch'
 import 'reactjs-popup/dist/index.css'
 
 import './UserMgt.css'
@@ -15,7 +16,7 @@ const UserMgt = () => {
   const [categories, setCategories] = useState([])
 
   const getUsersInfo = async () => {
-    const data = await fetch('http://localhost:3001/admin/user', {
+    const data = await fetch(`${apiURL}/admin/user`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
@@ -26,7 +27,7 @@ const UserMgt = () => {
   }
 
   const deleteUser = async (username) => {
-    await fetch(`http://localhost:3001/admin/user/${username}`, {
+    await fetch(`${apiURL}/admin/user/${username}`, {
       method: 'DELETE',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
@@ -40,7 +41,7 @@ const UserMgt = () => {
     const data = {
       username: user,
     }
-    await fetch('http://localhost:3001/admin/user/activate', {
+    await fetch(`${apiURL}/admin/user/activate`, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
@@ -65,7 +66,7 @@ const UserMgt = () => {
     const data = {
       username: user,
     }
-    await fetch('http://localhost:3001/admin/user/desactivate', {
+    await fetch(`${apiURL}/admin/user/desactivate`, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },

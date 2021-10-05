@@ -3,13 +3,14 @@ import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import swal from 'sweetalert'
 import './VResources.css'
+import apiURL from '../fetch'
 
 const DeleteButton = ({ resourceId }) => {
   const history = useHistory()
 
   // Eliminar recurso
   const delResource = () => {
-    fetch(`http://localhost:3001/resources/${resourceId}`, {
+    fetch(`${apiURL}/admin/resources/${resourceId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -26,11 +27,8 @@ const DeleteButton = ({ resourceId }) => {
       buttons: ['Cancelar', 'Aceptar'],
     }).then((res) => {
       if (res) {
-        const deleteFun = delResource()
-        const back = history.push('./home')
-
-        deleteFun()
-        back()
+        delResource()
+        history.push('./home')
       }
     })
   }
