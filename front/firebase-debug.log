@@ -1,0 +1,45 @@
+[debug] [2021-10-05T22:29:26.320Z] ----------------------------------------------------------------------
+[debug] [2021-10-05T22:29:26.324Z] Command:       D:\Program Files\nodejs\node.exe D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-10-05T22:29:26.325Z] CLI Version:   9.19.0
+[debug] [2021-10-05T22:29:26.325Z] Platform:      win32
+[debug] [2021-10-05T22:29:26.325Z] Node Version:  v15.8.0
+[debug] [2021-10-05T22:29:26.433Z] Time:          Tue Oct 05 2021 16:29:26 GMT-0600 (Central Standard Time)
+[debug] [2021-10-05T22:29:26.433Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-10-05T22:29:26.439Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-10-05T22:29:26.509Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-10-05T22:29:26.509Z] > authorizing via signed-in user (martinamadog@gmail.com)
+[debug] [2021-10-05T22:29:26.509Z] [iam] checking project somos-1eb3a for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-10-05T22:29:26.510Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-10-05T22:29:26.510Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-10-05T22:29:26.856Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2021-10-05T22:29:26.856Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2021-10-05T22:29:27.325Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","date":"Tue, 05 Oct 2021 22:29:27 GMT","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-10-05T22:29:27.341Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/somos-1eb3a:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2021-10-05T22:29:28.264Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 05 Oct 2021 22:29:28 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=151","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-10-05T22:29:28.265Z] [iam] error while checking permissions, command may fail: FirebaseError: Authorization failed. This account is missing the following required permissions on project somos-1eb3a:
+
+  firebase.projects.get
+  firebasehosting.sites.update
+[debug] [2021-10-05T22:29:28.266Z] > refreshing access token with scopes: []
+[debug] [2021-10-05T22:29:28.266Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-10-05T22:29:28.441Z] <<< HTTP RESPONSE 200 {"date":"Tue, 05 Oct 2021 22:29:28 GMT","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-10-05T22:29:28.462Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/somos-1eb3a [none]
+[debug] [2021-10-05T22:29:29.384Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/somos-1eb3a 403
+[debug] [2021-10-05T22:29:29.385Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/somos-1eb3a {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2021-10-05T22:29:29.385Z] HTTP Error: 403, The caller does not have permission
+[debug] [2021-10-05T22:29:29.386Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at module.exports (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Client.doRequest (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\apiv2.js:238:23)
+    at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    at async Client.request (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\apiv2.js:96:20)
+    at async Object.getFirebaseProject (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\management\projects.js:290:21)
+    at async Object.getDefaultHostingSite (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\getDefaultHostingSite.js:8:21)
+    at async requireHostingSite (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\requireHostingSite.js:9:18)
+    at async Object.fn (D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\commands\deploy.js:65:9)
+    at async D:\Martín\U\Año 3\Semestre 1\ISW\somos\front\node_modules\firebase-tools\lib\command.js:188:17
+[error] 
+[error] Error: Failed to get Firebase project somos-1eb3a. Please make sure the project exists and your account has permission to access it.
