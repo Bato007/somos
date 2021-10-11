@@ -17,7 +17,7 @@ const Stats = () => {
       <div className="statsPage">
         <div className="statsSquare">
           <h2 className="statsTitle">Estadísticas de recursos</h2>
-          <div className="manageOptions">
+          <div className="manageStats">
             <Button id={statSelected === 0 ? 'StatsClicked' : 'StatsNot'} onClick={() => setStatSelected(0)} name="Top 10" />
             <Button id={statSelected === 1 ? 'StatsClicked' : 'StatsNot'} onClick={() => setStatSelected(1)} name="Audiencia" />
           </div>
