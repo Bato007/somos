@@ -1,19 +1,88 @@
 const express = require('express')
 const Joi = require('joi')
+const Busboy = require('busboy')
+const tokenGenerator = require('uuid-v4')
+const path = require('path')
+const fs = require('fs')
+const os = require('os')
 
 const { cResources, bucket } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
+router.post('/upload', (req, res) => {
+  // Luego de validar todos los datos se pasa al try
+  const token = tokenGenerator()
+
+  // Ahora se empieza a subir el archivo
+  const busBoy = new Busboy({ headers: req.headers })
+  const tempdir = os.tmpdir()
+
+  const uploads = []
+  const fileWrites = []
+
+  busBoy.on('error', (e) => {
+    console.log('Failed to read', e)
+    res.statusCode = 500
+  })
+
+  // Para cada file
+  busBoy.on('file', (fieldname, file, filename) => {
+    const filePath = path.join(tempdir, filename)
+    uploads.push(filePath)
+
+    const writeStream = fs.createWriteStream(filePath)
+    file.pipe(writeStream)
+
+    // Wait to be written
+    const promise = new Promise((resolve, reject) => {
+      file.on('end', () => { writeStream.end() })
+      writeStream.on('finish', resolve)
+      writeStream.on('error', reject)
+    })
+    fileWrites.push(promise)
+  })
+
+  busBoy.on('finish', async (e) => {
+    await Promise.all(fileWrites)
+    res.statusCode = 200
+
+    for (let i = 0; i < uploads.length; i += 1) {
+      bucket.upload(uploads[i], {
+        metadata: { metadata: { firebaseStorageDownloadTokens: token } },
+        public: true,
+      })
+    }
+    res.statusCode = 200
+    res.json({ message: 'Finished', token })
+  })
+
+  req.pipe(busBoy)
+})
+
+/**
+ * Sube un recurso al bucket, se le manda el
+ * con el siguiente formato:
+ * {
+ *  title: 'ejemplo',
+ *  description: 'ejemplo',
+ *  tags: ['tag1', 'tag2', 'tag3', ..., 'tagn'],
+ *  category: ['categoria1', 'categoria2', ..., 'categorian'],
+ *  users: ['user1', 'user2', ..., 'user3'],
+ *  date: '2021-01-01',
+ *  file: { }
+ * }
+ */
 router.post('/', async (req, res) => {
   const schema = Joi.object({
-    filename: Joi.string().required(),
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
     tags: Joi.array().min(1).required(),
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),
+    filename: Joi.string().required(),
+    token: Joi.string().required(),
   })
   res.statusCode = 400
 
@@ -25,13 +94,11 @@ router.post('/', async (req, res) => {
   } else if ((req.body.category.length + req.body.users.length) < 1) {
     res.json({ message: 'no se dirige a un usuario' })
   } else {
-    // Luego de validar todos los datos se pasa al try
     try {
       const {
         title, description, tags, category, users, date, filename, token,
       } = req.body
 
-      // Guardando la imagen en firebase
       const uploaded = bucket.file(filename)
       const url = await uploaded.getSignedUrl({
         action: 'read',
@@ -56,8 +123,9 @@ router.post('/', async (req, res) => {
       res.statusCode = 200
       res.end()
     } catch (error) {
+      console.log(error)
       res.statusCode = 500
-      res.json({ message: error.message })
+      res.json({ message: 'Unexpected' })
     }
   }
 })

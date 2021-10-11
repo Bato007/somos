@@ -1,51 +1,72 @@
+/* eslint-disable no-await-in-loop */
 const express = require('express')
-const multer = require('multer')
 const Joi = require('joi')
+const Busboy = require('busboy')
 const tokenGenerator = require('uuid-v4')
+const path = require('path')
 const fs = require('fs')
+const os = require('os')
 
 const { cResources, bucket } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
-// Multer
-const option = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './upload/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  },
-})
-const upload = multer({ storage: option })
+router.post('/upload', (req, res) => {
+  // Luego de validar todos los datos se pasa al try
+  const token = tokenGenerator()
 
-/**
- * Sube un recurso al bucket, se le manda el
- * con el siguiente formato:
- * {
- *  title: 'ejemplo',
- *  description: 'ejemplo',
- *  tags: ['tag1', 'tag2', 'tag3', ..., 'tagn'],
- *  category: ['categoria1', 'categoria2', ..., 'categorian'],
- *  users: ['user1', 'user2', ..., 'user3'],
- *  date: '2021-01-01',
- *  file: { }
- * }
- */
-router.post('/upload', upload.single('resource'), (req, res) => {
-  res.statusCode = 200
-  res.end()
+  // Ahora se empieza a subir el archivo
+  const busBoy = new Busboy({ headers: req.headers })
+  const tempdir = os.tmpdir()
+
+  const uploads = []
+  const fileWrites = []
+
+  // Para cada file
+  busBoy.on('file', (fieldname, file, filename) => {
+    if (fileWrites.length < 1) {
+      const filePath = path.join(tempdir, filename)
+      uploads.push(filePath)
+      const writeStream = fs.createWriteStream(filePath)
+      file.pipe(writeStream)
+      // Wait to be written
+      const promise = new Promise((resolve, reject) => {
+        file.on('end', () => { writeStream.end() })
+        writeStream.on('finish', resolve)
+        writeStream.on('error', reject)
+      })
+      fileWrites.push(promise)
+    }
+  })
+
+  busBoy.on('finish', async (e) => {
+    await Promise.all(fileWrites)
+
+    await bucket.upload(uploads[0], {
+      metadata: { metadata: { firebaseStorageDownloadTokens: token } },
+      public: true,
+    })
+
+    fs.unlinkSync(uploads[0])
+
+    res.statusCode = 200
+    res.json({ message: 'Finished', token })
+  })
+
+  req.pipe(busBoy)
+  busBoy.end(req.rawBody)
 })
 
 router.post('/', async (req, res) => {
   const schema = Joi.object({
-    filename: Joi.string().required(),
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
     tags: Joi.array().min(1).required(),
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),
+    filename: Joi.string().required(),
+    token: Joi.string().required(),
   })
   res.statusCode = 400
 
@@ -57,20 +78,11 @@ router.post('/', async (req, res) => {
   } else if ((req.body.category.length + req.body.users.length) < 1) {
     res.json({ message: 'no se dirige a un usuario' })
   } else {
-    // Luego de validar todos los datos se pasa al try
     try {
       const {
-        title, description, tags, category, users, date, filename,
+        title, description, tags, category, users, date, filename, token,
       } = req.body
 
-      // Guardando la imagen en firebase
-      const filenaPath = `./upload/${filename}`
-      const token = tokenGenerator()
-      await bucket.upload(filenaPath,
-        {
-          metadata: { metadata: { firebaseStorageDownloadTokens: token } },
-          public: true,
-        })
       const uploaded = bucket.file(filename)
       const url = await uploaded.getSignedUrl({
         action: 'read',
@@ -92,14 +104,10 @@ router.post('/', async (req, res) => {
         url,
       })
 
-      try {
-        fs.unlinkSync(filenaPath)
-        res.statusCode = 200
-      } catch (err) {
-        res.statusCode = 500
-      }
+      res.statusCode = 200
       res.end()
     } catch (error) {
+      console.log(error)
       res.statusCode = 500
       res.json({ message: 'Unexpected' })
     }
@@ -128,6 +136,7 @@ router.put('/', async (req, res) => {
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),
+    filename: Joi.string().required(),
   })
 
   // Validar informacino

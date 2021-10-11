@@ -70,6 +70,7 @@ const Upload = () => {
     const fecha = resourceInfo.date
     const filename = upload.name
     let status
+    let token
 
     if (upload === 'Cargar Archivo' || !upload) {
       swal({
@@ -89,8 +90,11 @@ const Upload = () => {
         body: formData,
       }).then((res) => {
         status = res.status
+        return res.json()
+      }).then((res) => {
+        token = res.token
       })
-
+      console.log(token)
       if (status === 200) {
         await fetch(`${apiURL}/admin/resources`, {
           method: 'POST',
@@ -99,16 +103,23 @@ const Upload = () => {
             somoskey: `${localStorage.getItem('somoskey')}`,
           },
           body: JSON.stringify({
-            filename, title, description, tags, category, users, date: fecha,
+            filename, title, description, tags, category, users, date: fecha, token,
           }),
         }).then((res) => {
-          res.json()
-          swal({
-            title: 'Tu archivo se ha cargado con éxito',
-            icon: 'success',
-          }).then(() => {
-            history.goBack()
-          })
+          status = res.status
+          if (status === 200) {
+            swal({
+              title: 'Tu archivo se ha cargado con éxito',
+              icon: 'success',
+            }).then(() => {
+              history.goBack()
+            })
+          } else {
+            swal({
+              title: 'Tu archivo no se ha podido subir',
+              icon: 'error',
+            })
+          }
         })
       } else {
         swal({

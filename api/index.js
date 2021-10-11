@@ -2,9 +2,11 @@ const express = require('express')
 const cors = require('cors')
 const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
-const lookup = require('country-code-lookup')
 
 const app = express()
+app.use(cors())
+app.use(express.json())
+
 const PORT = 3001
 
 const publicRouter = require('./src/Routers/publicRouter')
@@ -24,9 +26,6 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
-
-app.use(cors())
-app.use(express.json())
 
 const options = {
   definition: {

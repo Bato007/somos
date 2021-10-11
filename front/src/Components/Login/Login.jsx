@@ -33,7 +33,6 @@ const Login = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        somoskey: `${localStorage.getItem('somoskey')}`,
       },
       body: JSON.stringify({ username, password }),
     }).then((res) => {

@@ -2,6 +2,10 @@ const functions = require('firebase-functions')
 const express = require('express')
 const cors = require('cors')
 
+const app = express()
+app.use(cors())
+app.use(express.json())
+
 // Local imports
 const { serve, setup } = require('./swagger.config')
 
@@ -23,12 +27,6 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
-
-const app = express()
-const PORT = 3001
-
-app.use(cors())
-app.use(express.json())
 
 app.get('/', (req, res) => {
   res.statusCode = 200
