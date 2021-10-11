@@ -24,12 +24,12 @@
   justify-content: flex-start;
 }
 
-#ManageClicked {
+#StatsClicked {
   font-size: 3vw;
   border-bottom: 2px solid black;
 }
 
-#Manage {
+#StatsNot {
   font-size: 3vw;
   border-bottom: 2px solid lightgray;
 }
