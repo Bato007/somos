@@ -194,7 +194,7 @@ const List = ({
     } else {
       getMembers() // Obtenemos miembros y sus categorias
     }
-  })
+  }, [])
 
   useEffect(() => {
     document.addEventListener('click', async (event) => {

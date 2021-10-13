@@ -11,8 +11,15 @@
   cursor: pointer;
 }
 
+#Navbar .icons {
+  display: flex;
+  align-items: center;
+}
+
 #Navbar .icons > img:last-child {
   padding-right: 4em;
+  width: 40px;
+  height: 40px;
 }
 
 #Navbar .icons > img {

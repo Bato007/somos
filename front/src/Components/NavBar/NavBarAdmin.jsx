@@ -7,10 +7,16 @@ import accountIcon from '../../static/imagesNavBar/account.png'
 import createAccountIcon from '../../static/imagesNavBar/addAccount.png'
 import megaphoneIcon from '../../static/imagesNavBar/megaphone.png'
 import uploadIcon from '../../static/imagesNavBar/upload.png'
+import logoutIcon from '../../static/imagesNavBar/logout.png'
 import './NavBar.css'
 
 const NavBarAdmin = () => {
   const history = useHistory()
+
+  const logout = () => {
+    localStorage.clear()
+    history.replace('/')
+  }
 
   return (
     <div id="Navbar">
@@ -20,6 +26,7 @@ const NavBarAdmin = () => {
         <img src={uploadIcon} alt="upload icon" onClick={() => history.push('/admin/upload')} />
         <img src={createAccountIcon} alt="create account icon" onClick={() => history.push('/admin/createAccount')} />
         <img src={accountIcon} alt="account icon" onClick={() => history.push('/admin/management')} />
+        <img src={logoutIcon} alt="logout icon" onClick={() => logout()} />
       </div>
     </div>
   )
