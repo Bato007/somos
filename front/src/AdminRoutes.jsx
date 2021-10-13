@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import { Route } from 'react-router-dom'
 
@@ -8,6 +9,7 @@ import VResources from './Components/ViewResources/ViewResources'
 import AnnouncementAdmin from './Components/Announcement/AnnouncementAdmin'
 import NavBarAdmin from './Components/NavBar/NavBarAdmin'
 import ManageAccountAdmin from './Components/ManageAccount/ManageAccountAdmin'
+import Stats from './Components/Stats/Stats'
 
 const AdminRoutes = () => (
   <>

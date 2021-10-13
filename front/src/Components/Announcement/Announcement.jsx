@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
+import apiURL from '../fetch'
 import Button from '../Button/Button'
 import WriteMessage from '../WriteMessage/WriteMessage'
 import './Announcement.css'
@@ -16,7 +17,7 @@ const Announcement = () => {
   const [completeAnnounce, setCompleteAnnounce] = useState({ title: '', description: '' })
 
   const getAnnounces = async () => {
-    const data = await fetch('http://localhost:3001/announcements', {
+    const data = await fetch(`${apiURL}/announcements`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,

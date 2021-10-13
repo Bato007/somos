@@ -74,7 +74,8 @@ const BotonesRecursos = ({ link, docType }) => (
                   )}
               </div>
               <hr />
-              <div className="docSpace">
+              <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" />
+              {/* <div className="docSpace">
                 <TransformComponent>
                   <div id="documentV">
                     <FilePreviewer
@@ -87,7 +88,7 @@ const BotonesRecursos = ({ link, docType }) => (
                     />
                   </div>
                 </TransformComponent>
-              </div>
+              </div> */}
             </>
           )}
         </TransformWrapper>

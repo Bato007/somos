@@ -6,6 +6,7 @@ import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import Somos from '../../static/imagesLogin/logo.png'
+import apiURL from '../fetch'
 import './Login.css'
 
 /* Form para ingresar a los recursos */
@@ -28,11 +29,10 @@ const Login = () => {
     const { password } = account
     let status
 
-    const json = await fetch('http://localhost:3001/authentication/signin', {
+    const json = await fetch(`${apiURL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        somoskey: `${localStorage.getItem('somoskey')}`,
       },
       body: JSON.stringify({ username, password }),
     }).then((res) => {
@@ -67,6 +67,7 @@ const Login = () => {
         <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange} onEnter={existingAccounts} />
         <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange} onEnter={existingAccounts} />
         <Button id="SignIn" name="Sign In" onClick={existingAccounts} />
+        <Button id="forgot" name="¿olvidó su contraseña?" onClick={() => history.push('./forgotPassword')} />
         <Error error={error} />
       </div>
     </div>

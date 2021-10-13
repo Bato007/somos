@@ -5,6 +5,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import apiURL from '../fetch'
 import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
@@ -123,7 +124,7 @@ const Create = () => {
 
       const data = Object.fromEntries(bufferArray)
 
-      fetch('http://localhost:3001/authentication/admin/signup',
+      fetch(`${apiURL}/authentication/admin/signup`,
         {
           method: 'POST',
           body: JSON.stringify(data),

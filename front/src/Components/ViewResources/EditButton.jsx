@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
 import Chip from '@material-ui/core/Chip'
 import './VResources.css'
+import apiURL from '../fetch'
 
 const EditButton = ({ resourceId }) => {
   const [editInfo, setEditInfo] = useState({
@@ -22,7 +23,7 @@ const EditButton = ({ resourceId }) => {
   const [resInfo, setResInfo] = useState({ })
   // Fetch para obtener la informacion del recurso seleccionado
   const setResourceInfo = async () => {
-    const json = await fetch(`http://localhost:3001/resources/${resourceId}`, {
+    const json = await fetch(`${apiURL}/resources/${resourceId}`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
@@ -89,7 +90,7 @@ const EditButton = ({ resourceId }) => {
         // const { tags } = resInfo
         const category = resInfo.categories
         const { users } = resInfo
-        await fetch(`http://localhost:3001/resources/${resourceId}`, {
+        await fetch(`${apiURL}/resources/${resourceId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
