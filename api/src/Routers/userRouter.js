@@ -48,6 +48,35 @@ router.get('/categories', async (req, res) => {
   }
 })
 
+router.get('/:usernameid', async (req, res) => {
+  try {
+    // Se obtiene el usaurio
+    const { usernameid } = req.params
+
+    // Ahora se obtiene al usuario y se verifica si esta
+    const user = await cUsers.doc(usernameid).get()
+
+    if (!user.exists) {
+      res.statusCode = 404
+      res.end()
+    } else {
+      const {
+        username, email, phone, residence, categories,
+      } = user.data()
+
+      // Ahora se regresa
+      res.statusCode = 200
+      res.json({
+        username, email, tel: phone, address: residence, categories,
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    res.statusCode = 500
+    res.end()
+  }
+})
+
 /**
  * @swagger
  * /user/information:
@@ -108,7 +137,7 @@ router.put('/information', async (req, res) => {
     email: Joi.email().required(),
     password: Joi.string().min(8).required(),
     confirm: Joi.string().required().valid(Joi.ref('password')),
-    phone: Joi.number().required(),
+    phone: Joi.number(),
     residence: Joi.string().required(),
     categories: Joi.array().min(1).required(),
   })

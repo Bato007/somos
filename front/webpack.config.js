@@ -20,7 +20,7 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpe?g|jpg|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        test: /\.(jpe?g|jpg|png|gif|woff|woff2|eot|ttf|pdf|svg)(\?[a-z0-9=.]+)?$/,
         loader: 'url-loader',
         options: {
           outputPath: 'images',

@@ -94,7 +94,7 @@ const Upload = () => {
       }).then((res) => {
         token = res.token
       })
-      console.log(token)
+
       if (status === 200) {
         await fetch(`${apiURL}/admin/resources`, {
           method: 'POST',
