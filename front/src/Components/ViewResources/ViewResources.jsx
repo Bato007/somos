@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import ResourceButton from './ResourceButton'
 import DeleteButton from './DeleteButton'
-import Previous from '../../static/imagesViewResources/previous.png'
 import './VResources.css'
 import EditButton from './EditButton'
 import apiURL from '../fetch'
@@ -34,7 +33,6 @@ const VResources = () => {
         <div id="vresources">
           <div className="headers">
             <h1>{resInfo.title}</h1>
-            <img src={Previous} alt="previous" />
             <EditButton resourceId={resourceId} />
           </div>
           <ResourceButton link={resInfo.url[0]} docType={resInfo.type} />

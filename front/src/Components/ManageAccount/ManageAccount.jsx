@@ -33,7 +33,7 @@ const ManageAccount = () => {
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
-      body: JSON.stringify()
+      body: JSON.stringify(),
     }).then((res) => res.json())
   }
 
@@ -47,6 +47,7 @@ const ManageAccount = () => {
 
   useEffect(() => {
     console.log('si entra')
+    console.log('categora', accountInfo.categories, 'no?')
     getUserInfo()
   }, [])
 

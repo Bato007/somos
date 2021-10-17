@@ -1,7 +1,7 @@
 import React from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import PropTypes from 'prop-types'
-import FilePreviewer from 'react-file-previewer'
+// import FilePreviewer from 'react-file-previewer'
 import less from '../../static/imagesViewResources/zoomOut.png'
 import more from '../../static/imagesViewResources/zoomIn.png'
 import previous from '../../static/imagesViewResources/previous.png'
@@ -74,21 +74,21 @@ const BotonesRecursos = ({ link, docType }) => (
                   )}
               </div>
               <hr />
-              <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" />
-              {/* <div className="docSpace">
+              <div className="docSpace">
                 <TransformComponent>
                   <div id="documentV">
-                    <FilePreviewer
+                    <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" />
+                    {/* <FilePreviewer
                       hideControls
                       file={{
                         url: `${link}`,
-                        mimeType: `https://cors-anywhere.herokuapp.com/${docType}`,
+                        mimwType: `https://github.com/Rob--W/cors-anywhere/issues/301/${docType}`,
                         id: 'prueba',
                       }}
-                    />
+                    /> */}
                   </div>
                 </TransformComponent>
-              </div> */}
+              </div>
             </>
           )}
         </TransformWrapper>

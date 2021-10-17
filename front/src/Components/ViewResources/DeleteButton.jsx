@@ -28,7 +28,7 @@ const DeleteButton = ({ resourceId }) => {
     }).then((res) => {
       if (res) {
         delResource()
-        history.push('./home')
+        history.push('/admin')
       }
     })
   }
