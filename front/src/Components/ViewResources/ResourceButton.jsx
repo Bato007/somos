@@ -1,7 +1,6 @@
 import React from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import PropTypes from 'prop-types'
-// import FilePreviewer from 'react-file-previewer'
 import less from '../../static/imagesViewResources/zoomOut.png'
 import more from '../../static/imagesViewResources/zoomIn.png'
 import previous from '../../static/imagesViewResources/previous.png'
@@ -33,6 +32,14 @@ const Full = () => {
   } else if (document.webkitExitFullscreen) { /* Safari */
     document.webkitExitFullscreen()
   }
+}
+// console.log('type', docType)
+const typeResource = (link, docType) => {
+  if (docType === 'pdf') {
+    return <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type={`application/${docType}`} />
+  }
+
+  return <img className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} alt="img" />
 }
 
 const BotonesRecursos = ({ link, docType }) => (
@@ -77,15 +84,7 @@ const BotonesRecursos = ({ link, docType }) => (
               <div className="docSpace">
                 <TransformComponent>
                   <div id="documentV">
-                    <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" />
-                    {/* <FilePreviewer
-                      hideControls
-                      file={{
-                        url: `${link}`,
-                        mimwType: `https://github.com/Rob--W/cors-anywhere/issues/301/${docType}`,
-                        id: 'prueba',
-                      }}
-                    /> */}
+                    {typeResource(link, docType)}
                   </div>
                 </TransformComponent>
               </div>

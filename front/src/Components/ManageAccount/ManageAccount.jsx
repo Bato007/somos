@@ -46,8 +46,6 @@ const ManageAccount = () => {
   }
 
   useEffect(() => {
-    console.log('si entra')
-    console.log('categora', accountInfo.categories, 'no?')
     getUserInfo()
   }, [])
 
