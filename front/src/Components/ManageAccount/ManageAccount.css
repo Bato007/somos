@@ -18,7 +18,7 @@
 }
 
 .ManageAccountContainer .title {
-    font-size: 2vw;
+    font-size: 6vw;
     margin-bottom: 4vw;
     text-align: center;
 }
@@ -29,7 +29,6 @@
 
 .ManageAccount {
     display: grid;
-    grid-template-columns: 1fr 1fr;
 }
 
 .manageAccountBox {
@@ -38,7 +37,7 @@
 }
 
 .manageAccount input, .ManageAccountContainer h1 {
-    font-size: 1vw;
+    font-size: 0.8em;
     margin-left: 0;
 }
 
@@ -51,7 +50,6 @@
     flex-direction: row;
     justify-content: space-between;
     background-color: #A7D8D7;
-    padding: 0px 20%;
 }
 
 .ButtonOptions {
@@ -59,4 +57,24 @@
     flex-direction: row;
     justify-content: flex-end;
     margin-top: 5%;
+}
+
+
+
+@media screen and (min-width: 800px) {
+    .ManageAccount {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .manageAccount input, .ManageAccountContainer h1 {
+        font-size: 1vw;
+    }
+
+    .ManageAccountContainer .title {
+        font-size: 2vw;
+    }
+
+    .manageOptions {
+        padding: 0px 20%;
+    }
 }
