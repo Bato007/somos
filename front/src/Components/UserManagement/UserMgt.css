@@ -1,65 +1,65 @@
-@media (min-width: 600px) {
-  .managementbkgr {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #A7D8D7;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .management {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 80vw;
-    height: fit-content;
-    background-color: #E8E6E6;
-    margin-top: 5%;
-    white-space: pre-wrap;
-  }
-  
-  .management h1, p {
-    padding: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .usersmanaged {
-    display: flex;
-    flex-direction: row;
-    width: 80vw;
-    height: fit-content;
-    background-color: white;
-    white-space: pre-wrap;
-    align-items: center;
-  }
-  
-  .name {
-    text-align: initial;
-    padding-left: 2vw;
-    width: 16%;
-    text-align: start;
-  }
-
-  .titulos{
-    width: 25%;
-    text-align: center;
-  }
-  
-  .estado{
-    width: 15%;
-  }
+.managementbkgr {
+width: 100%;
+min-height: 100vh;
+background-color: #A7D8D7;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
 }
 
-@media (max-width: 600px) {
+.management {
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+width: 80vw;
+height: fit-content;
+background-color: #E8E6E6;
+margin-top: 5%;
+white-space: pre-wrap;
+}
+
+.management h1, p {
+padding: 0;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.usersmanaged {
+display: flex;
+flex-direction: row;
+width: 80vw;
+height: fit-content;
+background-color: white;
+white-space: pre-wrap;
+align-items: center;
+}
+
+.name {
+text-align: initial;
+padding-left: 2vw;
+width: 16%;
+text-align: start;
+}
+
+.titulos{
+width: 25%;
+text-align: center;
+}
+
+.estado{
+width: 15%;
+}
+
+
+@media (max-width: 768px) {
   .onMobileHide {
     display: none;
   }
 
   .titulos {
     width: 33%;
+    font-size: 1em;
   }
   
   .estado {
@@ -67,11 +67,36 @@
   }
 
   .data {
-    font-size: 30px;
+    font-size: 16px;
   }
 
   .changeButton {
-    margin-left: 47px;
+    margin-left: 15px;
+  }
+
+  .name {
+    font-size: 0.75em;
+    width: 25%;
+  }  
+  
+  #active {
+    width: 5vw;
+    height: 5vw;
+    margin-left: 3vw;
+  }
+  #editAccount {
+    width: 3vw;
+    height: 3vw;
+    margin-left: 2vw;
+  }
+  #notactive {
+    width: 5vw;
+    height: 5vw;
+    margin-left: 3vw;
+  }
+  #removeAccount {
+    width: 4vw;
+    height: 4vw;
   }
 }
 
