@@ -27,14 +27,16 @@ const AnnouncementAdmin = () => {
      *         2 (se ha denegado el anuncio y se procede a mandar una notificacion)
      * Email: Correo del que haya escrito el anuncio
      */
-    const anuncios = await fetch(`${apiURL}/announcements`, {
+    console.log('entra en get announces')
+    // eslint-disable-next-line no-unused-vars
+    const anuncios = await fetch(`${apiURL}/admin/announcements`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
-    }).then((res) => res.json())
+    }).then((res) => res.json().then((data) => console.log(data)))
 
-    setActualAnnounces(anuncios)
+    // setActualAnnounces(anuncios)
   }
 
   useEffect(() => {

@@ -75,6 +75,12 @@ const UserMgt = () => {
     getUsersInfo()
   }
 
+  const updateCategories = (close) => {
+    console.log(categories)
+    console.log('entra en update categories')
+    close()
+  }
+
   useEffect(() => {
     getUsersInfo()
   }, [])
@@ -111,11 +117,11 @@ const UserMgt = () => {
                           <SearchbarTo
                             setCategories={setCategories}
                             creatingAccount
-                            lastResult={categories}
+                            lastResult={value.categories}
                           />
                           <div className="popupButtons">
                             <Button id="CancelButton" name="Cancelar" onClick={close} />
-                            <Button id="UploadButton" name="Guardar" />
+                            <Button id="UploadButton" name="Guardar" onClick={() => updateCategories(close)} />
                           </div>
                         </>
                       )}

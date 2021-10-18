@@ -33,7 +33,7 @@ const ManageAccount = () => {
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
-      body: JSON.stringify()
+      body: JSON.stringify(),
     }).then((res) => res.json())
   }
 
