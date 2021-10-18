@@ -3,8 +3,8 @@
     min-height: 100vh;
     height: 100%;
 
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+    flex-direction: column;
+    display: flex;
 }
 
 .acceptedAnnouncements {
@@ -14,7 +14,8 @@
     
     white-space: nowrap;
     overflow-x: hidden;
-    padding: 2vw 1vw 0 1vw;
+    margin: 2vw 4vw;
+    max-height: 20vh;
 }
 
 .acceptedAnnouncements button {
@@ -32,12 +33,12 @@
 
 .acceptedAnnouncements h1 {
     white-space: break-spaces;
-    font-size: 1.2vw;
+    font-size: 1.5em;
     margin-top: 1em;
 }
 
 .acceptedAnnouncements p {
-    font-size: 1vw;
+    font-size: 1em;
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -49,15 +50,15 @@
 }
 
 .writeAnnouncement {
-    padding: 2vw 4vw;
+    margin: 2vw 4vw;
 }
 
 .writeAnnouncement h1 {
-    font-size: 2vw;
+    font-size: 7vw;
 }
 
 .writeAnnouncement p {
-    font-size: 1.2vw;
+    font-size: 5vw;
 }
 
 .visualizeAnnouncement {
@@ -67,44 +68,87 @@
 
 
 .writeAnnounce {
-    width: 80%;
+    width: 100%;
     margin: auto
 }
 
 .writeAnnounce h1 {
     text-align: center;
     font-size: 1em;
+    font-size: 0.8em;
   }
   
 .writeAnnounce h3 {
-    font-size: 1.3vw;
-    margin: 1vw 0;
+    margin: 4vw 0;
+    font-size: 0.8em;
 }
   
 .writeAnnounce textarea {
     resize: none;
     border-radius: 0.5em;
     margin: 1em;
-    max-width: 95%;
     height: 20vh;
     border: 1px solid #ccc;
 
-    width: 80%;
     margin: 0;
     font-size: 1.2em;
     padding: 1em 2em 1em 2em;
+    width: 100%;
 }
 
 .writeAnnounce input {
     margin: 0;
-}
-
-.writeAnnounce input:not([type='date']) {
-    width: 80%;
+    width: 100%;
 }
 
 .writeAnnounce .UploadEnd {
     display: flex;
-    justify-content: space-between;
-    width: 81%;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+@media screen and (min-width: 800px) {
+    .acceptedAnnouncements {
+        max-height: 80vh;
+    }
+    .clientAnnouncements {        
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+    .acceptedAnnouncements {
+        margin: 0;    
+        padding: 2vw 1vw 0 1vw;
+    }
+    .acceptedAnnouncements h1 {    
+        font-size: 1.2vw;
+    }
+    .acceptedAnnouncements p {    
+        font-size: 1vw;
+    }
+    .writeAnnouncement {
+        margin: 0;    
+        padding: 2vw 4vw;
+    }
+    .writeAnnouncement h1 {
+        font-size: 2vw;
+    }
+    .writeAnnouncement p {
+        font-size: 1.2vw;    
+    }    
+    .writeAnnounce h3 {
+        font-size: 1.3vw;
+        margin: 1vw 0;
+    }
+    .writeAnnounce textarea {    
+        max-width: 95%;
+    }
+    .writeAnnounce, .writeAnnounce textarea, .writeAnnounce input:not([type='date']) {    
+        width: 80%;
+    }
+    .writeAnnounce .UploadEnd {
+        display: flex;
+        justify-content: space-between;
+        width: 81%;
+    }
 }
