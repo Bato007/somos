@@ -36,10 +36,21 @@ const Full = () => {
 // console.log('type', docType)
 const typeResource = (link, docType) => {
   if (docType === 'pdf') {
-    return <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type={`application/${docType}`} />
+    return <embed className="docSpace" src={`${link}`} type={`application/${docType}`} />
   }
-
-  return <img className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} alt="img" />
+  if (docType === 'xls') {
+    return <iframe title="excel" src={`https://docs.google.com/viewer?url={${link}}`} type="application/vnd.ms-excel" />
+  }
+  if (docType === 'MP4') {
+    return <iframe title="video" src={`${link}`} type="vide/mp4" />
+  }
+  if (docType === 'ppt') {
+    return <iframe title="ppt" src={`${link}`} />
+  }
+  if (docType === 'docx') {
+    return <iframe title="docx" src={`${link}`} />
+  }
+  return <img className="docSpace" src={`${link}`} alt="img" />
 }
 
 const BotonesRecursos = ({ link, docType }) => (
