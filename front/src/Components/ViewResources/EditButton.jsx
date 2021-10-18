@@ -116,12 +116,10 @@ const EditButton = ({ resourceId }) => {
     setDateUpd(document.getElementById('dateModify').value)
   }
 
-  const handleTagChange = () => {
-    setTagUpd(document.getElementById('tagModify').value)
-  }
   // Necesito ver si esta funcion funciona como debe
-  const handleDelete = (chipToDelete) => () => {
-    setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
+  const handleDelete = () => () => {
+    setTagUpd(document.getElementById('tagModify').value)
+    // setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
   }
 
   const body = (
@@ -130,13 +128,12 @@ const EditButton = ({ resourceId }) => {
         <h2>Edición del recurso</h2>
         <TextField id="titleChangeVR" label={resInfo.title} onChange={() => handleTitleChange()} />
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
-        <TextField id="tagModify" label="newTag" onChange={() => handleTagChange()} />
         <div className="tagsButtons">
           {resInfo.tags !== undefined
             ? resInfo.tags.map((tag) => <Chip label={tag} onDelete={handleDelete(resInfo)} />)
             : null}
         </div>
-        <TextField id="dateModify" type="date" label={resInfo.available} min={actualDate} onChange={() => handleDateChange()} />
+        <TextField id="dateModify" type="date" defaultValue={resInfo.available} label={resInfo.available} inputProps={{ min: actualDate }} onChange={() => handleDateChange()} />
         <div className="buttonsEdit">
           <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>cancel</button>
           <button
@@ -144,7 +141,7 @@ const EditButton = ({ resourceId }) => {
             className="saveButton"
             onClick={() => {
               const botonEditar = EditSource()
-              const refresh = window.location.reload(false)
+              const refresh = window.location.reload(true)
               botonEditar()
               refresh()
             }}

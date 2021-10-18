@@ -11,7 +11,7 @@ const AdminButtons = () => {
 
   // Fetch para obtener la informacion del recurso seleccionado
   const setResourceInfo = async () => {
-    const json = await fetch(`${apiURL}/resources/${resourceId}`, {
+    const json = await fetch(`${apiURL}/admin/resources/${resourceId}`, {
       method: 'GET',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
@@ -22,7 +22,7 @@ const AdminButtons = () => {
 
   // Eliminar recurso
   const delResource = () => {
-    const json = fetch(`${apiURL}/resources/${resourceId}`, {
+    const json = fetch(`${apiURL}/admin/resources/${resourceId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

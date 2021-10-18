@@ -2,11 +2,12 @@
   background-color: #A7D8D7;
   display: flex;
   flex-direction: column;
-  height: 100%;
   align-items: center;
   justify-content: flex-start;
   padding: 0 0 3em 0;
   min-width: 100vw;
+  width: fit-content;
+  height: 100%;
 }
   
 #vresources {
@@ -45,6 +46,7 @@
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 10px;
+  flex-direction: row;
 }
 
 .headers h1{
@@ -71,7 +73,7 @@
   align-items: center;
   justify-content: flex-end;
   max-width: 400px;
-  margin: 50 auto;
+  margin: 170 auto;
   align-self: center;
   border-radius: 15px;
 }
@@ -178,18 +180,15 @@
 
 #dateModify {
   width: 200px;
-  color: transparent;
 }
 
-
-#dateModify::after {
-  color: black;
+.MuiInput-underline::before{
+  color: rgba(7, 6, 6, 0);
 }
 
-#dateModify:focus {
+.MuiInput-underline::after{
   color: rgb(7, 6, 6);
 }
-
 
 /*Boton para editar */
 .buttonEdit{

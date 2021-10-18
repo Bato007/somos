@@ -46,7 +46,6 @@ const ManageAccount = () => {
   }
 
   useEffect(() => {
-    console.log('si entra')
     getUserInfo()
   }, [])
 

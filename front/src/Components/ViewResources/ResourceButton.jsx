@@ -33,6 +33,14 @@ const Full = () => {
     document.webkitExitFullscreen()
   }
 }
+// console.log('type', docType)
+const typeResource = (link, docType) => {
+  if (docType === 'pdf') {
+    return <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type={`application/${docType}`} />
+  }
+
+  return <img className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} alt="img" />
+}
 
 const BotonesRecursos = ({ link, docType }) => (
   link
@@ -73,21 +81,13 @@ const BotonesRecursos = ({ link, docType }) => (
                   )}
               </div>
               <hr />
-              <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" />
-              {/* <div className="docSpace">
+              <div className="docSpace">
                 <TransformComponent>
                   <div id="documentV">
-                    <FilePreviewer
-                      hideControls
-                      file={{
-                        url: `${link}`,
-                        mimeType: `https://cors-anywhere.herokuapp.com/${docType}`,
-                        id: 'prueba',
-                      }}
-                    />
+                    {typeResource(link, docType)}
                   </div>
                 </TransformComponent>
-              </div> */}
+              </div>
             </>
           )}
         </TransformWrapper>
