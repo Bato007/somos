@@ -20,6 +20,7 @@ const ManageAccount = () => {
       },
     }).then((res) => res.json())
 
+    console.log(userInfo)
     setAccountInfo({
       ...userInfo,
       password: '',

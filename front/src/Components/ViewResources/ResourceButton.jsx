@@ -1,5 +1,5 @@
 import React from 'react'
-import { TransformWrapper } from 'react-zoom-pan-pinch'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import PropTypes from 'prop-types'
 import less from '../../static/imagesViewResources/zoomOut.png'
 import more from '../../static/imagesViewResources/zoomIn.png'
