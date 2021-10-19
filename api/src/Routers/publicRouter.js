@@ -47,78 +47,66 @@ const router = express.Router()
  *              $ref: '#/components/schemas/Error'
  */
 router.post('/login', async (req, res) => {
-  const schema = Joi.object({
-    username: Joi.string().min(1).required(),
-    password: Joi.string().min(8).required(),
-  })
+  try {
+    const { username, password } = req.body
+    let isSOMOS = false
 
-  // Validar informacion
-  const result = schema.validate(req.body)
-  if (result.error) {
-    const { message } = result.error.details[0]
-    res.status(400).json({ username: 'ERROR', name: message })
-  } else {
-    try {
-      const { username, password } = req.body
-      let isSOMOS = false
+    const users = await cUsers.doc(username).get()
+    // Verificando que exista el user
+    if (users.empty) {
+      throw { message: '101' }
+    }
 
-      const users = await cUsers.doc(username).get()
-      // Verificando que exista el user
-      if (users.empty) {
-        throw { message: '101' }
+    const user = users.data()
+
+    // Se verifica si esta activo o no
+    if (!user.active) {
+      throw { message: '103' }
+    }
+
+    // Verifico que la contraseña
+    if (user.password !== password) {
+      throw { message: '102' }
+    }
+
+    // Verifico si es somos o no
+    user.categories.forEach((category) => {
+      if (category === 'somos') {
+        isSOMOS = true
       }
+    })
 
-      const user = users.data()
+    // Ahora se genera la key
+    const somoskey = keyGen.generate(20)
+    const expires = new Date()
+    expires.setDate(expires.getDate() + 1)
 
-      // Se verifica si esta activo o no
-      if (!user.active) {
-        throw { message: '103' }
-      }
+    cKeys.doc(username).set({
+      expires,
+      isSomos: isSOMOS,
+      somoskey,
+    })
 
-      // Verifico que la contraseña
-      if (user.password !== password) {
-        throw { message: '102' }
-      }
-
-      // Verifico si es somos o no
-      user.categories.forEach((category) => {
-        if (category === 'somos') {
-          isSOMOS = true
-        }
-      })
-
-      // Ahora se genera la key
-      const somoskey = keyGen.generate(20)
-      const expires = new Date()
-      expires.setDate(expires.getDate() + 1)
-
-      cKeys.doc(username).set({
-        expires,
-        isSomos: isSOMOS,
-        somoskey,
-      })
-
-      const { name } = user
-      res.statusCode = 200
-      res.json({
-        username, name, isSOMOS, somoskey,
-      })
-    } catch (error) {
-      res.statusCode = 400
-      switch (error.message) {
-        case '101':
-          res.json({ username: 'ERROR 101' })
-          break
-        case '102':
-          res.json({ username: 'ERROR 102' })
-          break
-        case '103':
-          res.json({ username: 'ERROR 103' })
-          break
-        default:
-          res.json({ username: 'ERROR' })
-          break
-      }
+    const { name } = user
+    res.statusCode = 200
+    res.json({
+      username, name, isSOMOS, somoskey,
+    })
+  } catch (error) {
+    res.statusCode = 400
+    switch (error.message) {
+      case '101':
+        res.json({ username: 'ERROR 101' })
+        break
+      case '102':
+        res.json({ username: 'ERROR 102' })
+        break
+      case '103':
+        res.json({ username: 'ERROR 103' })
+        break
+      default:
+        res.json({ username: 'ERROR' })
+        break
     }
   }
 })
@@ -185,7 +173,6 @@ router.post('/announcements/help', async (req, res) => {
       title,
       description,
       toDate: date,
-      fromDate: new Date(),
       type: 'help',
       published: 0,
     })

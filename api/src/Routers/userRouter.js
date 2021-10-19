@@ -135,8 +135,8 @@ router.put('/information', async (req, res) => {
   const schema = Joi.object({
     username: Joi.string().required(),
     email: Joi.email().required(),
-    password: Joi.string().min(8).required(),
-    confirm: Joi.string().required().valid(Joi.ref('password')),
+    password: Joi.string().min(8),
+    confirm: Joi.string().valid(Joi.ref('password')),
     phone: Joi.number(),
     residence: Joi.string().required(),
     categories: Joi.array().min(1).required(),

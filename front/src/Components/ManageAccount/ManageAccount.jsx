@@ -19,7 +19,8 @@ const ManageAccount = () => {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
     }).then((res) => res.json())
-
+    if (!userInfo.tel) { userInfo.tel = '' }
+    console.log(userInfo)
     setAccountInfo({
       ...userInfo,
       password: '',
@@ -28,13 +29,32 @@ const ManageAccount = () => {
   }
 
   const saveChanges = async () => {
-    await fetch(`${apiURL}/user/information`, {
-      method: 'PUT',
-      headers: {
-        somoskey: `${localStorage.getItem('somoskey')}`,
-      },
-      body: JSON.stringify()
-    }).then((res) => res.json())
+    const {
+      username, email, tel, password, confirmPassword, address,
+    } = accountInfo
+    const buffer = {
+      username,
+      email,
+      password,
+      confirm: confirmPassword,
+      phone: tel,
+      residence: address,
+      categories,
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    const bufferArray = Object.entries(buffer).filter(([key, value]) => value !== '')
+
+    const data = Object.fromEntries(bufferArray)
+
+    console.log(data)
+    // await fetch(`${apiURL}/user/information`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     somoskey: `${localStorage.getItem('somoskey')}`,
+    //   },
+    //   body: JSON.stringify(data),
+    // }).then((res) => res.json())
   }
 
   // Leyendo el valor actual de los field
@@ -46,7 +66,6 @@ const ManageAccount = () => {
   }
 
   useEffect(() => {
-    console.log('si entra')
     getUserInfo()
   }, [])
 

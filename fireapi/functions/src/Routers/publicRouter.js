@@ -185,7 +185,6 @@ router.post('/announcements/help', async (req, res) => {
       title,
       description,
       toDate: date,
-      fromDate: new Date(),
       type: 'help',
       published: 0,
     })

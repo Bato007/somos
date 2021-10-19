@@ -88,13 +88,13 @@ router.get('/', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.status(200).json(announcements)
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Unexpected' })
   }
 })
@@ -120,10 +120,9 @@ router.get('/help', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -153,10 +152,9 @@ router.get('/help/published', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
@@ -184,10 +182,9 @@ router.get('/home', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -217,10 +214,9 @@ router.get('/home/published', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -289,7 +285,6 @@ router.post('/home', async (req, res) => {
         title,
         description,
         toDate: date,
-        fromDate: new Date(),
         type: 'home',
         published: 0,
       })

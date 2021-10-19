@@ -22,39 +22,44 @@ router.post('/upload', (req, res) => {
   const uploads = []
   const fileWrites = []
 
+  busBoy.on('error', (e) => {
+    console.log('Failed to read', e)
+    res.statusCode = 500
+    res.json({ error: e })
+  })
+
   // Para cada file
   busBoy.on('file', (fieldname, file, filename) => {
-    if (fileWrites.length < 1) {
-      const filePath = path.join(tempdir, filename)
-      uploads.push(filePath)
-      const writeStream = fs.createWriteStream(filePath)
-      file.pipe(writeStream)
-      // Wait to be written
-      const promise = new Promise((resolve, reject) => {
-        file.on('end', () => { writeStream.end() })
-        writeStream.on('finish', resolve)
-        writeStream.on('error', reject)
-      })
-      fileWrites.push(promise)
-    }
+    const filePath = path.join(tempdir, filename)
+    uploads.push(filePath)
+
+    const writeStream = fs.createWriteStream(filePath)
+    file.pipe(writeStream)
+
+    // Wait to be written
+    const promise = new Promise((resolve, reject) => {
+      file.on('end', () => { writeStream.end() })
+      writeStream.on('finish', resolve)
+      writeStream.on('error', reject)
+    })
+    fileWrites.push(promise)
   })
 
   busBoy.on('finish', async (e) => {
     await Promise.all(fileWrites)
+    res.statusCode = 200
 
-    await bucket.upload(uploads[0], {
-      metadata: { metadata: { firebaseStorageDownloadTokens: token } },
-      public: true,
-    })
-
-    fs.unlinkSync(uploads[0])
-
+    for (let i = 0; i < uploads.length; i += 1) {
+      bucket.upload(uploads[i], {
+        metadata: { metadata: { firebaseStorageDownloadTokens: token } },
+        public: true,
+      })
+    }
     res.statusCode = 200
     res.json({ message: 'Finished', token })
   })
 
   req.pipe(busBoy)
-  busBoy.end(req.rawBody)
 })
 
 router.post('/', async (req, res) => {

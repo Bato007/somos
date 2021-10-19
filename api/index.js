@@ -65,10 +65,6 @@ app.use('/admin/announcements', adminAdvertRouter)
 app.use('/admin/categories', adminCategoryRouter)
 app.use('/admin/tags', adminTagsRouter)
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'NOT FOUND' })
-})
-
 // Ahora se tira error de que no encontro la ruta
 app.use((req, res) => {
   res.status(404).json({ message: 'NOT FOUND' })

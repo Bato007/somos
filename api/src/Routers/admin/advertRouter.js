@@ -24,10 +24,9 @@ router.get('/nonpublished', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.statusCode = 200
     res.json(announcements)
@@ -59,10 +58,9 @@ router.get('/help/nonpublished', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -92,10 +90,9 @@ router.get('/home/nonpublished', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate, fromDate } = data
+      let { toDate } = data
       toDate = toDate.toDate()
-      fromDate = fromDate.toDate()
-      announcements.push({ ...data, toDate, fromDate })
+      announcements.push({ ...data, toDate })
     })
     res.status(200).json(announcements)
   } catch (error) {
