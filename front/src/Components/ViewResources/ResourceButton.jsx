@@ -8,6 +8,7 @@ import previous2 from '../../static/imagesViewResources/previousDisable.png'
 import rotate from '../../static/imagesViewResources/rotate.png'
 import nextButton from '../../static/imagesViewResources/next.png'
 import next2 from '../../static/imagesViewResources/nextDisable.png'
+import dowload from '../../static/imagesViewResources/dowload.png'
 /* El zoomIn y ZoomOut son parte de la libreria */
 
 // Funcion para rotar la imagen
@@ -36,21 +37,37 @@ const Full = () => {
 // console.log('type', docType)
 const typeResource = (link, docType) => {
   if (docType === 'pdf') {
-    return <embed className="docSpace" src={`${link}`} type={`application/${docType}`} />
+    return <embed className="pdfDoc" src={`${link}`} type={`application/${docType}`} />
   }
   if (docType === 'xls') {
-    return <iframe title="excel" src={`https://docs.google.com/viewer?url={${link}}`} type="application/vnd.ms-excel" />
+    return (
+      <div className="office">
+        <img src={`${dowload}`} alt="img" />
+        <iframe title="excel" className="officeDocuments" src={`${link}`} />
+      </div>
+    )
+    // return <embed title="excel" src={`https://view.officeapps.live.com/op/embed.aspx?src={${link}}`} />
   }
   if (docType === 'MP4') {
-    return <iframe title="video" src={`${link}`} type="vide/mp4" />
+    return <iframe className="pdfDoc" title="video" src={`${link}`} type="vide/mp4" />
   }
   if (docType === 'ppt') {
-    return <iframe title="ppt" src={`${link}`} />
+    return (
+      <div className="office">
+        <img src={`${dowload}`} alt="img" />
+        <iframe title="ppt" className="officeDocuments" src={`${link}`} />
+      </div>
+    )
   }
   if (docType === 'docx') {
-    return <iframe title="docx" src={`${link}`} />
+    return (
+      <div className="office">
+        <img src={`${dowload}`} alt="img" />
+        <iframe title="docx" className="officeDocuments" src={`${link}`} />
+      </div>
+    )
   }
-  return <img className="docSpace" src={`${link}`} alt="img" />
+  return <img className="imgfromdoc" src={`${link}`} alt="img" />
 }
 
 const BotonesRecursos = ({ link, docType }) => (
