@@ -9,20 +9,6 @@ import SearchBarTo from '../SearchbarTo/SearchbarTo'
 import apiURL from '../fetch'
 import './Upload.css'
 
-/**
- * Obteniendo la fecha actual para las dates disponibles en el recurso
- */
-const date = () => {
-  const today = new Date()
-  const month = today.getMonth() + 1
-
-  if (month.toString().length === 1) {
-    return `${today.getFullYear()}-0${today.getMonth() + 1}-${today.getDate()}`
-  }
-  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
-}
-
-const actualDate = date()
 const formData = new FormData()
 
 const Upload = () => {
@@ -165,7 +151,7 @@ const Upload = () => {
           Disponible hasta
         </h3>
         <div className="UploadEnd">
-          <Input className="titleInput" type="date" min={actualDate} name="date" placeholder="Fecha de vigencia" onChange={handleChange} />
+          <Input className="titleInput" type="date" name="date" placeholder="Fecha de vigencia" onChange={handleChange} />
           <Button name="Subir" id="UploadButton" onClick={submitResource} />
         </div>
         <Error error={error} />

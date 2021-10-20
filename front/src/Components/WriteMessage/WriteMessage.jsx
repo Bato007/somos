@@ -77,7 +77,7 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
       <h3>Disponible hasta</h3>
 
       <div className="UploadEnd">
-        <Input className="titleInput" type="date" min={actualDate} name="duration" placeholder="Fecha de vigencia" onChange={handleChange} />
+        <Input className="titleInput" type="date" name="duration" placeholder="Fecha de vigencia" onChange={handleChange} />
         <div className="ButtonOptions">
           <Button name="Cancelar" id="CancelButton" onClick={() => cancelAnnouncement()} />
           <Button name="Enviar" id="UploadButton" onClick={() => sendAnnouncement()} />

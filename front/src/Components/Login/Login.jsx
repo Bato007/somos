@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import authentication from '../Authentication'
@@ -73,6 +75,10 @@ const Login = () => {
         <Button id="SignIn" name="Entrar" onClick={existingAccounts} />
         <Button id="forgot" name="¿Olvidó su contraseña?" onClick={() => history.push('./forgotPassword')} />
         <Error error={error} />
+      </div>
+
+      <div className="footer">
+        <h1 onClick={() => history.push('./serviceProvider')}>Brindar un servicio</h1>
       </div>
     </div>
   )
