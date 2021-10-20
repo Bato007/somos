@@ -7,7 +7,6 @@
   padding: 0 0 3em 0;
   min-width: 100vw;
   width: fit-content;
-  height: 100%;
 }
   
 #vresources {
@@ -27,6 +26,10 @@
   flex-direction: column;
   justify-content: right;
   
+}
+
+.docNoVisibles{
+  display: none;
 }
 
 .vresources h1{
@@ -304,12 +307,41 @@ hr{
 .docSpace{
   overflow-y: scroll;
   scroll-behavior: smooth;
-  height: 300px;
   display: flex;
   justify-content: center;
   background-color: white;
   padding: 5px 50px;
+  height: 350px;
   scroll-snap-type: x mandatory
+}
+
+.imgfromdoc{
+  overflow-y:hidden;
+}
+
+.pdfDoc{
+  overflow-y:hidden;
+  width:fit-content ;
+  border: 0;
+}
+
+.mp4See{
+  overflow-y: hidden;
+  min-width: 720px;
+  height: 800px;
+}
+
+.office{
+  display: block;
+  display: flex;
+  justify-content: center;
+}
+
+.officeDocuments{
+  visibility: hidden;
+    border: hidden;
+    width: 0%;
+    height: 0%;
 }
 
 TransformComponent{
@@ -322,7 +354,7 @@ TransformComponent{
   scrollbar-face-color: #A7D8D7;
   align-content: center;
   overflow: revert;
-  width: 715px;
+  max-width: 715px;
 }
 
 #previewRb{

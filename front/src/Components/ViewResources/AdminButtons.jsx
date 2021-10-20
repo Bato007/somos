@@ -41,7 +41,7 @@ const AdminButtons = () => {
       <div id="vresources">
         <div className="headers">
           <h1>{resInfo.title}</h1>
-          <button type="button" className="buttonEdit">a</button>
+          <button type="button">a</button>
         </div>
         <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
         <hr />
@@ -51,7 +51,7 @@ const AdminButtons = () => {
           </p>
         </div>
         <center>
-          <button type="button" onClick={delResource} className="buttonDelete">a</button>
+          <button type="button" onClick={delResource}>a</button>
         </center>
       </div>
     </div>
