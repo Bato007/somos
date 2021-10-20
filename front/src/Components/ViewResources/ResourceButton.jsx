@@ -37,7 +37,8 @@ const Full = () => {
 // console.log('type', docType)
 const typeResource = (link, docType) => {
   if (docType === 'pdf') {
-    return <embed className="pdfDoc" src={`${link}`} type={`application/${docType}`} />
+    // return <embed className="pdfDoc" src={`${link}`} type={`application/${docType}`} />
+    return <iframe title="pdf" className="pdfDoc" height="600p" src={`${link}`} type={`application/${docType}`} />
   }
   if (docType === 'xls') {
     return (
@@ -49,7 +50,7 @@ const typeResource = (link, docType) => {
     // return <embed title="excel" src={`https://view.officeapps.live.com/op/embed.aspx?src={${link}}`} />
   }
   if (docType === 'MP4') {
-    return <iframe className="pdfDoc" title="video" src={`${link}`} type="vide/mp4" />
+    return <iframe className="mp4See" title="video" src={`${link}`} type="vide/mp4" />
   }
   if (docType === 'ppt') {
     return (

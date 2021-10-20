@@ -322,6 +322,13 @@ hr{
 .pdfDoc{
   overflow-y:hidden;
   width:fit-content ;
+  border: 0;
+}
+
+.mp4See{
+  overflow-y: hidden;
+  min-width: 720px;
+  height: 800px;
 }
 
 .office{
