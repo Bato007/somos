@@ -1,6 +1,7 @@
 const express = require('express')
 const Joi = require('joi')
-const { cUsers, cKeys } = require('../DataBase/firebase')
+const { valPassword, valRegion } = require('../Middleware/validation')
+const { cUsers, cKeys, FieldValue } = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -134,12 +135,21 @@ router.get('/:usernameid', async (req, res) => {
 router.put('/information', async (req, res) => {
   const schema = Joi.object({
     username: Joi.string().required(),
-    email: Joi.email().required(),
-    password: Joi.string().min(8).required(),
-    confirm: Joi.string().required().valid(Joi.ref('password')),
-    phone: Joi.number(),
+    password: Joi.string().min(8),
+    confirm: Joi.string().min(8).valid(Joi.ref('password')).messages({
+      'any.only': 'ERROR 100 password required',
+    }),
+    email: Joi.string().email().required(),
+    phone: Joi.number().messages({
+      'number.base': 'ERROR 101 phone must be an integer',
+    }),
     residence: Joi.string().required(),
-    categories: Joi.array().min(1).required(),
+    categories: Joi.array().min(1).required().messages({
+      'array.min': 'ERROR 102 user needs category',
+    }),
+  }).messages({
+    'any.required': 'ERROR 100 missing required fields',
+    'string.email': 'ERROR 101 invalid email',
   })
 
   // Validar informacion
@@ -147,34 +157,60 @@ router.put('/information', async (req, res) => {
   if (result.error) {
     const { message } = result.error.details[0]
     res.statusCode = 400
-    res.json({ username: 'ERROR', name: message })
+    res.json({ message })
   } else {
     try {
       const {
-        username, password, confirm, email, phone, residence, categories,
+        username, password, confirm, email, residence, categories,
       } = req.body
+      let { phone } = req.body
+      let updateIt = true
       const { somoskey } = req.headers
 
       // Se verifica que la llave coincida
-      const key = await cKeys.doc(username).get()
+      const key = (await cKeys.doc(username).get()).data()
       if (key.somoskey !== somoskey) {
+        updateIt = false
         res.statusCode = 401
-        res.end()
-      } else if (password !== confirm) {
-        // Si las claves no son iguales
+        res.json({ message: 'Not allowed to do this operation' })
+      }
+
+      // Handle password change
+      if (password || confirm) {
+        // Si las claves son iguales
+        if (password === confirm) {
+          if (!valPassword(password)) { // Cuando son iguales las claves
+            updateIt = false
+            res.statusCode = 400
+            res.json({ message: 'ERROR 105 invalid password' })
+          }
+        } else {
+          updateIt = false
+          res.statusCode = 400
+          res.json({ message: 'ERROR 106 different passwords' })
+        }
+      }
+
+      const place = valRegion(residence)
+      if (!place) {
+        updateIt = false
         res.statusCode = 400
-        res.end()
-      } else {
+        res.json({ message: 'ERROR 107 invalid country' })
+      }
+
+      // Handle update
+      if (updateIt) {
+        if (!phone) { phone = FieldValue.delete() }
         await cUsers.doc(username).update({
-          password, email, phone, residence, categories,
+          password, email, phone, residence: place, categories,
         })
         res.statusCode = 200
-        res.end()
+        res.json()
       }
       // Se realiza el update de todo
     } catch (error) {
       res.statusCode = 500
-      res.end()
+      res.json()
     }
   }
 })

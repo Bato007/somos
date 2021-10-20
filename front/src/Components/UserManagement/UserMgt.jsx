@@ -22,8 +22,6 @@ const UserMgt = () => {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
     }).then((res) => res.json()).then((res) => res)
-
-    console.log(data)
     setUserInfo(data)
   }
 

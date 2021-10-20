@@ -209,6 +209,10 @@ router.put('/activate', async (req, res) => {
   }
 })
 
+router.put('/approve/:username')
+
+router.put('/disapprove/:username')
+
 /*
   Esta funcion recibe el username de la que se quiere borrar
   se remplaza el :username

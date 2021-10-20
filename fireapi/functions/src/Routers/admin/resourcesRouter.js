@@ -60,19 +60,6 @@ router.post('/upload', (req, res) => {
   req.pipe(busBoy)
 })
 
-/**
- * Sube un recurso al bucket, se le manda el
- * con el siguiente formato:
- * {
- *  title: 'ejemplo',
- *  description: 'ejemplo',
- *  tags: ['tag1', 'tag2', 'tag3', ..., 'tagn'],
- *  category: ['categoria1', 'categoria2', ..., 'categorian'],
- *  users: ['user1', 'user2', ..., 'user3'],
- *  date: '2021-01-01',
- *  file: { }
- * }
- */
 router.post('/', async (req, res) => {
   const schema = Joi.object({
     title: Joi.string().min(1).required(),

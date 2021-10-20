@@ -20,7 +20,8 @@ const ManageAccount = () => {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
     }).then((res) => res.json())
-
+    if (!userInfo.tel) { userInfo.tel = '' }
+    console.log(userInfo)
     setAccountInfo({
       ...userInfo,
       password: '',
@@ -29,14 +30,40 @@ const ManageAccount = () => {
   }
 
   const saveChanges = async () => {
-    console.log(categories)
-    await fetch(`${apiURL}/user/information`, {
-      method: 'PUT',
-      headers: {
-        somoskey: `${localStorage.getItem('somoskey')}`,
-      },
-      body: JSON.stringify(),
-    }).then((res) => res.json())
+    const {
+      username, email, tel, password, confirmPassword, address,
+    } = accountInfo
+    const buffer = {
+      username,
+      email,
+      password,
+      confirm: confirmPassword,
+      phone: tel,
+      residence: address,
+      categories,
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    const bufferArray = Object.entries(buffer).filter(([key, value]) => value !== '')
+
+    const data = Object.fromEntries(bufferArray)
+    /**
+     * response code = 400
+     * ERROR 100 missing required fields || password required
+     * ERROR 101 invalid email || phone must be an integer
+     * ERROR 102 user needs category
+     * ERROR 105 invalid password
+     * ERROR 106 different passwords
+     * ERROR 107 invalid country
+     */
+    const response = await fetch(`${apiURL}/user/information`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
+      }).then((res) => res.json()).then((res) => (res))
+      .catch((e) => console.error('Error', e))
+    console.log(response)
   }
 
   // Leyendo el valor actual de los field

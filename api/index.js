@@ -4,9 +4,6 @@ const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
 
 const app = express()
-app.use(cors())
-app.use(express.json())
-
 const PORT = 3001
 
 const publicRouter = require('./src/Routers/publicRouter')
@@ -44,6 +41,9 @@ const options = {
   apis: ['./src/Routers/*.js', './src/Routers/admin/*.js'],
 }
 
+app.use(cors())
+app.use(express.json())
+
 const specs = swaggerJsDoc(options)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
 
@@ -52,7 +52,7 @@ app.use('/', publicRouter)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
 
 // Routers Protegidos a los usuarios
-// app.use('/', authorizate)
+app.use('/', authorizate)
 app.use('/user', userRouter)
 app.use('/resources', resourcesRouter)
 app.use('/announcements', advertRouter)
@@ -64,10 +64,6 @@ app.use('/admin/resources', adminResourcesRouter)
 app.use('/admin/announcements', adminAdvertRouter)
 app.use('/admin/categories', adminCategoryRouter)
 app.use('/admin/tags', adminTagsRouter)
-
-app.use((req, res) => {
-  res.status(404).json({ message: 'NOT FOUND' })
-})
 
 // Ahora se tira error de que no encontro la ruta
 app.use((req, res) => {
