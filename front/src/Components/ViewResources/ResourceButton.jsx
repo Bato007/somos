@@ -1,7 +1,6 @@
 import React from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import PropTypes from 'prop-types'
-import FilePreviewer from 'react-file-previewer'
 import less from '../../static/imagesViewResources/zoomOut.png'
 import more from '../../static/imagesViewResources/zoomIn.png'
 import previous from '../../static/imagesViewResources/previous.png'
@@ -33,6 +32,25 @@ const Full = () => {
   } else if (document.webkitExitFullscreen) { /* Safari */
     document.webkitExitFullscreen()
   }
+}
+// console.log('type', docType)
+const typeResource = (link, docType) => {
+  if (docType === 'pdf') {
+    return <embed className="docSpace" src={`${link}`} type={`application/${docType}`} />
+  }
+  if (docType === 'xls') {
+    return <iframe title="excel" src={`https://docs.google.com/viewer?url={${link}}`} type="application/vnd.ms-excel" />
+  }
+  if (docType === 'MP4') {
+    return <iframe title="video" src={`${link}`} type="vide/mp4" />
+  }
+  if (docType === 'ppt') {
+    return <iframe title="ppt" src={`${link}`} />
+  }
+  if (docType === 'docx') {
+    return <iframe title="docx" src={`${link}`} />
+  }
+  return <img className="docSpace" src={`${link}`} alt="img" />
 }
 
 const BotonesRecursos = ({ link, docType }) => (
@@ -74,21 +92,13 @@ const BotonesRecursos = ({ link, docType }) => (
                   )}
               </div>
               <hr />
-              <embed className="docSpace" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" />
-              {/* <div className="docSpace">
+              <div className="docSpace">
                 <TransformComponent>
                   <div id="documentV">
-                    <FilePreviewer
-                      hideControls
-                      file={{
-                        url: `${link}`,
-                        mimeType: `https://cors-anywhere.herokuapp.com/${docType}`,
-                        id: 'prueba',
-                      }}
-                    />
+                    {typeResource(link, docType)}
                   </div>
                 </TransformComponent>
-              </div> */}
+              </div>
             </>
           )}
         </TransformWrapper>

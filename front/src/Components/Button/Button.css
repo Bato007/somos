@@ -91,17 +91,19 @@ button {
 }
 
 #decline {
-  width: 50px;
-  height: 50px;
-  background-size: cover;
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: #E8E6E6;
   background-image: url('../../static/imagesAnnounces/cancel.png');
 }
 
 #accept {
-  width: 50px;
-  height: 50px;
-  background-size: cover;
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: #E8E6E6;
   background-image: url('../../static/imagesAnnounces/checkmark.png');
 }
@@ -155,24 +157,48 @@ button {
 }
 
 #writeAnnounce {
-  width: 3vw;
-  height: 3vw;
+  margin: 3vw;
+  width: 10vw;
+  height: 10vw;
   background-color: transparent;
-  background-size: contain;
   align-self: flex-end;
+  
+  background-size: contain;
+  background-repeat: no-repeat;
   background-image: url('../../static/imagesAnnounces/write.png');
 }
 
 #Manage {
-  font-size: 1vw;
+  font-size: 4vw;
+  padding: 1em 0.5em;
   background-color: transparent;
   color: black;
   border-bottom: 4px solid #6d9c9c;
 }
 
 #ManageClicked {
-  font-size: 1vw;
+  font-size: 4vw;
+  padding: 1em 0.5em;
   background-color: transparent;
   color: black;
   border-bottom: 4px solid rgb(255, 255, 255);
+}
+
+
+@media screen and (min-width: 800px) {
+  #ManageClicked, #Manage {
+    font-size: 1vw;
+    padding: 1em 2em;
+  }
+
+  #decline, #accept {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
+  #writeAnnounce {    
+    width: 3vw;
+    height: 3vw;
+    margin: 1vw 1vw 0 1vw;
+  }
 }

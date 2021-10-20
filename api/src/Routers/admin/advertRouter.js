@@ -1,7 +1,43 @@
 const express = require('express')
 const { cAnnouncements } = require('../../DataBase/firebase')
+const { sendMail } = require('../../Middleware/services')
 
 const router = express.Router()
+
+/**
+ * @swagger
+ * /admin/announcements:
+ *  get:
+ *    summary: Retorna todos los anuncios
+ *    tags: [Anuncios]
+ *    responses:
+ *      200:
+ *        description: Obtiene todos los anuncios
+ *        content:
+ *          application/json:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/Anuncio'
+ *              type:
+ *                type: string
+ *                description: El tipo del anuncio
+ */
+router.get('/', async (req, res) => {
+  try {
+    const tempAnnouncements = await cAnnouncements.get()
+    const announcements = []
+    tempAnnouncements.forEach((announcement) => {
+      const data = announcement.data()
+      let { toDate } = data
+      toDate = toDate.toDate()
+      announcements.push({ ...data, toDate })
+    })
+    res.status(200).json(announcements)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Unexpected' })
+  }
+})
 
 /**
  * @swagger
@@ -116,12 +152,59 @@ router.get('/home/nonpublished', async (req, res) => {
  *    responses:
  *      200:
  *        description: El anuncio fue publicado
- *      400:
+ *      404:
  *        description: El id no existe
- *      500:
- *        description: Hubo un error en el server
  */
-router.put('/accept/:id')
+router.put('/accept/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await cAnnouncements.doc(id).update({
+      published: 1,
+    })
+    sendMail()
+    res.statusCode = 200
+    // Se manda el mail
+  } catch (error) {
+    res.statusCode = 404
+  } finally {
+    res.end()
+  }
+})
+
+/**
+ * @swagger
+ * /admin/announcements/deny/{id}:
+ *  put:
+ *    summary: Rechaza un anuncio
+ *    tags: [Admin, Anuncios]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: El id del anuncio
+ *    responses:
+ *      200:
+ *        description: El anuncio fue rechazado
+ *      404:
+ *        description: El id no existe
+ */
+router.put('/deny/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await cAnnouncements.doc(id).update({
+      published: 2,
+    })
+    sendMail()
+    res.statusCode = 200
+    // Se manda el mail
+  } catch (error) {
+    res.statusCode = 404
+  } finally {
+    res.end()
+  }
+})
 
 /**
  * @swagger
@@ -141,9 +224,17 @@ router.put('/accept/:id')
  *        description: El anuncio fue creado
  *      404:
  *        description: El anuncio no se encontro
- *      500:
- *        description: Hubo un error en el server
  */
-router.delete('/:id')
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await cAnnouncements.doc(id).delete()
+    res.statusCode = 200
+  } catch (error) {
+    res.statusCode = 400
+  } finally {
+    res.end()
+  }
+})
 
 module.exports = router

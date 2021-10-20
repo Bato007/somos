@@ -7,8 +7,9 @@ import apiURL from '../fetch'
 
 const ManageAccount = () => {
   const [accountInfo, setAccountInfo] = useState({
-    username: '', email: '', tel: '', password: '', confirmPassword: '', address: '', categories: '',
+    username: '', email: '', tel: '', password: '', confirmPassword: '', address: '', categories: [],
   })
+  // eslint-disable-next-line no-unused-vars
   const [categories, setCategories] = useState([])
 
   // Se obtiene la info del usuario y se coloca en el estado
@@ -46,15 +47,23 @@ const ManageAccount = () => {
     const bufferArray = Object.entries(buffer).filter(([key, value]) => value !== '')
 
     const data = Object.fromEntries(bufferArray)
-
-    console.log(data)
-    // await fetch(`${apiURL}/user/information`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     somoskey: `${localStorage.getItem('somoskey')}`,
-    //   },
-    //   body: JSON.stringify(data),
-    // }).then((res) => res.json())
+    /**
+     * response code = 400
+     * ERROR 100 missing required fields || password required
+     * ERROR 101 invalid email || phone must be an integer
+     * ERROR 102 user needs category
+     * ERROR 105 invalid password
+     * ERROR 106 different passwords
+     * ERROR 107 invalid country
+     */
+    const response = await fetch(`${apiURL}/user/information`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
+      }).then((res) => res.json()).then((res) => (res))
+      .catch((e) => console.error('Error', e))
+    console.log(response)
   }
 
   // Leyendo el valor actual de los field
@@ -70,49 +79,60 @@ const ManageAccount = () => {
   }, [])
 
   return (
-    <div id="ManageAccount">
-      <div className="ManageAccountContainer">
-        <h1 className="title">Actualización de cuenta</h1>
-        <div className="ManageAccount">
-          <div className="manageAccountBox">
-            <h1>Usuario</h1>
-            <Input name="username" type="text" value={accountInfo.username} readOnly />
-          </div>
+    <>
+      <div id="ManageAccount">
+        <div className="ManageAccountContainer">
+          <h1 className="title">Actualización de cuenta</h1>
+          <div className="ManageAccount">
+            <div className="manageAccountBox">
+              <h1>Usuario</h1>
+              <Input name="username" type="text" value={accountInfo.username} readOnly />
+            </div>
 
-          <div className="manageAccountBox">
-            <h1>Email</h1>
-            <Input name="email" type="text" value={accountInfo.email} onChange={handleManageAccount} />
-          </div>
+            <div className="manageAccountBox">
+              <h1>Email</h1>
+              <Input name="email" type="text" value={accountInfo.email} onChange={handleManageAccount} />
+            </div>
 
-          <div className="manageAccountBox">
-            <h1>Contraseña</h1>
-            <Input name="password" type="password" onChange={handleManageAccount} />
-          </div>
+            <div className="manageAccountBox">
+              <h1>Contraseña</h1>
+              <Input name="password" type="password" onChange={handleManageAccount} />
+            </div>
 
-          <div className="manageAccountBox">
-            <h1>Confirmar contraseña</h1>
-            <Input name="confirmPassword" type="password" onChange={handleManageAccount} />
-          </div>
+            <div className="manageAccountBox">
+              <h1>Confirmar contraseña</h1>
+              <Input name="confirmPassword" type="password" onChange={handleManageAccount} />
+            </div>
 
-          <div className="manageAccountBox">
-            <h1>Numero de Celular</h1>
-            <Input name="tel" type="text" value={accountInfo.tel} onChange={handleManageAccount} />
-          </div>
+            <div className="manageAccountBox">
+              <h1>Numero de Celular</h1>
+              <Input name="tel" type="text" value={accountInfo.tel} onChange={handleManageAccount} />
+            </div>
 
-          <div className="manageAccountBox">
-            <h1>Lugar de residencia</h1>
-            <Input name="address" type="text" value={accountInfo.address} onChange={handleManageAccount} />
+            <div className="manageAccountBox">
+              <h1>Lugar de residencia</h1>
+              <Input name="address" type="text" value={accountInfo.address} onChange={handleManageAccount} />
+            </div>
           </div>
-        </div>
-        <h1>Categorías</h1>
-        <SearchBarTo setCategories={setCategories} creatingAccount lastResult={categories} />
+          <h1>Categorías</h1>
 
-        <div className="ButtonOptions">
-          <Button name="Cancelar" id="CancelButton" onClick={() => getUserInfo()} />
-          <Button name="Guardar" id="UploadButton" onClick={() => saveChanges()} />
+          { accountInfo.categories.length > 0
+            ? (
+              <SearchBarTo
+                setCategories={setCategories}
+                creatingAccount
+                lastResult={accountInfo.categories}
+              />
+            )
+            : ''}
+
+          <div className="ButtonOptions">
+            <Button name="Cancelar" id="CancelButton" onClick={() => getUserInfo()} />
+            <Button name="Guardar" id="UploadButton" onClick={() => saveChanges()} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

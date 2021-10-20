@@ -68,7 +68,7 @@ const router = express.Router()
  * @swagger
  * /announcements:
  *  get:
- *    summary: Retorna todos los anuncios
+ *    summary: Retorna todos los anuncios publicados
  *    tags: [Anuncios]
  *    responses:
  *      200:

@@ -40,6 +40,8 @@ const Login = () => {
       return res.json()
     })
 
+    console.log(json, status)
+
     if (status === 200) {
       setError('')
       const { somoskey } = json
@@ -57,6 +59,8 @@ const Login = () => {
       setError('Contraseña incorrecta')
     } else if (json.username === 'ERROR 103') {
       setError('Usuario desactivado')
+    } else if (json.username === 'ERROR') {
+      setError('Credenciales incorrectas')
     }
   }
 
@@ -66,8 +70,8 @@ const Login = () => {
         <img src={Somos} alt="Somos Logo" />
         <Input className="InputLogin" type="text" name="username" placeholder="&#xF007; Username" onChange={handleChange} onEnter={existingAccounts} />
         <Input className="InputLogin" type="password" name="password" placeholder="&#xF023; Password" onChange={handleChange} onEnter={existingAccounts} />
-        <Button id="SignIn" name="Sign In" onClick={existingAccounts} />
-        <Button id="forgot" name="¿olvidó su contraseña?" onClick={() => history.push('./forgotPassword')} />
+        <Button id="SignIn" name="Entrar" onClick={existingAccounts} />
+        <Button id="forgot" name="¿Olvidó su contraseña?" onClick={() => history.push('./forgotPassword')} />
         <Error error={error} />
       </div>
     </div>

@@ -36,19 +36,20 @@ const Announcement = () => {
   }, [])
 
   return (
-    <div className="clientAnnouncements">
-      <div className="acceptedAnnouncements">
-        <Button id="writeAnnounce" onClick={() => setWritingAnnouncement(!writingAnnouncement)} />
-        {actualAnnounces.map((result) => (
-          <button type="button" onClick={() => showAnnouncement(result)}>
-            <h1>{result.title}</h1>
-            <p>{result.description}</p>
-            <hr />
-          </button>
-        ))}
-      </div>
-      <div className={`${writingAnnouncement}` ? 'writeAnnouncement' : 'visualizeAnnouncement'}>
-        {
+    <>
+      <Button id="writeAnnounce" onClick={() => setWritingAnnouncement(!writingAnnouncement)} />
+      <div className="clientAnnouncements">
+        <div className="acceptedAnnouncements">
+          {actualAnnounces.map((result) => (
+            <button type="button" onClick={() => showAnnouncement(result)}>
+              <h1>{result.title}</h1>
+              <p>{result.description}</p>
+              <hr />
+            </button>
+          ))}
+        </div>
+        <div className={`${writingAnnouncement}` ? 'writeAnnouncement' : 'visualizeAnnouncement'}>
+          {
           writingAnnouncement
             ? (
               <>
@@ -58,8 +59,9 @@ const Announcement = () => {
             )
             : <WriteMessage setWritingAnnouncement={setWritingAnnouncement} />
         }
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -112,6 +112,96 @@ router.post('/login', async (req, res) => {
 })
 
 /**
+ * Account-Recovery
+ * 
+ */
+router.post('/recovery', async (req, res) => {
+  const schema = Joi.object({
+    email: Joi.string().min(5).required()
+  })
+
+  //Valida informacion
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.status(400).json({ email: 'ERROR', name: message })
+  } else {
+    // Localiza el usuario que desea cambiar contraseña
+    try{
+      const { email } = req.body
+      const users = await cUsers.where('email', '==', email).get()
+      if (users.empty) {
+        throw { message: '101' }
+      }
+
+      // Extrae informacion del usuario
+      const user = users.data()
+      const { username, name } = user
+      res.statusCode = 200
+      // Genera token ¿?
+      const token = keyGen.generate(20)
+
+      res.json({
+        username, name, token,
+      })
+    } catch (error){
+      res.statusCode = 400
+      switch (error.message) {
+        case '101':
+          res.json({ email: 'ERROR 101' })
+          break
+        default:
+          res.json({ email: 'ERROR' })
+          break
+      }
+    }
+  }
+})
+
+router.put('/recovery/token', async (req, res) => {
+  const schema = Joi.object({
+  password: Joi.string().min(8).required(),
+  confirmPassword: Joi.string().required().valid(Joi.ref('password')),
+  token: Joi.string().min(6).required(),
+  })
+
+  //Valida informacion
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.statusCode = 400
+    res.json({ password: 'ERROR', name: message })
+  } else {
+    try {
+      const {
+        password, confirmPassword, token,
+      } = req.body
+      const { username, givenToken } = req.headers
+      
+      // Verifica el token dado con el ingresado
+      if (givenToken !== token) {
+        res.statusCode = 401
+        res.end()
+        // Verifica la contraseña con la confirmacion
+      } else if (password !== confirmPassword) {
+        res.statusCode = 400
+        res.end()
+      } else {
+        await cUsers.doc(username).update({
+          password,
+        })
+        res.statusCode = 200
+        res.end()
+      }
+    } catch (error) {
+      res.statusCode = 500
+      res.end()
+    }
+  }
+})
+
+
+/**
  * @swagger
  * /announcements/help:
  *  post:

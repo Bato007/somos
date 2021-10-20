@@ -14,7 +14,6 @@ import SearchbarTo from '../SearchbarTo/SearchbarTo'
 import iglesia from '../../static/imagesCreateAccount/logoSomos.png'
 import pre from '../../static/imagesCreateAccount/pre.png'
 import post from '../../static/imagesCreateAccount/post.png'
-import back from '../../static/imagesCreateAccount/home2.png'
 import './Create.css'
 
 /* Form para ingresar campos */
@@ -328,7 +327,6 @@ const Create = () => {
     <div id="info">
       <div className="division">
         <div className="left">
-          <img src={back} alt="back" width="60px" className="back" onClick={() => history.push('../home')} />
           {checkedInfo()}
           <img src={iglesia} alt="iglesia somos" className="church" width="170px" />
         </div>
