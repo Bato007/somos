@@ -321,8 +321,9 @@ hr{
 
 .pdfDoc{
   overflow-y:hidden;
-  width:fit-content ;
   border: 0;
+  width: 400px;
+  height: 350px;
 }
 
 .mp4See{
@@ -405,5 +406,12 @@ TransformComponent{
   }
   :-webkit-full-screen .docSpace{
     width: 100px;
+  }
+
+  :-webkit-full-screen .pdfDoc{
+    overflow-y:hidden;
+    border: 0;
+    width: 800px;
+    height: 450px;
   }
 }
