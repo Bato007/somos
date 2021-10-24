@@ -25,6 +25,8 @@ const Login = () => {
     })
   }
 
+  console.log('prueba de CI')
+
   // Revisando que la cuenta exista
   const existingAccounts = async () => {
     const { username } = account
