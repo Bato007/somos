@@ -47,81 +47,159 @@ const router = express.Router()
  *              $ref: '#/components/schemas/Error'
  */
 router.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body
+    let isSOMOS = false
+
+    const users = await cUsers.doc(username).get()
+    // Verificando que exista el user
+    if (users.empty) {
+      throw { message: '101' }
+    }
+
+    const user = users.data()
+
+    // Se verifica si esta activo o no
+    if (!user.active) {
+      throw { message: '103' }
+    }
+
+    // Verifico que la contraseña
+    if (user.password !== password) {
+      throw { message: '102' }
+    }
+
+    // Verifico si es somos o no
+    user.categories.forEach((category) => {
+      if (category === 'somos') {
+        isSOMOS = true
+      }
+    })
+
+    // Ahora se genera la key
+    const somoskey = keyGen.generate(20)
+    const expires = new Date()
+    expires.setDate(expires.getDate() + 1)
+
+    cKeys.doc(username).set({
+      expires,
+      isSomos: isSOMOS,
+      somoskey,
+    })
+
+    const { name } = user
+    res.statusCode = 200
+    res.json({
+      username, name, isSOMOS, somoskey,
+    })
+  } catch (error) {
+    res.statusCode = 400
+    switch (error.message) {
+      case '101':
+        res.json({ username: 'ERROR 101' })
+        break
+      case '102':
+        res.json({ username: 'ERROR 102' })
+        break
+      case '103':
+        res.json({ username: 'ERROR 103' })
+        break
+      default:
+        res.json({ username: 'ERROR' })
+        break
+    }
+  }
+})
+
+/**
+ * Account-Recovery
+ * 
+ */
+router.post('/recovery', async (req, res) => {
   const schema = Joi.object({
-    username: Joi.string().min(1).required(),
-    password: Joi.string().min(8).required(),
+    email: Joi.string().min(5).required()
   })
 
-  // Validar informacion
+  //Valida informacion
   const result = schema.validate(req.body)
   if (result.error) {
     const { message } = result.error.details[0]
-    res.status(400).json({ username: 'ERROR', name: message })
+    res.status(400).json({ email: 'ERROR', name: message })
   } else {
-    try {
-      const { username, password } = req.body
-      let isSOMOS = false
-
-      const users = await cUsers.doc(username).get()
-      // Verificando que exista el user
+    // Localiza el usuario que desea cambiar contraseña
+    try{
+      const { email } = req.body
+      const users = await cUsers.where('email', '==', email).get()
       if (users.empty) {
         throw { message: '101' }
       }
 
+      // Extrae informacion del usuario
       const user = users.data()
-
-      // Se verifica si esta activo o no
-      if (!user.active) {
-        throw { message: '103' }
-      }
-
-      // Verifico que la contraseña
-      if (user.password !== password) {
-        throw { message: '102' }
-      }
-
-      // Verifico si es somos o no
-      user.categories.forEach((category) => {
-        if (category === 'somos') {
-          isSOMOS = true
-        }
-      })
-
-      // Ahora se genera la key
-      const somoskey = keyGen.generate(20)
-      const expires = new Date()
-      expires.setDate(expires.getDate() + 1)
-
-      cKeys.doc(username).set({
-        expires,
-        isSomos: isSOMOS,
-        somoskey,
-      })
-
-      const { name } = user
+      const { username, name } = user
       res.statusCode = 200
+      // Genera token ¿?
+      const token = keyGen.generate(20)
+
       res.json({
-        username, name, isSOMOS, somoskey,
+        username, name, token,
       })
-    } catch (error) {
+    } catch (error){
       res.statusCode = 400
       switch (error.message) {
         case '101':
-          res.json({ username: 'ERROR 101' })
-          break
-        case '102':
-          res.json({ username: 'ERROR 102' })
-          break
-        case '103':
-          res.json({ username: 'ERROR 103' })
+          res.json({ email: 'ERROR 101' })
           break
         default:
-          res.json({ username: 'ERROR' })
+          res.json({ email: 'ERROR' })
           break
       }
     }
   }
 })
+
+router.put('/recovery/token', async (req, res) => {
+  const schema = Joi.object({
+  password: Joi.string().min(8).required(),
+  confirmPassword: Joi.string().required().valid(Joi.ref('password')),
+  token: Joi.string().min(6).required(),
+  })
+
+  //Valida informacion
+  const result = schema.validate(req.body)
+  if (result.error) {
+    const { message } = result.error.details[0]
+    res.statusCode = 400
+    res.json({ password: 'ERROR', name: message })
+  } else {
+    try {
+      const {
+        password, confirmPassword, token,
+      } = req.body
+      const { username, givenToken } = req.headers
+      
+      // Verifica el token dado con el ingresado
+      if (givenToken !== token) {
+        res.statusCode = 401
+        res.end()
+        // Verifica la contraseña con la confirmacion
+      } else if (password !== confirmPassword) {
+        res.statusCode = 400
+        res.end()
+      } else {
+        await cUsers.doc(username).update({
+          password,
+        })
+        res.statusCode = 200
+        res.end()
+      }
+    } catch (error) {
+      res.statusCode = 500
+      res.end()
+    }
+  }
+})
+
 
 /**
  * @swagger

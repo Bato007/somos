@@ -1,64 +1,11 @@
+/* eslint-disable no-await-in-loop */
 const express = require('express')
 const Joi = require('joi')
-const Busboy = require('busboy')
 const tokenGenerator = require('uuid-v4')
-const path = require('path')
-const fs = require('fs')
-const os = require('os')
 
 const { cResources, bucket } = require('../../DataBase/firebase')
 
 const router = express.Router()
-
-router.post('/upload', (req, res) => {
-  // Luego de validar todos los datos se pasa al try
-  const token = tokenGenerator()
-
-  // Ahora se empieza a subir el archivo
-  const busBoy = new Busboy({ headers: req.headers })
-  const tempdir = os.tmpdir()
-
-  const uploads = []
-  const fileWrites = []
-
-  busBoy.on('error', (e) => {
-    console.log('Failed to read', e)
-    res.statusCode = 500
-  })
-
-  // Para cada file
-  busBoy.on('file', (fieldname, file, filename) => {
-    const filePath = path.join(tempdir, filename)
-    uploads.push(filePath)
-
-    const writeStream = fs.createWriteStream(filePath)
-    file.pipe(writeStream)
-
-    // Wait to be written
-    const promise = new Promise((resolve, reject) => {
-      file.on('end', () => { writeStream.end() })
-      writeStream.on('finish', resolve)
-      writeStream.on('error', reject)
-    })
-    fileWrites.push(promise)
-  })
-
-  busBoy.on('finish', async (e) => {
-    await Promise.all(fileWrites)
-    res.statusCode = 200
-
-    for (let i = 0; i < uploads.length; i += 1) {
-      bucket.upload(uploads[i], {
-        metadata: { metadata: { firebaseStorageDownloadTokens: token } },
-        public: true,
-      })
-    }
-    res.statusCode = 200
-    res.json({ message: 'Finished', token })
-  })
-
-  req.pipe(busBoy)
-})
 
 router.post('/', async (req, res) => {
   const schema = Joi.object({
@@ -69,7 +16,6 @@ router.post('/', async (req, res) => {
     users: Joi.array().required(),
     date: Joi.date().required(),
     filename: Joi.string().required(),
-    token: Joi.string().required(),
   })
   res.statusCode = 400
 
@@ -83,9 +29,9 @@ router.post('/', async (req, res) => {
   } else {
     try {
       const {
-        title, description, tags, category, users, date, filename, token,
+        title, description, tags, category, users, date, filename,
       } = req.body
-
+      const token = tokenGenerator()
       const uploaded = bucket.file(filename)
       const url = await uploaded.getSignedUrl({
         action: 'read',
@@ -139,6 +85,7 @@ router.put('/', async (req, res) => {
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),
+    filename: Joi.string().required(),
   })
 
   // Validar informacino
@@ -204,7 +151,7 @@ router.delete('/:id', async (req, res) => {
     // Ahora se regresa el recurso
     res.status(200)
   } catch (error) {
-    res.status(400).json({ message: 'Error al borrar' })
+    res.status(500).json({ message: 'Error al borrar' })
   }
 })
 

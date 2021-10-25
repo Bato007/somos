@@ -99,7 +99,7 @@ router.get('/files/:username', async (req, res) => {
     res.statusCode = 200
     res.json(accepted)
   } catch (error) {
-    res.statusCode = 404
+    res.statusCode = 500
     res.end()
   }
 })
