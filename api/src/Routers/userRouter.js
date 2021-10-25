@@ -204,6 +204,7 @@ router.put('/information', async (req, res) => {
         await cUsers.doc(username).update({
           password, email, phone, residence: place, categories,
         })
+        // Falta ver lo de las categorias
         res.statusCode = 200
         res.json()
       }

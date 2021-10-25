@@ -10,7 +10,7 @@ const DeleteButton = ({ resourceId }) => {
 
   // Eliminar recurso
   const delResource = () => {
-    fetch(`${apiURL}/resources/${resourceId}`, {
+    fetch(`${apiURL}/admin/resources/${resourceId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -25,8 +25,6 @@ const Login = () => {
     })
   }
 
-  console.log('prueba de CI')
-
   // Revisando que la cuenta exista
   const existingAccounts = async () => {
     const { username } = account
@@ -43,8 +41,6 @@ const Login = () => {
       status = res.status
       return res.json()
     })
-
-    console.log(json, status)
 
     if (status === 200) {
       setError('')

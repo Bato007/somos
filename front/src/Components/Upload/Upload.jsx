@@ -7,6 +7,7 @@ import Button from '../Button/Button'
 import Input from '../Input/Input'
 import SearchBarTo from '../SearchbarTo/SearchbarTo'
 import apiURL from '../fetch'
+import bucket from './bucket'
 import './Upload.css'
 
 const formData = new FormData()
@@ -56,7 +57,6 @@ const Upload = () => {
     const fecha = resourceInfo.date
     const filename = upload.name
     let status
-    let token
 
     if (upload === 'Cargar Archivo' || !upload) {
       swal({
@@ -67,52 +67,40 @@ const Upload = () => {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
-
-      await fetch(`${apiURL}/admin/resources/upload`, {
-        method: 'POST',
-        headers: {
-          somoskey: `${localStorage.getItem('somoskey')}`,
-        },
-        body: formData,
-      }).then((res) => {
-        status = res.status
-        return res.json()
-      }).then((res) => {
-        token = res.token
-      })
-
-      if (status === 200) {
-        await fetch(`${apiURL}/admin/resources`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            somoskey: `${localStorage.getItem('somoskey')}`,
-          },
-          body: JSON.stringify({
-            filename, title, description, tags, category, users, date: fecha, token,
-          }),
-        }).then((res) => {
-          status = res.status
-          if (status === 200) {
-            swal({
-              title: 'Tu archivo se ha cargado con éxito',
-              icon: 'success',
-            }).then(() => {
-              history.goBack()
-            })
-          } else {
-            swal({
-              title: 'Tu archivo no se ha podido subir',
-              icon: 'error',
-            })
-          }
+      console.log('this is te time')
+      bucket.ref(`/${filename}`).put(upload)
+        .on('state_change', null, () => {
+          swal({
+            title: 'Tu archivo no se ha podido subir',
+            icon: 'error',
+          })
+        }, async () => {
+          await fetch(`${apiURL}/admin/resources`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              somoskey: `${localStorage.getItem('somoskey')}`,
+            },
+            body: JSON.stringify({
+              filename, title, description, tags, category, users, date: fecha,
+            }),
+          }).then((res) => {
+            status = res.status
+            if (status === 200) {
+              swal({
+                title: 'Tu archivo se ha cargado con éxito',
+                icon: 'success',
+              }).then(() => {
+                history.goBack()
+              })
+            } else {
+              swal({
+                title: 'Tu archivo no se ha podido subir',
+                icon: 'error',
+              })
+            }
+          })
         })
-      } else {
-        swal({
-          title: 'Tu archivo no se ha podido subir',
-          icon: 'error',
-        })
-      }
     }
   }
 
