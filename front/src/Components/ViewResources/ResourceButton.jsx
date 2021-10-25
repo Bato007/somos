@@ -84,7 +84,6 @@ const BotonesRecursos = ({ link, docType }) => (
                 {(docType === 'png')
                   ? <button type="button" className="buttons"><img src={previous} alt="previous" /></button>
                   : <button type="button" className="buttonsDisable"><img src={previous2} alt="previous" /></button>}
-                <h1>|</h1>
                 <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
                 <h1>|</h1>
                 <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
@@ -94,7 +93,6 @@ const BotonesRecursos = ({ link, docType }) => (
                 </button>
                 <h1>|</h1>
                 <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>
-                <h1>|</h1>
                 {docType === 'png'
                   ? (
                     <button type="button" className="buttons">
