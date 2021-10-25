@@ -61,7 +61,10 @@ const ManageAccount = () => {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
-      }).then((res) => res.json()).then((res) => (res))
+      }).then((res) => {
+      console.log(res.status)
+      return res.json()
+    }).then((res) => (res))
       .catch((e) => console.error('Error', e))
     console.log(response)
   }
