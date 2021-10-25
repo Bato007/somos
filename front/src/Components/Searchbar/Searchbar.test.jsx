@@ -3,6 +3,16 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Searchbar from './Searchbar'
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: 'localhost:3000/example/path',
+  }),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}))
+
 describe('Searchbar tests', () => {
   test('Searchbar renders', () => {
     render(<Searchbar availableResources={[{ title: 'prueba1.png', resource: 'png' }]} />)
@@ -22,6 +32,6 @@ describe('Searchbar tests', () => {
     const button = searchbar.getByRole('button')
     userEvent.click(button)
 
-    expect(screen.getElementsByClassName('resourcePreview').length).toBe(1)
+    expect(document.getElementsByClassName('resourcePreview').length).toBe(1)
   })
 })

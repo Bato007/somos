@@ -11,7 +11,7 @@ describe('Login tests', () => {
     const login = render(<Login />)
     const username = login.getByPlaceholderText(/Username/)
     const password = login.getByPlaceholderText(/Password/)
-    const submit = login.getByText('Sign In')
+    const submit = login.getByText('Entrar')
 
     userEvent.type(username, 'bato')
     userEvent.type(password, 'incorrect')
@@ -23,7 +23,7 @@ describe('Login tests', () => {
     render(<Login />)
     const username = screen.getByPlaceholderText(/Username/)
     const password = screen.getByPlaceholderText(/Password/)
-    const submit = screen.getByText('Sign In')
+    const submit = screen.getByText('Entrar')
 
     fireEvent.change(username, { target: { value: 'bato' } })
     fireEvent.change(password, { target: { value: '123' } })
