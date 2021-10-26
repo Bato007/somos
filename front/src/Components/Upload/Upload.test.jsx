@@ -1,7 +1,17 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { mockFirebase } from 'firestore-jest-mock'
 import Upload from './Upload'
+
+mockFirebase({
+  database: {
+    users: [
+
+    ],
+    posts: [],
+  },
+})
 
 describe('Upload test', () => {
   test('Upload renders', () => {
@@ -15,6 +25,6 @@ describe('Upload test', () => {
     userEvent.type(title, '')
     userEvent.click(button)
 
-    expect(await upload.findByText('Por favor, llena todos los campos')).toBeInTheDocument()
+    expect(await upload.findByText('Oops! Hace falta carga el archivo')).toBeInTheDocument()
   })
 })
