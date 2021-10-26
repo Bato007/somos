@@ -12,6 +12,7 @@ const DeleteButton = ({ resourceId }) => {
   const delResource = () => {
     fetch(`${apiURL}/admin/resources/${resourceId}`, {
       method: 'DELETE',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         somoskey: `${localStorage.getItem('somoskey')}`,
