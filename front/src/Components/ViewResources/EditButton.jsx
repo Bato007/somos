@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
@@ -25,6 +24,7 @@ const EditButton = ({ resourceId }) => {
   const setResourceInfo = async () => {
     const json = await fetch(`${apiURL}/resources/${resourceId}`, {
       method: 'GET',
+      mode: 'cors',
       headers: {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
@@ -90,16 +90,28 @@ const EditButton = ({ resourceId }) => {
         // const { tags } = resInfo
         const category = resInfo.categories
         const { users } = resInfo
-        await fetch(`${apiURL}/resources/${resourceId}`, {
+        const { filename } = resInfo
+        await fetch(`${apiURL}/admin/resources`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             somoskey: `${localStorage.getItem('somoskey')}`,
           },
           body: JSON.stringify({
-            id, title: titleUpd || title, description: descUpd || description, tags: tagUpd || tags, category, users, date: dateUpd || available,
+            id,
+            title: titleUpd || title,
+            description: descUpd || description,
+            tags: tagUpd || tags,
+            category,
+            users,
+            date: dateUpd || available,
+            filename,
           }),
-        }).then((response) => response.json())
+        }).then((res) => {
+          if (res.status === 200) {
+            window.location.reload(true)
+          }
+        })
       }
     }
   }
@@ -141,9 +153,7 @@ const EditButton = ({ resourceId }) => {
             className="saveButton"
             onClick={() => {
               const botonEditar = EditSource()
-              const refresh = window.location.reload(true)
               botonEditar()
-              refresh()
             }}
           >
             save
