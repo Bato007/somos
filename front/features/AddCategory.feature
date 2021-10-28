@@ -4,17 +4,19 @@ Feature: Agregar una categoria
   Scenario Outline: La categoria se vuelve un titulo al ingresarse
     Given El usuario de somos esta agregando una categoria
     When Ingresa la categoria "<categorianueva>"
-    Then La categoria fue "<final>"
+    Then La categoria final fue "<final>"
 
   Examples:
     | categorianueva | final |
-    | prOdigIos | agregada |
+    | prOdigIos | Prodigios |
+    | Pr0digi0s | denegada |
 
   Scenario Outline: Las categorias repetidas se eliminan
     Given El usuario de somos esta agregando una categoria
-    When Ingresa la categoria "<categorianueva>"
+    When Quiere ingresar la categoria "<categorianueva>"
     Then La categoria se agrega "<agrega>"
 
   Examples:
       | categorianueva | agrega |
-      | prOdigIos  | once |
+      | uno  | once |
+      | one  | null |
