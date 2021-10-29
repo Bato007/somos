@@ -103,6 +103,13 @@
   border-radius: 3px;
 }
 
+.makeStyles-modal h3{
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.00938em;
+  font-size: 1rem;
+}
+
 #edit element.style {
   background-color: rgb(0 0 0 / 86%);
 }
@@ -417,8 +424,8 @@ TransformComponent{
     width: 100px;
   }
 
-  :-webkit-full-screen .pdfDoc{
-    overflow-y:hidden;
+  :-webkit-full-screen .docSpace .pdfDoc{
+    overflow-y: hidden;
     border: 0;
     width: 800px;
     height: 450px;

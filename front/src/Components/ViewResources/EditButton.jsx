@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
-import Chip from '@material-ui/core/Chip'
+import SearchBarTo from '../SearchbarTo/SearchbarTo'
 import './VResources.css'
 import apiURL from '../fetch'
 
 const EditButton = ({ resourceId }) => {
   const [editInfo, setEditInfo] = useState({
-    title: ' ', description: ' ', available: ' ', tags: ' ',
+    title: ' ', description: ' ', available: ' ', tags: ' ', users: ' ',
   })
   let { title } = editInfo
   let description = editInfo.title
   let { available } = editInfo
   let { tags } = editInfo
+  let { users } = editInfo
   const [modal, setModal] = useState(false)
   const [titleUpd, setTitleUpd] = useState('')
   const [descUpd, setDescUpd] = useState('')
   const [dateUpd, setDateUpd] = useState('')
   const [tagUpd, setTagUpd] = useState('')
+  const [userUpd, setUserUpd] = useState('')
 
   const [resInfo, setResInfo] = useState({ })
   // Fetch para obtener la informacion del recurso seleccionado
@@ -30,6 +32,7 @@ const EditButton = ({ resourceId }) => {
       },
     }).then((res) => res.json())
     setResInfo(json)
+    console.log('info recurso', json)
   }
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const EditButton = ({ resourceId }) => {
   const actualDate = dateF()
 
   const EditSource = async () => {
-    if (title !== '' || description !== '' || available !== '' || tags !== '') {
+    if (title !== '' || description !== '' || available !== '' || tags !== '' || users !== '') {
       if (editInfo.title === '') {
         title = titleUpd
       }
@@ -84,12 +87,18 @@ const EditButton = ({ resourceId }) => {
       if (editInfo.tags !== '') {
         tags = resInfo.tags
       }
+      if (editInfo.users === '') {
+        users = userUpd
+      }
+      if (editInfo.users !== '') {
+        users = resInfo.users
+      }
       if (editInfo.title !== '') {
         title = resInfo.title
         const id = resourceId
         // const { tags } = resInfo
         const category = resInfo.categories
-        const { users } = resInfo
+        // const { users } = resInfo
         const { filename } = resInfo
         await fetch(`${apiURL}/admin/resources`, {
           method: 'PUT',
@@ -103,7 +112,7 @@ const EditButton = ({ resourceId }) => {
             description: descUpd || description,
             tags: tagUpd || tags,
             category,
-            users,
+            users: userUpd || users,
             date: dateUpd || available,
             filename,
           }),
@@ -129,22 +138,30 @@ const EditButton = ({ resourceId }) => {
   }
 
   // Necesito ver si esta funcion funciona como debe
-  const handleDelete = () => () => {
-    setTagUpd(document.getElementById('tagModify').value)
-    // setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
-  }
+  // const handleTagsChange = () => () => {
+  //   setTagUpd(document.getElementById('tagModify').value)
+  // }
 
   const body = (
-    <div id="edit">
+    <div id="editResource">
       <div className=" makeStyles-modal makeStyles-modal-1">
         <h2>Edición del recurso</h2>
         <TextField id="titleChangeVR" label={resInfo.title} onChange={() => handleTitleChange()} />
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
-        <div className="tagsButtons">
+        <h3>Estas son las tags actuales: </h3>
+        <div className="otherLine">
           {resInfo.tags !== undefined
-            ? resInfo.tags.map((tag) => <Chip label={tag} onDelete={handleDelete(resInfo)} />)
+            ? resInfo.tags.map((tag) => <p>{tag}</p>)
             : null}
         </div>
+        <SearchBarTo showSimilarTo setSimilarTo={setTagUpd} />
+        <h3>Estos sons los usuarios actuales: </h3>
+        <div className="otherLine">
+          {resInfo.users !== undefined
+            ? resInfo.users.map((tag) => <p>{tag}</p>)
+            : null}
+        </div>
+        <SearchBarTo setAccounts={setUserUpd} />
         <TextField id="dateModify" type="date" defaultValue={resInfo.available} label={resInfo.available} inputProps={{ min: actualDate }} onChange={() => handleDateChange()} />
         <div className="buttonsEdit">
           <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>cancel</button>
