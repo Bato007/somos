@@ -81,7 +81,7 @@ router.put('/', async (req, res) => {
     id: Joi.string().min(1).required(),
     title: Joi.string().min(1).max(50).required(),
     description: Joi.string().min(1).max(255).required(),
-    tags: Joi.array().min(1),
+    tags: Joi.array().min(1).required(),
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),

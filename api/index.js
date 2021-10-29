@@ -24,6 +24,8 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
 
+const { addCategories } = require('./src/Middleware/services')
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -45,7 +47,7 @@ app.use(cors())
 app.use(express.json())
 
 const specs = swaggerJsDoc(options)
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
+app.get('/test', addCategories, (req, res) => { res.status(201).end() })
 
 // Routers Sin autenticacion
 app.use('/', publicRouter)
