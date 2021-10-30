@@ -100,6 +100,13 @@ const SearchbarTo = ({
     }
   }, [sendToCategory])
 
+  useEffect(() => {
+    if (lastResult.length > 0 && setCategories) {
+      setActualSendersCategory(lastResult)
+      setCategories(lastResult)
+    }
+  }, [lastResult])
+
   return (
     <div className="searchbarTo" onClick={selectInput}>
       <div className="searchBarElements">

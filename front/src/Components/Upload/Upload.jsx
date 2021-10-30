@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import Swal from 'sweetalert2'
 import swal from 'sweetalert'
+import withReactContent from 'sweetalert2-react-content'
 import Error from '../Error/Error'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
@@ -21,6 +23,8 @@ const Upload = () => {
     CargarArchivo: 'Cargar Archivo', file: '', title: '', date: '', description: '', similarTo: [],
   })
   const history = useHistory()
+  const MySwal = withReactContent(Swal)
+
   // Leyendo el valor actual del file
   const handleSelectedFile = (event) => {
     if (event.target.value === '') {
@@ -67,9 +71,18 @@ const Upload = () => {
       setError('Por favor, llena todos los campos')
     } else {
       setError('')
-      console.log('this is te time')
+
+      MySwal.fire({
+        title: <p>Tu archivo está siendo procesado...</p>,
+        didOpen: () => {
+          MySwal.showLoading()
+        },
+        allowOutsideClick: false,
+      })
+
       bucket.ref(`/${filename}`).put(upload)
         .on('state_change', null, () => {
+          MySwal.close()
           swal({
             title: 'Tu archivo no se ha podido subir',
             icon: 'error',
@@ -87,6 +100,7 @@ const Upload = () => {
           }).then((res) => {
             status = res.status
             if (status === 200) {
+              MySwal.close()
               swal({
                 title: 'Tu archivo se ha cargado con éxito',
                 icon: 'success',

@@ -21,12 +21,12 @@ const ManageAccount = () => {
       },
     }).then((res) => res.json())
     if (!userInfo.tel) { userInfo.tel = '' }
-    console.log(userInfo)
     setAccountInfo({
       ...userInfo,
       password: '',
       confirmPassword: '',
     })
+    setCategories(userInfo.categories)
   }
 
   const saveChanges = async () => {
@@ -119,15 +119,11 @@ const ManageAccount = () => {
           </div>
           <h1>Categorías</h1>
 
-          { accountInfo.categories.length > 0
-            ? (
-              <SearchBarTo
-                setCategories={setCategories}
-                creatingAccount
-                lastResult={accountInfo.categories}
-              />
-            )
-            : ''}
+          <SearchBarTo
+            setCategories={setCategories}
+            creatingAccount
+            lastResult={categories}
+          />
 
           <div className="ButtonOptions">
             <Button name="Cancelar" id="CancelButton" onClick={() => getUserInfo()} />
