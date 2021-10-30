@@ -7,7 +7,6 @@
   padding: 0 0 3em 0;
   min-width: 100vw;
   width: fit-content;
-  min-height: 100vw;
 }
   
 #vresources {
@@ -216,13 +215,13 @@
 /*Boton para editar */
 .buttonEdit{
   align-items: center;
-  color: white;
-  background: white url(../../static/imagesViewResources/editpre.png) center no-repeat;
+  color: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0) url(../../static/imagesViewResources/editpre.png) center no-repeat;
   background-size: 20px;
 }
 
 .buttonEdit:hover{
-  background: white url(../../static/imagesViewResources/edit.png) center no-repeat;
+  background: rgba(255, 255, 255, 0) url(../../static/imagesViewResources/edit.png) center no-repeat;
   background-size: 20px;
 }
 /*termina parte del boton para editar */
