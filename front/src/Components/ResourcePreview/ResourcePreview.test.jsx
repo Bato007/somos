@@ -3,6 +3,16 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ResourcePreview from './ResourcePreview'
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: 'localhost:3000/example/path',
+  }),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}))
+
 describe('Resource Preview tests', () => {
   test('Resource Preview renders', () => {
     render(<ResourcePreview availableResources={[{ id: '1', title: 'test', resource: 'file' }]} />)
