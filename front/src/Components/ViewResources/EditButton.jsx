@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
 import SearchBarTo from '../SearchbarTo/SearchbarTo'
+import authentication from '../Authentication'
 import './VResources.css'
 import apiURL from '../fetch'
 
@@ -22,6 +23,7 @@ const EditButton = ({ resourceId }) => {
   const [tagUpd, setTagUpd] = useState('')
   const [userUpd, setUserUpd] = useState('')
   const [categoriesUpd, setCategoriesUpd] = useState('')
+  const [account, setAccount] = useState('')
 
   const [resInfo, setResInfo] = useState({ })
   // Fetch para obtener la informacion del recurso seleccionado
@@ -49,6 +51,10 @@ const EditButton = ({ resourceId }) => {
   const handleChangeEdit = (event) => {
     setEditInfo({
       ...editInfo,
+      [event.target.name]: event.target.value,
+    })
+    setAccount({
+      ...account,
       [event.target.name]: event.target.value,
     })
   }
@@ -133,6 +139,34 @@ const EditButton = ({ resourceId }) => {
     }
   }
 
+  // fetch para ver si es admin
+  const typeAccount = async () => {
+    const { username } = account
+    const { password } = account
+    let status
+
+    const json = await fetch(`${apiURL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    }).then((res) => {
+      status = res.status
+      return res.json()
+    })
+
+    if (status === 200) {
+      const { somoskey } = json
+      authentication.onAuthentication()
+      localStorage.setItem('username', username)
+      localStorage.setItem('somoskey', somoskey)
+      if (json.isSOMOS) {
+        <button type="button" className="buttonEdit" onClick={() => abrirCerrarModal()} onChange={handleChangeEdit}>a</button>
+      }
+    }
+  }
+
   const handleTitleChange = () => {
     setTitleUpd(document.getElementById('titleChangeVR').value)
   }
@@ -151,7 +185,11 @@ const EditButton = ({ resourceId }) => {
         <h2>Edición del recurso</h2>
         <TextField id="titleChangeVR" label={resInfo.title} onChange={() => handleTitleChange()} />
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
-        <SearchBarTo showSimilarTo lastResult={resInfo.tags} setSimilarTo={setTagUpd} />
+        <SearchBarTo
+          showSimilarTo
+          setActualSendersCategory={resInfo.tags}
+          setSimilarTo={setTagUpd}
+        />
         <SearchBarTo
           lastResult={resInfo.categories}
           setAccounts={setUserUpd}
@@ -184,7 +222,7 @@ const EditButton = ({ resourceId }) => {
         >
           {body}
         </Modal>
-        <button type="button" className="buttonEdit" onClick={() => abrirCerrarModal()} onChange={handleChangeEdit}>a</button>
+        {typeAccount}
       </div>
     </div>
   )

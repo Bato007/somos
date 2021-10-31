@@ -21,16 +21,16 @@ const AdminButtons = () => {
   }
 
   // Eliminar recurso
-  const delResource = () => {
-    const json = fetch(`${apiURL}/admin/resources/${resourceId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        somoskey: `${localStorage.getItem('somoskey')}`,
-      },
-    }).then((response) => response.text())
-    setResInfo(json)
-  }
+  // const delResource = () => {
+  //   const json = fetch(`${apiURL}/admin/resources/${resourceId}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       somoskey: `${localStorage.getItem('somoskey')}`,
+  //     },
+  //   }).then((response) => response.text())
+  //   setResInfo(json)
+  // }
 
   useEffect(() => {
     setResourceInfo()
@@ -41,7 +41,6 @@ const AdminButtons = () => {
       <div id="vresources">
         <div className="headers">
           <h1>{resInfo.title}</h1>
-          <button type="button">a</button>
         </div>
         <BotonesRecursos link={resInfo.url} docType={resInfo.type} />
         <hr />
@@ -50,9 +49,6 @@ const AdminButtons = () => {
             {resInfo.description}
           </p>
         </div>
-        <center>
-          <button type="button" onClick={delResource}>a</button>
-        </center>
       </div>
     </div>
   )
