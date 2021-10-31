@@ -68,6 +68,10 @@
   border:1px solid #A7D8D7;
 }
 
+.swal2-loader {
+  border-color: #212323 transparent #212323 transparent;
+}
+
 @media screen and (min-width: 300px) {
   #Upload {
     padding: 1em;

@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
-import Chip from '@material-ui/core/Chip'
+import SearchBarTo from '../SearchbarTo/SearchbarTo'
+import authentication from '../Authentication'
 import './VResources.css'
 import apiURL from '../fetch'
 
 const EditButton = ({ resourceId }) => {
   const [editInfo, setEditInfo] = useState({
-    title: ' ', description: ' ', available: ' ', tags: ' ',
+    title: ' ', description: ' ', available: ' ', tags: ' ', users: ' ', category: ' ',
   })
   let { title } = editInfo
   let description = editInfo.title
   let { available } = editInfo
   let { tags } = editInfo
+  let { users } = editInfo
+  let category = editInfo.categories
   const [modal, setModal] = useState(false)
   const [titleUpd, setTitleUpd] = useState('')
   const [descUpd, setDescUpd] = useState('')
   const [dateUpd, setDateUpd] = useState('')
   const [tagUpd, setTagUpd] = useState('')
+  const [userUpd, setUserUpd] = useState('')
+  const [categoriesUpd, setCategoriesUpd] = useState('')
+  const [account, setAccount] = useState('')
 
   const [resInfo, setResInfo] = useState({ })
   // Fetch para obtener la informacion del recurso seleccionado
@@ -30,6 +36,7 @@ const EditButton = ({ resourceId }) => {
       },
     }).then((res) => res.json())
     setResInfo(json)
+    console.log('info recurso', json)
   }
 
   useEffect(() => {
@@ -44,6 +51,10 @@ const EditButton = ({ resourceId }) => {
   const handleChangeEdit = (event) => {
     setEditInfo({
       ...editInfo,
+      [event.target.name]: event.target.value,
+    })
+    setAccount({
+      ...account,
       [event.target.name]: event.target.value,
     })
   }
@@ -62,7 +73,7 @@ const EditButton = ({ resourceId }) => {
   const actualDate = dateF()
 
   const EditSource = async () => {
-    if (title !== '' || description !== '' || available !== '' || tags !== '') {
+    if (title !== '' || description !== '' || available !== '' || tags !== '' || users !== '' || category !== '') {
       if (editInfo.title === '') {
         title = titleUpd
       }
@@ -84,12 +95,24 @@ const EditButton = ({ resourceId }) => {
       if (editInfo.tags !== '') {
         tags = resInfo.tags
       }
+      if (editInfo.users === '') {
+        users = userUpd
+      }
+      if (editInfo.users !== '') {
+        users = resInfo.users
+      }
+      if (editInfo.category === '') {
+        category = categoriesUpd
+      }
+      if (editInfo.category !== '') {
+        category = resInfo.category
+      }
       if (editInfo.title !== '') {
         title = resInfo.title
         const id = resourceId
         // const { tags } = resInfo
-        const category = resInfo.categories
-        const { users } = resInfo
+        // const category = resInfo.categories
+        // const { users } = resInfo
         const { filename } = resInfo
         await fetch(`${apiURL}/admin/resources`, {
           method: 'PUT',
@@ -102,8 +125,8 @@ const EditButton = ({ resourceId }) => {
             title: titleUpd || title,
             description: descUpd || description,
             tags: tagUpd || tags,
-            category,
-            users,
+            category: categoriesUpd || category,
+            users: userUpd || users,
             date: dateUpd || available,
             filename,
           }),
@@ -112,6 +135,34 @@ const EditButton = ({ resourceId }) => {
             window.location.reload(true)
           }
         })
+      }
+    }
+  }
+
+  // fetch para ver si es admin
+  const typeAccount = async () => {
+    const { username } = account
+    const { password } = account
+    let status
+
+    const json = await fetch(`${apiURL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    }).then((res) => {
+      status = res.status
+      return res.json()
+    })
+
+    if (status === 200) {
+      const { somoskey } = json
+      authentication.onAuthentication()
+      localStorage.setItem('username', username)
+      localStorage.setItem('somoskey', somoskey)
+      if (json.isSOMOS) {
+        <button type="button" className="buttonEdit" onClick={() => abrirCerrarModal()} onChange={handleChangeEdit}>a</button>
       }
     }
   }
@@ -128,23 +179,22 @@ const EditButton = ({ resourceId }) => {
     setDateUpd(document.getElementById('dateModify').value)
   }
 
-  // Necesito ver si esta funcion funciona como debe
-  const handleDelete = () => () => {
-    setTagUpd(document.getElementById('tagModify').value)
-    // setTagUpd((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
-  }
-
   const body = (
-    <div id="edit">
+    <div id="editResource">
       <div className=" makeStyles-modal makeStyles-modal-1">
         <h2>Edición del recurso</h2>
         <TextField id="titleChangeVR" label={resInfo.title} onChange={() => handleTitleChange()} />
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
-        <div className="tagsButtons">
-          {resInfo.tags !== undefined
-            ? resInfo.tags.map((tag) => <Chip label={tag} onDelete={handleDelete(resInfo)} />)
-            : null}
-        </div>
+        <SearchBarTo
+          showSimilarTo
+          setActualSendersCategory={resInfo.tags}
+          setSimilarTo={setTagUpd}
+        />
+        <SearchBarTo
+          lastResult={resInfo.categories}
+          setAccounts={setUserUpd}
+          setCategories={setCategoriesUpd}
+        />
         <TextField id="dateModify" type="date" defaultValue={resInfo.available} label={resInfo.available} inputProps={{ min: actualDate }} onChange={() => handleDateChange()} />
         <div className="buttonsEdit">
           <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>cancel</button>
@@ -172,7 +222,7 @@ const EditButton = ({ resourceId }) => {
         >
           {body}
         </Modal>
-        <button type="button" className="buttonEdit" onClick={() => abrirCerrarModal()} onChange={handleChangeEdit}>a</button>
+        {typeAccount}
       </div>
     </div>
   )
