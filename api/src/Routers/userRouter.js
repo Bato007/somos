@@ -1,7 +1,10 @@
 const express = require('express')
 const Joi = require('joi')
+const { fixCapitalization, getArrayDiff } = require('../Middleware/services')
 const { valPassword, valRegion } = require('../Middleware/validation')
-const { cUsers, cKeys, FieldValue } = require('../DataBase/firebase')
+const {
+  cUsers, cKeys, cPetitions, FieldValue,
+} = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -135,8 +138,8 @@ router.get('/:usernameid', async (req, res) => {
 router.put('/information', async (req, res) => {
   const schema = Joi.object({
     username: Joi.string().required(),
-    password: Joi.string().min(8),
-    confirm: Joi.string().min(8).valid(Joi.ref('password')).messages({
+    password: Joi.string(),
+    confirm: Joi.string().valid(Joi.ref('password')).messages({
       'any.only': 'ERROR 100 password required',
     }),
     email: Joi.string().email().required(),
@@ -161,9 +164,9 @@ router.put('/information', async (req, res) => {
   } else {
     try {
       const {
-        username, password, confirm, email, residence, categories,
+        username, password, confirm, email, residence,
       } = req.body
-      let { phone } = req.body
+      let { phone, categories } = req.body
       let updateIt = true
       const { somoskey } = req.headers
 
@@ -200,10 +203,31 @@ router.put('/information', async (req, res) => {
 
       // Handle update
       if (updateIt) {
+        console.log(categories, 206)
+        categories = fixCapitalization(categories)
+        console.log(categories, 208)
         if (!phone) { phone = FieldValue.delete() }
-        await cUsers.doc(username).update({
-          password, email, phone, residence: place, categories,
-        })
+        if (!categories) { throw new Error() }
+
+        // Ahora se verifica que si es un admin o un normal
+        if (key.isSomos) {
+          await cUsers.doc(username).update({
+            password, email, phone, residence: place, categories,
+          })
+        } else {
+          // No es un administrador de somos
+          const user = (await cUsers.doc(username).get()).data()
+          await cUsers.doc(username).update({
+            password, email, phone, residence: place,
+          })
+
+          // Se verifica que categoria se elimino / agrego
+          const { added, removed } = getArrayDiff(user.categories, categories)
+          await cPetitions.doc(username).set({
+            added,
+            removed,
+          })
+        }
         // Falta ver lo de las categorias
         res.statusCode = 200
         res.json()

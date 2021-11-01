@@ -48,14 +48,13 @@ const List = ({
   const getMembers = async () => {
     // Aqui iria el fetch para obtener los miembros inscritos
     // Es un diccionario miembro: tipo
-    // const members = await fetch(`${apiURL}/admin/categories`, {
-    //   method: 'GET',
-    //   headers: {
-    //     somoskey: `${localStorage.getItem('somoskey')}`,
-    //   },
-    // }).then((res) => res.json())
-    // setMembers(members)
-    setMembers([{ username: 'bato', type: ['church', 'somos'] }, { username: 'andrea', type: ['mentor', 'somos'] }])
+    const members = await fetch(`${apiURL}/user/categories`, {
+      method: 'GET',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+      },
+    }).then((res) => res.json())
+    setMembers(members)
   }
 
   // Funcion llamada para obtener la informacion de la base

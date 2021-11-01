@@ -69,7 +69,7 @@ const ManageAccount = () => {
       }
       return undefined
     }).then((res) => (res)).catch((e) => console.error('Error', e))
-    console.log(response)
+
     const result = response?.message
     if (result) {
       if (result.includes('100')) {

@@ -27,7 +27,6 @@ const AnnouncementAdmin = () => {
      *         2 (se ha denegado el anuncio y se procede a mandar una notificacion)
      * Email: Correo del que haya escrito el anuncio
      */
-    console.log('entra en get announces')
     // eslint-disable-next-line no-unused-vars
     const anuncios = await fetch(`${apiURL}/admin/announcements`, {
       method: 'GET',

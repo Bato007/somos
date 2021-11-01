@@ -24,7 +24,7 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
 
-const { addCategories } = require('./src/Middleware/services')
+const { getArrayDiff } = require('./src/Middleware/services')
 
 const options = {
   definition: {
@@ -47,14 +47,14 @@ app.use(cors())
 app.use(express.json())
 
 const specs = swaggerJsDoc(options)
-app.get('/test', addCategories, (req, res) => { res.status(201).end() })
+// app.get('/test', getArrayDiff)
 
 // Routers Sin autenticacion
 app.use('/', publicRouter)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
 
 // Routers Protegidos a los usuarios
-app.use('/', authorizate)
+// app.use('/', authorizate)
 app.use('/user', userRouter)
 app.use('/resources', resourcesRouter)
 app.use('/announcements', advertRouter)

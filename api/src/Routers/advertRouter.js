@@ -84,13 +84,11 @@ const router = express.Router()
  */
 router.get('/', async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.get()
+    const tempAnnouncements = await cAnnouncements.where('published', '==', 1).get()
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -116,46 +114,14 @@ router.get('/', async (req, res) => {
  */
 router.get('/help', async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where('type', '==', 'help').get()
+    const temp = cAnnouncements.where('type', '==', 'help')
+    const tempAnnouncements = await temp.where('published', '==', 1).get()
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
-  } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
-  }
-})
-
-/**
- * @swagger
- * /announcements/help/published:
- *  get:
- *    summary: Retorna todos los anuncios de los brindadores de servicio publicados
- *    tags: [Anuncios]
- *    responses:
- *      200:
- *        description: Obtiene los anuncios con published 1
- *        content:
- *          application/json:
- *            type: array
- *            items:
- *              $ref: '#/components/schemas/Anuncio'
- */
-router.get('/help/published', async (req, res) => {
-  try {
-    const aux = cAnnouncements.where('type', '==', 'help')
-    const tempAnnouncements = await aux.where('published', '==', 1).get()
-    const announcements = []
-    tempAnnouncements.forEach((announcement) => {
-      const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
-    })
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
   }
@@ -178,45 +144,12 @@ router.get('/help/published', async (req, res) => {
  */
 router.get('/home', async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where('type', '==', 'home').get()
-    const announcements = []
-    tempAnnouncements.forEach((announcement) => {
-      const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
-    })
-    res.status(200).json(announcements)
-  } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
-  }
-})
-
-/**
- * @swagger
- * /announcements/home/published:
- *  get:
- *    summary: Retorna todos los anuncios de los hogares / iglesias publicados
- *    tags: [Anuncios]
- *    responses:
- *      200:
- *        description: Obtiene los anuncios con published 1
- *        content:
- *          application/json:
- *            type: array
- *            items:
- *              $ref: '#/components/schemas/Anuncio'
- */
-router.get('/home/published', async (req, res) => {
-  try {
     const aux = cAnnouncements.where('type', '==', 'home')
     const tempAnnouncements = await aux.where('published', '==', 1).get()
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
