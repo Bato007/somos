@@ -28,6 +28,10 @@ const sendMail = () => {
   console.log('email sent')
 }
 
+const testBuddy = () => {
+  console.log('Test para demostrar el pipeline Sprint XI')
+}
+
 module.exports = {
   addCategories,
   addTags,
