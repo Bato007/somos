@@ -149,6 +149,35 @@ const AnnouncementAdmin = () => {
               )}
                   <h1>{result.title}</h1>
                   <p>{result.description}</p>
+                  <p>
+                    <strong>Disponible hasta: </strong>
+                    {result.toDate.split('-').reverse().join('-')}
+                  </p>
+                  <hr />
+                  <div className="contactInfo">
+                    <p>
+                      <strong>Nombre del contacto: </strong>
+                      {result?.contact}
+                    </p>
+                    { result?.contact
+                      ? (
+                        <p>
+                          <strong>Número de celular: </strong>
+                          +502
+                          {' '}
+                          {result?.phone}
+                        </p>
+                      )
+                      : ''}
+                    {result?.email
+                      ? (
+                        <p>
+                          <strong>Email: </strong>
+                          {result?.email}
+                        </p>
+                      )
+                      : '' }
+                  </div>
                 </div>
               )
               : '' }

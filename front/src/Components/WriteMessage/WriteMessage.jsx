@@ -70,10 +70,6 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
       <Input className="titleInput" type="text" name="title" placeholder="Titulo del anuncio" onChange={handleChange} />
       <h3>Cuerpo</h3>
       <textarea name="description" onChange={handleChange} />
-      <h3>Número de contacto</h3>
-      <Input className="titleInput" type="text" name="phone" placeholder="+502 0000-0000" onChange={handleChange} />
-      <h3>Correo</h3>
-      <Input className="titleInput" type="text" name="email" placeholder="Correo" onChange={handleChange} />
       <h3>Disponible hasta</h3>
 
       <div className="UploadEnd">

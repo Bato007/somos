@@ -66,6 +66,26 @@
   background-color: #ca2222;
 }
 
+.announcement hr {
+  margin: 0;
+}
+
+.contactInfo p {
+  margin: 0;
+}
+
+.contactInfo {
+  margin: 1.5em 0;
+}
+
+.contactInfoData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-width: 30%;
+  max-width: 40%;
+}
+
 .on
 {
   display: none;

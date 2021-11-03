@@ -68,21 +68,33 @@ const serviceProvider = () => {
       <div id="service">
         <h1>¿Qué servicio le gustaría brindar?</h1>
         <div className="inputServiceProvider">
-          <p>Título</p>
+          <p>
+            <span className="obligatory">* </span>
+            Título
+          </p>
           <Input name="title" type="text" placeholder="Servicio a brindar" onChange={handleChange} />
         </div>
         <div className="inputServiceProvider">
-          <p>Descripción</p>
+          <p>
+            <span className="obligatory">* </span>
+            Descripción
+          </p>
           <textarea name="description" onChange={handleChange} />
         </div>
         <div className="inputServiceProvider">
-          <p>Información de contacto</p>
+          <p>
+            <span className="obligatory">* </span>
+            Información de contacto
+          </p>
           <Input name="contact" type="text" placeholder="Nombre" onChange={handleChange} />
           <Input name="email" type="text" placeholder="Correo electrónico" onChange={handleChange} />
           <Input name="phone" type="text" placeholder="Número de celular" onChange={handleChange} />
         </div>
         <div className="inputServiceProvider">
-          <p>Último día para hacer uso de tu servicio</p>
+          <p>
+            <span className="obligatory">* </span>
+            Último día para hacer uso de tu servicio
+          </p>
           <Input className="titleInput" type="date" name="date" placeholder="Fecha de vigencia" onChange={handleChange} />
         </div>
         <div className="footerService">
