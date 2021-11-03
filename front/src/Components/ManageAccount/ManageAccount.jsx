@@ -162,7 +162,7 @@ const ManageAccount = () => {
             </div>
 
             <div className="manageAccountBox">
-              <h1>Numero de Celular</h1>
+              <h1>Número de Celular</h1>
               <Input name="tel" type="text" value={accountInfo.tel} onChange={handleManageAccount} />
             </div>
 

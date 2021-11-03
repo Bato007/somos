@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import swal from 'sweetalert'
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import apiURL from '../fetch'
@@ -51,7 +52,58 @@ const serviceProvider = () => {
       // ERROR 104 invalid date must be 'MM-DD-YYYY'
       // ERROR 105: Email or phone required
 
-      // Mostrar mensajes de error
+      const result = response?.message
+      if (result) {
+        if (result.includes('100')) {
+          swal({
+            title: 'Por favor, termina de llenar todos los campos',
+            icon: 'error',
+            buttons: ['Aceptar'],
+          })
+        } else if (result.includes('101')) {
+          swal({
+            title: 'Por favor, revisa que el correo/celular sean válidos',
+            icon: 'error',
+            buttons: ['Aceptar'],
+          })
+        } else if (result.includes('102')) {
+          swal({
+            title: 'Oops! Tu número de celular parece ser inválido',
+            icon: 'warning',
+            buttons: ['Aceptar'],
+          })
+        } else if (result.includes('103')) {
+          swal({
+            title: 'Oops! La descripción/título deben de tener al menos 10 caractéres',
+            icon: 'warning',
+            buttons: ['Aceptar'],
+          })
+        } else if (result.includes('104')) {
+          swal({
+            title: 'Oops! La fecha pareciera ser inválida',
+            text: 'Revisa que sea formato MM-DD-YYYY',
+            icon: 'warning',
+            buttons: ['Aceptar'],
+          })
+        } else if (result.includes('105')) {
+          swal({
+            title: 'Oops! Es necesario que ingreses número de celular o correo electrónico',
+            icon: 'error',
+            buttons: ['Aceptar'],
+          })
+        }
+      } else {
+        swal({
+          title: '¡Tu anuncio se ha mandado a revisión con éxito!',
+          text: 'Te agradecemos por tu servicio. Se te informará cuando este sea aceptado',
+          icon: 'success',
+        }).then((res) => {
+          if (res) {
+            const path = window.location.href.split('/')[3]
+            history.push(`/${path}`)
+          }
+        })
+      }
     }
   }
 
