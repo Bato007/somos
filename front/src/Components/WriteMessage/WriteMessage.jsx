@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import swal from 'sweetalert'
 import Input from '../Input/Input'
 import Button from '../Button/Button'
+import apiURL from '../fetch'
 import './WriteMessage.css'
 
 /**
@@ -25,7 +26,7 @@ const formData = new FormData()
 
 const WriteMessage = ({ setWritingAnnouncement }) => {
   const [completeAnnounce, setCompleteAnnounce] = useState({
-    title: '', description: '', phone: '', email: '', duration: '',
+    title: '', description: '', duration: '',
   })
 
   // Leyendo el valor actual del input
@@ -45,7 +46,32 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
     }).then((res) => {
       if (res) {
         // Fetch para mandar el anuncio a revision
-        console.log(completeAnnounce)
+        const response = fetch(`${apiURL}/announcements/home`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
+          },
+          body: JSON.stringify({
+            ...completeAnnounce,
+            username: localStorage.getItem('username'),
+          }),
+        }).then((out) => [out.status, out.body])
+        console.log(response)
+        switch (response[0]) {
+          case 200:
+            // Se agrego el anuncio con exito
+            break
+          case 403:
+            // El usuario no tiene permitido subir un anuncio
+            break
+          case 500:
+            // Error del servidor
+            break
+          default: // Error de ingreso de datos
+            // ERROR 100 missing required fields || empty required field
+            // ERROR 101 invalid date must be 'MM-DD-YYYY'
+            break
+        }
       }
     })
   }

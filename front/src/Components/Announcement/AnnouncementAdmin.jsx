@@ -61,7 +61,7 @@ const AnnouncementAdmin = () => {
           buttons: ['Cancelar', 'Aceptar'],
         }).then(async (res) => {
           if (res) {
-            await fetch(`${apiURL}/announcements/accept/${result.id}`, {
+            await fetch(`${apiURL}/admin/announcements/accept/${result.id}`, {
               method: 'PUT',
               headers: {
                 somoskey: `${localStorage.getItem('somoskey')}`,
@@ -92,7 +92,7 @@ const AnnouncementAdmin = () => {
           buttons: ['Cancelar', 'Eliminar'],
         }).then(async (res) => {
           if (res) {
-            await fetch(`${apiURL}/announcements/${result.id}`, {
+            await fetch(`${apiURL}/admin/announcements/${result.id}`, {
               method: 'DELETE',
               headers: {
                 somoskey: `${localStorage.getItem('somoskey')}`,

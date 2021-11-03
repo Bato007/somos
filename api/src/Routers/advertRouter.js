@@ -2,7 +2,7 @@ const express = require('express')
 const Joi = require('joi')
 const customJoi = Joi.extend(require('joi-phone-number'))
 const tokenGenerator = require('uuid-v4')
-const { cAnnouncements } = require('../DataBase/firebase')
+const { cAnnouncements, cUsers } = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -181,21 +181,15 @@ router.get('/home', async (req, res) => {
  */
 router.post('/home', async (req, res) => {
   const schema = Joi.object({
-    contact: Joi.string().min(1).required(),
-    phone: customJoi.string()
-      .phoneNumber({
-        defaultCountry: 'GT',
-        format: 'national',
-        strict: false, // Bajo visor
-      })
-      .required(),
-    email: Joi.string()
-      .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
-      .email({ tlds: { allow: false } })
-      .required(),
+    username: Joi.string().required(),
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
-    date: Joi.date().required(),
+    duration: Joi.date().required().messages({
+      'date.format': 'ERROR 101 invalid date must be \'MM-DD-YYYY\'',
+    }),
+  }).messages({
+    'any.required': 'ERROR 100 missing required fields',
+    'string.empty': 'ERROR 100 empty required field',
   })
 
   // Validar informacion
@@ -206,24 +200,34 @@ router.post('/home', async (req, res) => {
   } else {
     try {
       const {
-        contact, phone, email, title, description, date,
+        title, description, duration, username,
       } = req.body
+      const {
+        name, email, phone, categories,
+      } = (await cUsers.doc(username).get()).data()
 
-      const id = tokenGenerator()
-      await cAnnouncements.doc(id).set({
-        id,
-        contact,
-        phone,
-        email,
-        title,
-        description,
-        toDate: date,
-        type: 'home',
-        published: 0,
-      })
-      res.status(200).json({ message: 'Added' })
+      // Se verifica si tiene la categoria necesaria
+      if (categories.includes('Iglesia') || categories.includes('Hogar')) {
+        const id = tokenGenerator()
+        await cAnnouncements.doc(id).set({
+          id,
+          contact: name,
+          phone,
+          email,
+          title,
+          description,
+          toDate: duration,
+          type: 'home',
+          published: 0,
+        })
+        res.status(200)
+      } else {
+        res.status(403)
+      }
     } catch (error) {
       res.status(500).json({ message: 'Unexpected' })
+    } finally {
+      res.end()
     }
   }
 })

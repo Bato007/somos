@@ -1,6 +1,6 @@
 const express = require('express')
 const Joi = require('joi')
-const { cUsers } = require('../../DataBase/firebase')
+const { cUsers, cPetitions } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
@@ -206,6 +206,21 @@ router.put('/activate', async (req, res) => {
   } catch (error) {
     console.log(error.message)
     res.status(400).json()
+  }
+})
+
+router.get('/petitions', async (req, res) => {
+  try {
+    const temp = await cPetitions.get()
+    if (!temp.empty) {
+      const petitions = []
+      temp.forEach((element) => petitions.push(element.data()))
+      res.status(200).json(petitions)
+    } else {
+      res.status(404).json({ message: 'Empty petitions' })
+    }
+  } catch (error) {
+    res.status(500).end()
   }
 })
 

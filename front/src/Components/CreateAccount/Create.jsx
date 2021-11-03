@@ -123,7 +123,7 @@ const Create = () => {
 
       const data = Object.fromEntries(bufferArray)
 
-      fetch(`${apiURL}/authentication/admin/signup`,
+      fetch(`${apiURL}/admin/user/signup`,
         {
           method: 'POST',
           body: JSON.stringify(data),
