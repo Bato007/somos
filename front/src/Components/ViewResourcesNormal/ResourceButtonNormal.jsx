@@ -55,7 +55,7 @@ const typeResource = (link, docType) => {
   return <img className="imgfromdoc" src={`${link}`} alt="img" />
 }
 
-const BotonesRecursos = ({ link, docType }) => (
+const BotonesRecursosNormal = ({ link, docType }) => (
   link
     ? (
       <div id="previewRb">
@@ -100,9 +100,9 @@ const BotonesRecursos = ({ link, docType }) => (
     ) : ''
 )
 
-BotonesRecursos.propTypes = {
+BotonesRecursosNormal.propTypes = {
   docType: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
 }
 
-export default BotonesRecursos
+export default BotonesRecursosNormal

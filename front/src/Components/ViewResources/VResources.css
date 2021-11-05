@@ -120,7 +120,6 @@
   display: inline-block;
   padding: 8px;
   margin: 15px;
-  width: 65px;
   align-content: center;
   align-items: center;
   justify-content: flex-end;
@@ -166,7 +165,7 @@
 }
 
 .diableButton {
-  cursor: no-drop;
+  cursor: not-allowed;
 }
 
 .defaultButton{

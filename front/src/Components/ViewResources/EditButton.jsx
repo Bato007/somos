@@ -168,7 +168,7 @@ const EditButton = ({ resourceId }) => {
         />
         <TextField id="dateModify" type="date" defaultValue={resInfo.available} label={resInfo.available} inputProps={{ min: actualDate }} onChange={() => handleDateChange()} />
         <div className="buttonsEdit">
-          <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>cancel</button>
+          <button type="button" className="closeButton" onClick={() => abrirCerrarModal()}>Cancelar</button>
           <button
             type="button"
             className="saveButton"
@@ -177,7 +177,7 @@ const EditButton = ({ resourceId }) => {
               botonEditar()
             }}
           >
-            save
+            Guardar
           </button>
         </div>
       </div>
