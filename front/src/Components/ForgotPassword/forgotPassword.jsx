@@ -55,8 +55,8 @@ const ForgotPassword = () => {
         </p>
         <Input name="email" type="text" placeholder="Correo electrónico" onChange={handleChange} onEnter={existingAccounts} />
         <div className="buttonsFp">
-          <Button id="returnToSignIn" name="Cancel" onClick={() => history.replace('/')} />
-          <Button id="SignIn" name="Continue" onClick={() => history.push('/forgotPassword/token')} />
+          <Button id="returnToSignIn" name="Cancelar" onClick={() => history.replace('/')} />
+          <Button id="SignIn" name="Continuar" onClick={() => history.push('/forgotPassword/token')} />
         </div>
         <Error error={error} />
       </div>

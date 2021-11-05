@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, TextField } from '@material-ui/core'
 import SearchBarTo from '../SearchbarTo/SearchbarTo'
-import authentication from '../Authentication'
 import './VResources.css'
 import apiURL from '../fetch'
 
@@ -139,34 +138,6 @@ const EditButton = ({ resourceId }) => {
     }
   }
 
-  // fetch para ver si es admin
-  const typeAccount = async () => {
-    const { username } = account
-    const { password } = account
-    let status
-
-    const json = await fetch(`${apiURL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    }).then((res) => {
-      status = res.status
-      return res.json()
-    })
-
-    if (status === 200) {
-      const { somoskey } = json
-      authentication.onAuthentication()
-      localStorage.setItem('username', username)
-      localStorage.setItem('somoskey', somoskey)
-      if (json.isSOMOS) {
-        <button type="button" className="buttonEdit" onClick={() => abrirCerrarModal()} onChange={handleChangeEdit}>a</button>
-      }
-    }
-  }
-
   const handleTitleChange = () => {
     setTitleUpd(document.getElementById('titleChangeVR').value)
   }
@@ -187,7 +158,7 @@ const EditButton = ({ resourceId }) => {
         <TextField id="descriptionChangeVR" label={resInfo.description} onChange={() => handleDescChange()} />
         <SearchBarTo
           showSimilarTo
-          setActualSendersCategory={resInfo.tags}
+          lastResult={resInfo.tags}
           setSimilarTo={setTagUpd}
         />
         <SearchBarTo
@@ -222,7 +193,7 @@ const EditButton = ({ resourceId }) => {
         >
           {body}
         </Modal>
-        {typeAccount}
+        <button type="button" className="buttonEdit" onClick={() => abrirCerrarModal()} onChange={handleChangeEdit}>a</button>
       </div>
     </div>
   )

@@ -65,13 +65,17 @@ const BotonesRecursos = ({ link, docType }) => (
             <>
               <div className="containerB">
                 <button type="button" className="buttons defaultButton"><img src={previous2} alt="previous" /></button>
-                <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
+                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
+                  ? <button type="button" className="buttonsDisable diableButton"><img src={rotate} alt="previous" /></button>
+                  : <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>}
                 <h1>|</h1>
-                <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
+                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
+                  ? <button type="button" className="buttonsDisable diableButton"><img src={less} alt="previous" /></button>
+                  : <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>}
                 <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
-                <button onClick={zoomIn} type="button" className="buttons">
-                  <img src={more} alt="zoom in" />
-                </button>
+                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
+                  ? <button type="button" className="buttonsDisable diableButton"><img src={more} alt="previous" /></button>
+                  : <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>}
                 <h1>|</h1>
                 {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
                   ? <button type="button" className="buttonsDisable diableButton"><img src={expandDisable} alt="previous" /></button>
