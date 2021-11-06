@@ -43,10 +43,10 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
       text: '¿Estas seguro de mandar el anuncio a revisión? Se te mandará una notificación cuando tu anuncio sea aceptado o denegado',
       icon: 'warning',
       buttons: ['Cancelar', 'Aceptar'],
-    }).then((res) => {
+    }).then(async (res) => {
       if (res) {
         // Fetch para mandar el anuncio a revision
-        const response = fetch(`${apiURL}/announcements/home`, {
+        const response = await fetch(`${apiURL}/announcements/home`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
@@ -55,8 +55,8 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
             ...completeAnnounce,
             username: localStorage.getItem('username'),
           }),
-        }).then((out) => [out.status, out.body])
-        console.log(response)
+        }).then((out) => out.json().then((message) => [out.status, message]))
+        console.log(response, 59)
         switch (response[0]) {
           case 200:
             // Se agrego el anuncio con exito

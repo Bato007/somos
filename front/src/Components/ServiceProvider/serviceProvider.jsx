@@ -34,9 +34,9 @@ const serviceProvider = () => {
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
       body: JSON.stringify(data),
-    }).then((res) => [res.status, res.message])
+    }).then((res) => res.json().then((resData) => [res.status, resData]))
       .catch((error) => { console.log(error) })
-
+    console.log(response)
     // Se realiza la logica para los errores
     if (response[0] === 200) {
       // Mostrar mensaje de exito
@@ -52,7 +52,7 @@ const serviceProvider = () => {
       // ERROR 104 invalid date must be 'MM-DD-YYYY'
       // ERROR 105: Email or phone required
 
-      const result = response?.message
+      const result = response[1]?.message
       if (result) {
         if (result.includes('100')) {
           swal({
