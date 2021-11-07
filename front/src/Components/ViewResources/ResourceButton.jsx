@@ -5,10 +5,8 @@ import less from '../../static/imagesViewResources/zoomOut.png'
 import lessDisable from '../../static/imagesViewResources/zoomOutDisable.png'
 import more from '../../static/imagesViewResources/zoomIn.png'
 import moreDisable from '../../static/imagesViewResources/zoomInDisable.png'
-import previous2 from '../../static/imagesViewResources/previousDisable.png'
 import rotate from '../../static/imagesViewResources/rotate.png'
 import rotateDisable from '../../static/imagesViewResources/rotateDisable.png'
-import next2 from '../../static/imagesViewResources/nextDisable.png'
 import dowload from '../../static/imagesViewResources/dowload.png'
 import expandDisable from '../../static/imagesViewResources/expandDisable.png'
 /* El zoomIn y ZoomOut son parte de la libreria */
@@ -67,7 +65,6 @@ const BotonesRecursos = ({ link, docType }) => (
           {({ zoomIn, zoomOut, resetTransform }) => (
             <>
               <div className="containerB">
-                <button type="button" className="buttons defaultButton"><img src={previous2} alt="previous" /></button>
                 {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
                   ? <button type="button" className="buttonsDisable diableButton"><img src={rotateDisable} alt="previous" /></button>
                   : <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>}
@@ -83,7 +80,6 @@ const BotonesRecursos = ({ link, docType }) => (
                 {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
                   ? <button type="button" className="buttonsDisable diableButton"><img src={expandDisable} alt="previous" /></button>
                   : <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>}
-                <button type="button" className="buttons defaultButton"><img src={next2} alt="next" /></button>
               </div>
               <hr />
               <div className="docSpace">

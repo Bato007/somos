@@ -3,22 +3,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   padding: 0 0 3em 0;
-  min-width: 100vw;
-  width: fit-content;
+  max-width: 100vw;
+  min-height: 100vh;
 }
   
 #vresources {
   display: flex;
   flex-direction: column;
+  width: fit-content;
   justify-content: center;
   background-color: white;
   border-radius: 0.5em;
-  margin: 3em 50px;
-  padding: 15px 6px;
-  padding-left: 50px;
-  padding-right: 50px;
+  margin-top: 3em;
 }
 
 #editResource{
@@ -157,7 +154,6 @@
   display: inline-block;
   padding: 8px;
   margin: 15px;
-  width: 65px;
   align-content: center;
   border-radius: 3px;
   align-items: center;
@@ -241,7 +237,7 @@
   height: 70px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 10px 15px;
   background-color: #212322;
@@ -329,6 +325,10 @@ hr{
   scroll-snap-type: x mandatory
 }
 
+.otherUser {
+  overflow-y: hidden;
+}
+
 .imgfromdoc{
   overflow-y:hidden;
 }
@@ -388,6 +388,8 @@ TransformComponent{
   padding: 40px 0;
   min-height: 650px; 
   overflow-y: scroll;
+  width: auto;
+  margin: 0 20px;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory
 }
@@ -431,5 +433,55 @@ TransformComponent{
     border: 0;
     width: 800px;
     height: 450px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  #vresources {
+    padding: 1em;
+  }
+}
+
+@media screen and (max-width: 927px){
+  #vresources {
+    width: 400px;
+  }
+  .buttons img{
+    height: 25px;
+  }
+  
+  .buttons img:hover{
+    height: 28px;
+  }
+
+  .containerB h1 {
+    font-size: 25px;
+  }
+
+  .expand {
+    background-size: 35px;
+  }
+}
+
+@media screen and (max-width: 435px){
+  #vresources {
+    width: 350px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  #vresources {
+    padding: 3em;
+  }
+  #vresources .UploadEnd {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #vresources h1 {
+    font-size: 2em;
+  }
+  #vresources h3 {
+    margin: 1.5em 0 0 1em;
+    font-size: 1em;
   }
 }
