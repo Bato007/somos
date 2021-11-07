@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useEffect } from 'react'
 import Button from '../Button/Button'
@@ -14,7 +15,6 @@ const Request = () => {
     }).then((res) => res.json().then((out) => [res.status, out]))
     // 0: es el status
     // 1: es la informacion
-    console.log(data)
   }
 
   const acceptPetition = async () => {

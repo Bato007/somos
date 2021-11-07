@@ -19,7 +19,7 @@ const ManageAccountAdmin = () => {
       { selectedOption === 2
         ? <Request /> : ''}
       { selectedOption === 3
-        ? <Management /> : ''}
+        ? <Management display={1} /> : <Management display={0} /> }
     </>
   )
 }

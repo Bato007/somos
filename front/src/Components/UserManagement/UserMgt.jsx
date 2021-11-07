@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import Popup from 'reactjs-popup'
 import swal from 'sweetalert'
 import Button from '../Button/Button'
@@ -11,7 +12,7 @@ import 'reactjs-popup/dist/index.css'
 
 import './UserMgt.css'
 
-const UserMgt = () => {
+const UserMgt = ({ display }) => {
   const [userInfo, setUserInfo] = useState([])
   const [categories, setCategories] = useState([])
 
@@ -75,14 +76,16 @@ const UserMgt = () => {
   }
 
   const updateCategories = (close) => {
-    console.log(categories)
-    console.log('entra en update categories')
     close()
   }
 
   useEffect(() => {
     getUsersInfo()
   }, [])
+
+  if (display === 0) {
+    return null
+  }
 
   return (
     <div className="page-container">
@@ -142,6 +145,10 @@ const UserMgt = () => {
       </div>
     </div>
   )
+}
+
+UserMgt.propTypes = {
+  display: PropTypes.number.isRequired,
 }
 
 export default UserMgt
