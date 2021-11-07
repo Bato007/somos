@@ -5,19 +5,58 @@ import apiURL from '../fetch'
 import './Request.css'
 
 const Request = () => {
-  const getPetitions = () => {
-    const data = fetch(`${apiURL}/admin/user/petitions`, {
+  const getPetitions = async () => {
+    const data = await fetch(`${apiURL}/admin/user/petitions`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
       },
-    }).then((res) => [res.status, res.body])
-    return data
+    }).then((res) => res.json().then((out) => [res.status, out]))
+    // 0: es el status
+    // 1: es la informacion
+    console.log(data)
+  }
+
+  const acceptPetition = async () => {
+    const status = await fetch(`${apiURL}/admin/user/approve/${localStorage.getItem('username')}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
+      },
+    }).then((res) => res.status)
+    // 200 se acepto
+    // 404 no se encontro la peticion
+    // 500 error del sistema
+    if (status === 200) {
+      // Se realizo la operacion
+    } else if (status === 404) {
+      // No se encontro la peticion
+    } else {
+      // Error del server
+    }
+  }
+
+  const declinePetition = async () => {
+    const status = await fetch(`${apiURL}/admin/user/disapprove/${localStorage.getItem('username')}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
+      },
+    }).then((res) => res.status)
+    // 200 se acepto
+    // 404 no se encontro la peticion
+    // 500 error del sistema
+    if (status === 200) {
+      // Se realizo la operacion
+    } else if (status === 404) {
+      // No se encontro la peticion
+    } else {
+      // Error del server
+    }
   }
 
   useEffect(() => {
-    const petitions = getPetitions()
-    console.log(petitions)
+    getPetitions()
   }, [])
 
   return (

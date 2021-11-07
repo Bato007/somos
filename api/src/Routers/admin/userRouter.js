@@ -224,9 +224,52 @@ router.get('/petitions', async (req, res) => {
   }
 })
 
-router.put('/approve/:username')
+router.put('/approve/:username', async (req, res) => {
+  try {
+    const { username } = req.params
+    const petition = (await cPetitions.doc(username).get()).data()
+    if (petition.empty) {
+      res.status(404).end()
+    } else {
+      // Se enconro el request
+      const { added, removed } = petition
+      const { categories } = (await cUsers.doc(username).get()).data()
 
-router.put('/disapprove/:username')
+      added.forEach((element) => {
+        categories.push(element)
+      })
+      removed.forEach((element) => {
+        const index = categories.indexOf(element)
+        categories.splice(index, 1)
+      })
+
+      await cUsers.doc(username).update({
+        categories,
+      })
+      await cPetitions.doc(username).delete()
+
+      res.status(200).end()
+    }
+  } catch (error) {
+    res.status(500).end()
+  }
+})
+
+router.put('/disapprove/:username', async (req, res) => {
+  try {
+    const { username } = req.params
+    const petition = (await cPetitions.doc(username).get()).data()
+    if (petition.empty) {
+      res.status(404).end()
+    } else {
+      await cPetitions.doc(username).delete()
+
+      res.status(200).end()
+    }
+  } catch (error) {
+    res.status(500).end()
+  }
+})
 
 /*
   Esta funcion recibe el username de la que se quiere borrar
