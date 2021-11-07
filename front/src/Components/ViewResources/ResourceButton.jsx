@@ -37,7 +37,7 @@ const Full = () => {
 // console.log('type', docType)
 const typeResource = (link, docType) => {
   if (docType === 'pdf') {
-    return <embed className="pdfDoc" frameBorder="0" src={`${link}#toolbar=0&navpanes=0&scrollbar=0`} type={`application/${docType}`} />
+    return <embed className="pdfDoc" frameBorder="0" src={`${link}#toolbar=0&view=fitH,100`} type={`application/${docType}`} />
   }
   if (docType === 'xls' || docType === 'ppt' || docType === 'docx') {
     return (
@@ -82,13 +82,25 @@ const BotonesRecursos = ({ link, docType }) => (
                   : <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>}
               </div>
               <hr />
-              <div className="docSpace">
-                <TransformComponent>
-                  <div id="documentV">
-                    {typeResource(link, docType)}
+              {(docType === 'pdf')
+                ? (
+                  <div className="docSpacePDF">
+                    <TransformComponent>
+                      <div id="documentV">
+                        {typeResource(link, docType)}
+                      </div>
+                    </TransformComponent>
                   </div>
-                </TransformComponent>
-              </div>
+                )
+                : (
+                  <div className="docSpace">
+                    <TransformComponent>
+                      <div id="documentV">
+                        {typeResource(link, docType)}
+                      </div>
+                    </TransformComponent>
+                  </div>
+                )}
             </>
           )}
         </TransformWrapper>

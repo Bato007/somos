@@ -69,7 +69,6 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  align-content: center;
   align-items: center;
   justify-content: flex-end;
   max-width: 400px;
@@ -77,6 +76,9 @@
   align-self: center;
   border-radius: 15px;
   padding: 20px;
+  align-content: flex-start;
+
+
 }
 
 .tagsButtons{
@@ -263,6 +265,7 @@
   align-content: center;
   display: inline-grid;
   color: transparent;
+  margin: 20px;
 }
 
 .buttons img{
@@ -310,13 +313,22 @@
 /*termina el cambio de imagen del botón de expandir*/
 
 hr{
-  width: inherit;
+  width: auto;
   margin: 10px;
 }
 
 .docSpace{
   overflow-y: scroll;
   scroll-behavior: smooth;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  padding: 5px 50px;
+  height: 350px;
+  scroll-snap-type: x mandatory
+}
+
+.docSpacePDF{
   display: flex;
   justify-content: center;
   background-color: white;
@@ -409,7 +421,14 @@ TransformComponent{
 }
 
 .makeStyles-modal .searchbarTo{
-  width: 400px;
+  max-width: 400px;
+}
+
+:-webkit-full-screen #documentV .pdfDoc{
+  overflow-y: hidden;
+  border: 0;
+  width: 700px;
+  height: 750px;
 }
 
 @media (max-width: 500px){
@@ -426,13 +445,6 @@ TransformComponent{
   }
   :-webkit-full-screen .docSpace{
     width: 100px;
-  }
-
-  :-webkit-full-screen .docSpace .pdfDoc{
-    overflow-y: hidden;
-    border: 0;
-    width: 800px;
-    height: 450px;
   }
 }
 
@@ -458,14 +470,21 @@ TransformComponent{
     font-size: 25px;
   }
 
+  .containerB .buttons{
+    margin: 0px;
+  }
   .expand {
     background-size: 35px;
+  }
+
+  .MuiInputBase-root {
+    width: 250px;
   }
 }
 
 @media screen and (max-width: 435px){
   #vresources {
-    width: 350px;
+    width: 320px;
   }
 }
 

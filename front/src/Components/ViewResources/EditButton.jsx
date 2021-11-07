@@ -13,7 +13,7 @@ const EditButton = ({ resourceId }) => {
   let description = editInfo.title
   let { available } = editInfo
   let { tags } = editInfo
-  let { users } = editInfo
+  let { users } = editInfo.users
   let category = editInfo.categories
   const [modal, setModal] = useState(false)
   const [titleUpd, setTitleUpd] = useState('')
@@ -162,7 +162,10 @@ const EditButton = ({ resourceId }) => {
           setSimilarTo={setTagUpd}
         />
         <SearchBarTo
-          lastResult={resInfo.categories}
+          // lastResult={resInfo.categories || resInfo.users}
+          lastResult={resInfo.users !== ''
+            ? resInfo.categories // no trae
+            : resInfo.users}
           setAccounts={setUserUpd}
           setCategories={setCategoriesUpd}
         />
