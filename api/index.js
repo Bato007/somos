@@ -24,7 +24,7 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
 
-const { getArrayDiff } = require('./src/Middleware/services')
+const { sendMail } = require('./src/Middleware/services')
 
 const options = {
   definition: {
@@ -47,7 +47,7 @@ app.use(cors())
 app.use(express.json())
 
 const specs = swaggerJsDoc(options)
-// app.get('/test', getArrayDiff)
+app.get('/test', sendMail)
 
 // Routers Sin autenticacion
 app.use('/', publicRouter)

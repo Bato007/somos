@@ -153,7 +153,8 @@ router.put('/accept/:id', async (req, res) => {
     await cAnnouncements.doc(id).update({
       published: 1,
     })
-    sendMail()
+    const { email, contact } = (await cAnnouncements.doc(id).get()).data()
+    // sendMail()
     res.statusCode = 200
     // Se manda el mail
   } catch (error) {

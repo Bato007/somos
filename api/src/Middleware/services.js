@@ -1,3 +1,5 @@
+const nodemailer = require('nodemailer')
+const mail = require('./mail.json')
 const { cCategories, cTags } = require('../DataBase/firebase')
 
 const fixCapitalization = (array) => {
@@ -52,8 +54,25 @@ const addTags = (tags) => {
   }
 }
 
-const sendMail = () => {
-  console.log('email sent')
+const sendMail = (to, subject, text) => {
+  let sended = false
+  const transporter = nodemailer.createTransport(mail)
+
+  const mailOptions = {
+    from: mail.auth?.user,
+    to,
+    subject,
+    text,
+  }
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error)
+    } else {
+      sended = true
+    }
+  })
+  return sended
 }
 
 module.exports = {
