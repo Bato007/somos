@@ -10,14 +10,18 @@
   "acceptPetitionM": {
     "subject": "SOMOS aprueba cambio de categoría",
     "text": "Por este medio te informamos que el cambio de categorias fue aceptado con el siguiente resultado:",
-    "add": "Se agrego la siguiente categoría: ",
-    "adds": "Se agregaron las siguientes categorías: ",
-    "remove": "Se elimino la siguiente categoría: ",
-    "removes": "Se eliminaron las siguientes categorías: ",
+    "add": "• Se agregó la categoría: ",
+    "adds": "• La(s) categoría(s) agregada(s): ",
+    "remove": "• Se eliminó la categoría: ",
+    "removes": "• La(s) categoría(s) elimida(s): ",
     "finish": "Muchas gracias por participar. No responder a este mensaje ya que es automático."
   },
   "rejectPetitionM": {
     "subject": "SOMOS aprueba cambio de categoría",
-    "text": "Por este medio se te informa que no se ha autorizado el cambio de categoría.\nMuchas gracias por participar. No responder a este mensaje ya que es automático."
+    "text": "Por este medio se te informa que no se ha autorizado el cambio de categoría.\nMuchas gracias por participar. Por favor, no responder a este mensaje ya que es automático."
+  },
+  "tokenRecived": {
+    "subject": "SOMOS envía token",
+    "text": "El token para restablecer tu contraseña es $1 \nPor motivos de seguridad, este enlace caducará inmediatamente después de que se haya restablecido tu contraseña."
   }
 }
