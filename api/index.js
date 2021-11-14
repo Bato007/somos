@@ -23,8 +23,7 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
-
-const { sendMail } = require('./src/Middleware/services')
+const { acceptAnnouncementM, rejectAnnouncementM } = require('./mails/messages.json')
 
 const options = {
   definition: {
@@ -47,7 +46,12 @@ app.use(cors())
 app.use(express.json())
 
 const specs = swaggerJsDoc(options)
-app.get('/test', sendMail)
+app.get('/test', (req, res) => {
+  const { subject, text } = acceptAnnouncementM
+  const hola = text.replace('$1', 'HOLA')
+  console.log(hola)
+  res.status(200).end()
+})
 
 // Routers Sin autenticacion
 app.use('/', publicRouter)

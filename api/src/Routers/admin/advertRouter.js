@@ -1,6 +1,7 @@
 const express = require('express')
 const { cAnnouncements } = require('../../DataBase/firebase')
 const { sendMail } = require('../../Middleware/services')
+const { acceptAnnouncementM, rejectAnnouncementM } = require('../../../mails/messages.json')
 
 const router = express.Router()
 
@@ -153,10 +154,14 @@ router.put('/accept/:id', async (req, res) => {
     await cAnnouncements.doc(id).update({
       published: 1,
     })
-    const { email, contact } = (await cAnnouncements.doc(id).get()).data()
-    // sendMail()
+    const { email, contact, title } = (await cAnnouncements.doc(id).get()).data()
+    const { subject, text } = acceptAnnouncementM
+    let message = text.replace('$1', contact)
+    message = text.replace('$2', title)
     res.statusCode = 200
-    // Se manda el mail
+    if (email) {
+      sendMail(email, subject, message)
+    }
   } catch (error) {
     res.statusCode = 404
   } finally {
@@ -221,8 +226,18 @@ router.put('/deny/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
+    const {
+      email, contact, title, published,
+    } = (await cAnnouncements.doc(id).get()).data()
     await cAnnouncements.doc(id).delete()
     res.statusCode = 200
+
+    const { subject, text } = rejectAnnouncementM
+    let message = text.replace('$1', contact)
+    message = text.replace('$2', title)
+    if (email && published === 0) {
+      sendMail(email, subject, message)
+    }
   } catch (error) {
     res.statusCode = 400
   } finally {

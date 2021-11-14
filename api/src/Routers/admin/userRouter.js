@@ -1,6 +1,8 @@
 const express = require('express')
 const Joi = require('joi')
 const { cUsers, cPetitions } = require('../../DataBase/firebase')
+const { sendMail } = require('../../Middleware/services')
+const { acceptPetitionM, rejectPetitionM } = require('../../../mails/messages.json')
 
 const router = express.Router()
 
@@ -263,8 +265,10 @@ router.put('/disapprove/:username', async (req, res) => {
       res.status(404).end()
     } else {
       await cPetitions.doc(username).delete()
-
+      const { email } = (await cUsers.doc(username).get()).data()
       res.status(200).end()
+      const { subject, text } = rejectPetitionM
+      sendMail(email, subject, text)
     }
   } catch (error) {
     res.status(500).end()

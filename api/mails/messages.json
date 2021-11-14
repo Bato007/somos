@@ -1,0 +1,23 @@
+{
+  "acceptAnnouncementM": {
+    "subject": "SOMOS aprueba el anuncio",
+    "text": "Muchas gracias $1 por estar interesado en ayudar a la comunidad de SOMOS.\nPor este medio te informamos que el anuncio '$2' ingresado a la plataforma de SOMOS fue publicado y todos los usuarios podrán ver leerlo.\nNo responder a este mensaje ya que es automático."
+  },
+  "rejectAnnouncementM": {
+    "subject": "SOMOS rechaza el anuncio",
+    "text": "Muchas gracias $1 por estar interesado en ayudar a la comunidad de SOMOS.\nPor este medio te informamos que el anuncio '$2' ingresado a la plataforma de SOMOS fue rechazado por no cumplir con los estándares de la organización.\nNo responder a este mensaje ya que es automático."
+  },
+  "acceptPetitionM": {
+    "subject": "SOMOS aprueba cambio de categoría",
+    "text": "Por este medio te informamos que el cambio de categorias fue aceptado con el siguiente resultado:",
+    "add": "Se agrego la siguiente categoría: ",
+    "adds": "Se agregaron las siguientes categorías: ",
+    "remove": "Se elimino la siguiente categoría: ",
+    "removes": "Se eliminaron las siguientes categorías: ",
+    "finish": "Muchas gracias por participar. No responder a este mensaje ya que es automático."
+  },
+  "rejectPetitionM": {
+    "subject": "SOMOS aprueba cambio de categoría",
+    "text": "Por este medio se te informa que no se ha autorizado el cambio de categoría.\nMuchas gracias por participar. No responder a este mensaje ya que es automático."
+  }
+}

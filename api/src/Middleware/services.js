@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer')
-const mail = require('./mail.json')
+const mail = require('../../mails/account.json')
 const { cCategories, cTags } = require('../DataBase/firebase')
 
 const fixCapitalization = (array) => {
