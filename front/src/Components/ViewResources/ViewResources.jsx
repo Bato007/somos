@@ -32,11 +32,11 @@ const VResources = () => {
   return (resInfo
     ? (
       <div className="vresources">
-        <div id="vresources">
+        <>
           {
             editResource
               ? (
-                <>
+                <div id="vresources">
                   <div className="headers">
                     <h1>{resInfo.title}</h1>
                     <Button id="editAccount" onClick={() => setEditResource(!editResource)} />
@@ -55,11 +55,11 @@ const VResources = () => {
                     </div>
                   </div>
                   <DeleteButton resourceId={resourceId} />
-                </>
+                </div>
               )
               : <EditResource resourceId={resourceId} />
           }
-        </div>
+        </>
       </div>
     )
     : ''
