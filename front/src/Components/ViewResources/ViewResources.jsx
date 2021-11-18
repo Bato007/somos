@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import ResourceButton from './ResourceButton'
 import DeleteButton from './DeleteButton'
+import Button from '../Button/Button'
 import './VResources.css'
-import EditButton from './EditButton'
 import apiURL from '../fetch'
+import EditResource from './EditResource'
 
 const VResources = () => {
   const location = useLocation()
   const resourceId = location.state.detail
   const [resInfo, setResInfo] = useState()
+  const [editResource, setEditResource] = useState(true)
 
   // Fetch para obtener la informacion del recurso seleccionado
   const setResourceInfo = async () => {
@@ -31,23 +33,32 @@ const VResources = () => {
     ? (
       <div className="vresources">
         <div id="vresources">
-          <div className="headers">
-            <h1>{resInfo.title}</h1>
-            <EditButton resourceId={resourceId} />
-          </div>
-          <ResourceButton link={resInfo.url[0]} docType={resInfo.type} />
-          <hr />
-          <div className="editp">
-            <p>
-              {resInfo.description}
-            </p>
-            <div className="otherLine">
-              {resInfo.tags !== undefined
-                ? resInfo.tags.map((tag, id) => <p key={`Tag: ${id}`}>{tag}</p>)
-                : null}
-            </div>
-          </div>
-          <DeleteButton resourceId={resourceId} />
+          {
+            editResource
+              ? (
+                <>
+                  <div className="headers">
+                    <h1>{resInfo.title}</h1>
+                    <Button id="editAccount" onClick={() => setEditResource(!editResource)} />
+                  </div>
+
+                  <ResourceButton link={resInfo.url[0]} docType={resInfo.type} />
+                  <hr />
+                  <div className="editp">
+                    <p>
+                      {resInfo.description}
+                    </p>
+                    <div className="otherLine">
+                      {resInfo.tags !== undefined
+                        ? resInfo.tags.map((tag, id) => <p key={`Tag: ${id}`}>{tag}</p>)
+                        : null}
+                    </div>
+                  </div>
+                  <DeleteButton resourceId={resourceId} />
+                </>
+              )
+              : <EditResource resourceId={resourceId} />
+          }
         </div>
       </div>
     )

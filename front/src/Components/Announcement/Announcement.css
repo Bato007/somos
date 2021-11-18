@@ -43,6 +43,7 @@
 
 .announcementOptions button {
     margin: 5px 10px 5px 10px;
+    padding: 0;
 }
 
 .switch {
@@ -97,7 +98,7 @@
   transform: translate(-50%,-50%);
   top: 50%;
   left: 50%;
-  font-size: 1.3vw;
+  font-size: 1em;
   font-family: Verdana, sans-serif;
 }
 
@@ -111,4 +112,11 @@
 
 #togBtn:checked + .slider .off {
     display: none;
+}
+
+
+@media screen and (min-width: 800px) {
+  .announcementOptions button {
+      padding: 1em 2em 1em 2em;
+  }
 }

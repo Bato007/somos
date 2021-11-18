@@ -104,6 +104,8 @@ const SearchbarTo = ({
     if (lastResult.length > 0 && setCategories) {
       setActualSendersCategory(lastResult)
       setCategories(lastResult)
+    } else if (lastResult.length > 0 && showSimilarTo) {
+      setTagsSimilarTo(lastResult)
     }
   }, [lastResult])
 

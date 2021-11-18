@@ -204,19 +204,6 @@
 .MuiInput-underline::after{
   color: rgb(7, 6, 6);
 }
-
-/*Boton para editar */
-.buttonEdit{
-  align-items: center;
-  color: rgba(255, 255, 255, 0);
-  background: rgba(255, 255, 255, 0) url(../../static/imagesViewResources/editpre.png) center no-repeat;
-  background-size: 20px;
-}
-
-.buttonEdit:hover{
-  background: rgba(255, 255, 255, 0) url(../../static/imagesViewResources/edit.png) center no-repeat;
-  background-size: 20px;
-}
 /*termina parte del boton para editar */
 
 /*Boton para eliminar*/
@@ -234,6 +221,11 @@
   background-size: 37px;
 }
 /*Termina parte dle boton para borrar*/
+
+#vresources #editAccount {
+  width: 5vw;
+  height: 5vw;
+}
 
 .containerB{
   height: 70px;
@@ -491,6 +483,10 @@ TransformComponent{
 @media screen and (min-width: 800px) {
   #vresources {
     padding: 3em;
+  }  
+  #vresources #editAccount {
+    width: 1.5vw;
+    height: 1.5vw;
   }
   #vresources .UploadEnd {
     flex-direction: row;

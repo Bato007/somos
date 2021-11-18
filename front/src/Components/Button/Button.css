@@ -130,6 +130,19 @@ button {
   padding: 0;
 }
 
+/*Boton para editar */
+#buttonEdit{
+  align-items: center;
+  color: rgb(0, 0, 0);
+  background: rgba(255, 255, 255, 0) url(../../static/imagesViewResources/editpre.png) center no-repeat;
+  background-size: 1vw;
+}
+
+#buttonEdit:hover{
+  background: rgba(255, 255, 255, 0) url(../../static/imagesViewResources/edit.png) center no-repeat;
+  background-size: 1vw;
+}
+
 #removeAccount {
   width: 2vw;
   height: 2vw;

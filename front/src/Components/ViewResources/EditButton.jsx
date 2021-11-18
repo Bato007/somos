@@ -35,7 +35,6 @@ const EditButton = ({ resourceId }) => {
       },
     }).then((res) => res.json())
     setResInfo(json)
-    console.log('info recurso', json)
   }
 
   useEffect(() => {
