@@ -50,11 +50,11 @@ const TokenForgetPass = () => {
         <h1>Restauración de contraseña</h1>
         <div className="inputForget">
           <p>Ingrese nueva contraseña</p>
-          <Input name="password" type="text" placeholder="Nueva contraseña" onChange={(event) => setPass(event.target.value)} />
+          <Input name="password" type="password" placeholder="Nueva contraseña" onChange={(event) => setPass(event.target.value)} />
         </div>
         <div className="inputForget">
           <p>Confirme nueva contraseña</p>
-          <Input name="confirmPassword" type="text" placeholder="Confirmación de contraseña" onChange={(event) => setConf(event.target.value)} />
+          <Input name="confirmPassword" type="password" placeholder="Confirmación de contraseña" onChange={(event) => setConf(event.target.value)} />
         </div>
         <div className="inputForget">
           <p>Ingrese token</p>

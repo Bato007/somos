@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import swal from 'sweetalert'
 import Input from '../Input/Input'
@@ -8,23 +7,8 @@ import Button from '../Button/Button'
 import apiURL from '../fetch'
 import './WriteMessage.css'
 
-/**
- * Obteniendo la fecha actual para las dates disponibles en el mensaje
- */
-const date = () => {
-  const today = new Date()
-  const month = today.getMonth() + 1
-
-  if (month.toString().length === 1) {
-    return `${today.getFullYear()}-0${today.getMonth() + 1}-${today.getDate()}`
-  }
-  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
-}
-
-const actualDate = date()
-const formData = new FormData()
-
 const WriteMessage = ({ setWritingAnnouncement }) => {
+  const history = useHistory()
   const [completeAnnounce, setCompleteAnnounce] = useState({
     title: '', description: '', duration: '',
   })
@@ -40,7 +24,7 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
   const sendAnnouncement = () => {
     swal({
       title: 'Mandar anuncio',
-      text: '¿Estas seguro de mandar el anuncio a revisión? Se te mandará una notificación cuando tu anuncio sea aceptado o denegado',
+      text: '¿Estás seguro de mandar el anuncio a revisión? Se te mandará una notificación cuando tu anuncio sea aceptado o denegado',
       icon: 'warning',
       buttons: ['Cancelar', 'Aceptar'],
     }).then(async (res) => {
@@ -55,21 +39,59 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
             ...completeAnnounce,
             username: localStorage.getItem('username'),
           }),
-        }).then((out) => out.json().then((message) => [out.status, message]))
-        console.log(response, 59)
+        }).then((out) => {
+          if (out.status !== 403) {
+            return [out.status, out.message]
+          }
+          return [403, 'Error']
+        })
+
         switch (response[0]) {
           case 200:
             // Se agrego el anuncio con exito
+            swal({
+              title: 'El anuncio se ha mandado con éxito a revisión',
+              text: 'Se te notificará si el anuncio es aceptado o rechazado',
+              icon: 'success',
+            }).then((res2) => {
+              if (res2) {
+                const path = window.location.href.split('/')[3]
+                history.push(`/${path}`)
+              }
+            })
             break
           case 403:
             // El usuario no tiene permitido subir un anuncio
+            swal({
+              title: 'Oops! Pareciera que no tienes acceso a esta función.',
+              text: 'Si crees que se trata de un error, por favor comunicate con un administrador de Somos',
+              icon: 'error',
+            }).then((res2) => {
+              if (res2) {
+                const path = window.location.href.split('/')[3]
+                history.push(`/${path}`)
+              }
+            })
             break
           case 500:
             // Error del servidor
+            swal({
+              title: 'Oops! Pareciera que hubo un error externo. Vuelve a intentar más tarde.',
+              icon: 'error',
+            }).then((res2) => {
+              if (res2) {
+                const path = window.location.href.split('/')[3]
+                history.push(`/${path}`)
+              }
+            })
             break
           default: // Error de ingreso de datos
             // ERROR 100 missing required fields || empty required field
             // ERROR 101 invalid date must be 'MM-DD-YYYY'
+            swal({
+              title: 'Oops! Por favor, termina de rellenar todos los campos',
+              icon: 'error',
+            })
             break
         }
       }
