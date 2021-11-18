@@ -1,6 +1,6 @@
 const express = require('express')
 const Joi = require('joi')
-const { fixCapitalization, getArrayDiff } = require('../Middleware/services')
+const { getArrayDiff, makeLower } = require('../Middleware/services')
 const { valPassword, valRegion } = require('../Middleware/validation')
 const {
   cUsers, cKeys, cPetitions, FieldValue,
@@ -76,6 +76,27 @@ router.get('/:usernameid', async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.statusCode = 500
+    res.end()
+  }
+})
+
+router.put('/logout/:username', async (req, res) => {
+  try {
+    // Se obtiene el usaurio
+    const { username } = req.params
+    const user = await cUsers.doc(username).get()
+
+    if (!user.exists) {
+      res.statusCode = 404
+      res.end()
+    } else {
+      await cKeys.doc(username).delete()
+      // Ahora se regresa
+      res.statusCode = 200
+      res.end()
+    }
+  } catch (error) {
     res.statusCode = 500
     res.end()
   }
@@ -203,9 +224,7 @@ router.put('/information', async (req, res) => {
 
       // Handle update
       if (updateIt) {
-        console.log(categories, 206)
-        categories = fixCapitalization(categories)
-        console.log(categories, 208)
+        categories = makeLower(categories)
         if (!phone) { phone = FieldValue.delete() }
         if (!categories) { throw new Error() }
 
@@ -224,6 +243,7 @@ router.put('/information', async (req, res) => {
           // Se verifica que categoria se elimino / agrego
           const { added, removed } = getArrayDiff(user.categories, categories)
           await cPetitions.doc(username).set({
+            name: user.name,
             added,
             removed,
           })

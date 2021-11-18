@@ -14,6 +14,18 @@ const fixCapitalization = (array) => {
   return fixed
 }
 
+const makeLower = (array) => {
+  let fixed = []
+  try {
+    array.forEach((element) => {
+      fixed.push(element.toLowerCase())
+    })
+  } catch (error) {
+    fixed = undefined
+  }
+  return fixed
+}
+
 const getArrayDiff = (original, modified) => {
   const difference = { added: [], removed: [] }
 
@@ -81,4 +93,5 @@ module.exports = {
   sendMail,
   fixCapitalization,
   getArrayDiff,
+  makeLower,
 }

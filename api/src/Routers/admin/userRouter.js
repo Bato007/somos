@@ -1,6 +1,8 @@
 const express = require('express')
 const Joi = require('joi')
-const { cUsers, cPetitions } = require('../../DataBase/firebase')
+const {
+  cUsers, cPetitions, cKeys, cCategories, cTags, cResources,
+} = require('../../DataBase/firebase')
 const { sendMail } = require('../../Middleware/services')
 const { acceptPetitionM, rejectPetitionM } = require('../../../mails/messages.json')
 
@@ -216,7 +218,15 @@ router.get('/petitions', async (req, res) => {
     const temp = await cPetitions.get()
     if (!temp.empty) {
       const petitions = []
-      temp.forEach((element) => petitions.push(element.data()))
+      temp.forEach((element) => {
+        const data = cUsers.doc(element.id).get().then((info) => info.data()).then((p) => p)
+        // console.log(username, name)
+        console.log(data)
+        petitions.push({
+          username: element.id,
+          ...element.data(),
+        })
+      })
       res.status(200).json(petitions)
     } else {
       res.status(404).json({ message: 'Empty petitions' })
@@ -235,7 +245,7 @@ router.put('/approve/:username', async (req, res) => {
     } else {
       // Se enconro el request
       const { added, removed } = petition
-      const { categories } = (await cUsers.doc(username).get()).data()
+      const { categories, email } = (await cUsers.doc(username).get()).data()
 
       added.forEach((element) => {
         categories.push(element)
@@ -249,6 +259,9 @@ router.put('/approve/:username', async (req, res) => {
         categories,
       })
       await cPetitions.doc(username).delete()
+
+      const { subject, text } = acceptPetitionM
+      sendMail(email, subject, text)
 
       res.status(200).end()
     }
@@ -282,10 +295,42 @@ router.put('/disapprove/:username', async (req, res) => {
 router.delete('/:username', async (req, res) => {
   const { username } = req.params
   try {
-    await cUsers.doc(username).delete()
-    res.status(200).json()
+    // Se borran de lo normal
+    const user = (await cUsers.doc(username).get()).data()
+    if (user) {
+      const { categories } = user
+      await cUsers.doc(username).delete()
+      await cKeys.doc(username).delete()
+      await cPetitions.doc(username).delete()
+
+      // Se borra de recursos y categorias
+      const ccategory = await cCategories.get()
+      ccategory.forEach(async (element) => {
+        const { category, users } = element.data()
+        const index = users.indexOf(username)
+        if (categories.includes(category) && index > -1) {
+          users.splice(index, 1)
+          await cCategories.doc(category).update({ users })
+        }
+      })
+
+      const resources = await cResources.get()
+      resources.forEach(async (resource) => {
+        const { category, users } = resource.data()
+        const index = users.indexOf(username)
+        if (index > -1) {
+          users.splice(index, 1)
+          await cResources.doc(resource.id).update({ users })
+        }
+      })
+      res.status(200)
+    } else {
+      res.status(404)
+    }
   } catch (error) {
-    res.status(400).json()
+    res.status(500)
+  } finally {
+    res.end()
   }
 })
 

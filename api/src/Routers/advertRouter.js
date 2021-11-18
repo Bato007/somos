@@ -207,7 +207,7 @@ router.post('/home', async (req, res) => {
       } = (await cUsers.doc(username).get()).data()
 
       // Se verifica si tiene la categoria necesaria
-      if (categories.includes('Iglesia') || categories.includes('Hogar')) {
+      if (categories.includes('iglesia') || categories.includes('hogar')) {
         const id = tokenGenerator()
         await cAnnouncements.doc(id).set({
           id,
