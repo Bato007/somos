@@ -23,9 +23,9 @@ const Request = () => {
     // 1: es la informacion
   }
 
-  const acceptPetition = async () => {
-    const status = await fetch(`${apiURL}/admin/user/approve/${localStorage.getItem('username')}`, {
-      method: 'POST',
+  const acceptPetition = async (username) => {
+    const status = await fetch(`${apiURL}/admin/user/approve/${username}`, {
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
       },
@@ -51,9 +51,9 @@ const Request = () => {
     }
   }
 
-  const declinePetition = async () => {
-    const status = await fetch(`${apiURL}/admin/user/disapprove/${localStorage.getItem('username')}`, {
-      method: 'POST',
+  const declinePetition = async (username) => {
+    const status = await fetch(`${apiURL}/admin/user/disapprove/${username}`, {
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}`,
       },
@@ -119,8 +119,8 @@ const Request = () => {
               }
             </div>
             <div className="requestButtons">
-              <Button id="accept" onClick={() => acceptPetition()} />
-              <Button id="decline" onClick={() => declinePetition()} />
+              <Button id="accept" onClick={() => acceptPetition(result.username)} />
+              <Button id="decline" onClick={() => declinePetition(result.username)} />
             </div>
           </>
         ))}
