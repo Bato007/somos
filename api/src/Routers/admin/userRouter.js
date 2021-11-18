@@ -266,6 +266,7 @@ router.put('/approve/:username', async (req, res) => {
       res.status(200).end()
     }
   } catch (error) {
+    console.log(error)
     res.status(500).end()
   }
 })
@@ -310,7 +311,11 @@ router.delete('/:username', async (req, res) => {
         const index = users.indexOf(username)
         if (categories.includes(category) && index > -1) {
           users.splice(index, 1)
-          await cCategories.doc(category).update({ users })
+          if (users.length === 0) {
+            await cCategories.doc(category).delete()
+          } else {
+            await cCategories.doc(category).update({ users })
+          }
         }
       })
 

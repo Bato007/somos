@@ -3,7 +3,7 @@ const express = require('express')
 const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
 
-const { cResources, bucket } = require('../../DataBase/firebase')
+const { cResources, bucket, cTags } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
@@ -138,15 +138,34 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params
 
   try {
-    const resources = await cResources.doc(id).get()
-    const resource = resources.data()
+    const resource = await cResources.doc(id).get()
+    const allTags = await cTags.get()
+    const { tags, filename } = resource.data()
 
     // Se borra del bucket
-    const file = bucket.file(resource.filename)
-    await file.delete()
+    const file = bucket.file(filename)
+    // await file.delete()
 
     // Se borra de la base de datos
-    await cResources.doc(id).delete()
+    // await cResources.doc(id).delete()
+
+    // Borrando en tags
+    allTags.forEach(async (tag) => {
+      if (tags.includes(tag.tag)) {
+        tag.resources.forEach((obj, index) => {
+          if (obj.id === id) { tag.resources.splice(index, 1) }
+        })
+
+        // Se elimina la categoria de tags si ya no hay
+        if (tag.resources.length === 0) {
+          await cTags.doc(tag.tag).delete()
+        } else {
+          await cTags.doc(tag.tag).update({
+            resources: tag.resources,
+          })
+        }
+      }
+    })
 
     // Ahora se regresa el recurso
     res.status(200)
