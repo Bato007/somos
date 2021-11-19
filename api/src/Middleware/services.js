@@ -40,32 +40,6 @@ const getArrayDiff = (original, modified) => {
   return difference
 }
 
-const addCategories = (categories) => {
-  const returCategories = []
-  try {
-    categories.forEach((temp) => {
-      const category = temp.toLowerCase().replace(/^(\w)|\s(\w)/g, (grp) => grp.toUpperCase())
-      cCategories.doc(category).set({ category }, { merge: true })
-      returCategories.push(category)
-    })
-    return true
-  } catch (error) {
-    return []
-  }
-}
-
-const addTags = (tags) => {
-  try {
-    tags.forEach((temp) => {
-      const tag = temp.toLowerCase().replace(/^(\w)|\s(\w)/g, (grp) => grp.toUpperCase())
-      cTags.doc(tag).set({ tag }, { merge: true })
-    })
-    return true
-  } catch (error) {
-    return false
-  }
-}
-
 const sendMail = (to, subject, text) => {
   let sended = false
   const transporter = nodemailer.createTransport(mail)
@@ -88,8 +62,6 @@ const sendMail = (to, subject, text) => {
 }
 
 module.exports = {
-  addCategories,
-  addTags,
   sendMail,
   fixCapitalization,
   getArrayDiff,

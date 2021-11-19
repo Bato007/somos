@@ -27,10 +27,10 @@ router.post('/', async (req, res) => {
   } else if ((req.body.category.length + req.body.users.length) < 1) {
     res.json({ message: 'no se dirige a un usuario' })
   } else {
+    const {
+      title, description, tags, category, users, date, filename,
+    } = req.body
     try {
-      const {
-        title, description, tags, category, users, date, filename,
-      } = req.body
       const token = tokenGenerator()
       const uploaded = bucket.file(filename)
       const url = await uploaded.getSignedUrl({
@@ -56,7 +56,8 @@ router.post('/', async (req, res) => {
       res.statusCode = 200
       res.end()
     } catch (error) {
-      console.log(error)
+      const file = bucket.file(filename)
+      await file.delete()
       res.statusCode = 500
       res.json({ message: 'Unexpected' })
     }
@@ -136,7 +137,6 @@ router.put('/', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
-
   try {
     const resource = await cResources.doc(id).get()
     const allTags = await cTags.get()
@@ -144,31 +144,30 @@ router.delete('/:id', async (req, res) => {
 
     // Se borra del bucket
     const file = bucket.file(filename)
-    // await file.delete()
+    await file.delete()
 
     // Se borra de la base de datos
-    // await cResources.doc(id).delete()
+    await cResources.doc(id).delete()
 
     // Borrando en tags
     allTags.forEach(async (tag) => {
-      if (tags.includes(tag.tag)) {
-        tag.resources.forEach((obj, index) => {
-          if (obj.id === id) { tag.resources.splice(index, 1) }
+      const data = tag.data()
+      const tagName = data.tag
+      const { resources } = data
+      if (tags.includes(tagName)) {
+        resources.forEach((obj, index) => {
+          if (obj.id === id) { resources.splice(index, 1) }
         })
-
         // Se elimina la categoria de tags si ya no hay
-        if (tag.resources.length === 0) {
-          await cTags.doc(tag.tag).delete()
+        if (resources.length === 0) {
+          await cTags.doc(tagName).delete()
         } else {
-          await cTags.doc(tag.tag).update({
-            resources: tag.resources,
-          })
+          await cTags.doc(tagName).update({ resources })
         }
       }
     })
-
     // Ahora se regresa el recurso
-    res.status(200)
+    res.status(200).end()
   } catch (error) {
     res.status(500).json({ message: 'Error al borrar' })
   }

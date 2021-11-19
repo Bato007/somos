@@ -1,9 +1,10 @@
 const express = require('express')
 const Joi = require('joi')
 const {
-  cUsers, cPetitions, cKeys, cCategories, cTags, cResources,
+  cUsers, cPetitions, cKeys, cCategories, cResources,
 } = require('../../DataBase/firebase')
-const { sendMail } = require('../../Middleware/services')
+const { valPassword, valRegion } = require('../../Middleware/validation')
+const { sendMail, makeLower } = require('../../Middleware/services')
 const { acceptPetitionM, rejectPetitionM } = require('../../../mails/messages.json')
 
 const router = express.Router()
@@ -130,8 +131,16 @@ router.post('/signup', async (req, res) => {
     try {
       const {
         username, password, email, name,
-        phone, workplace, residence, church, categories,
+        phone, workplace, church,
       } = req.body
+      let { categories, residence } = req.body
+      let flag = true
+      categories = makeLower(categories)
+
+      // Se valida la residencia
+      residence = valRegion(residence)
+      if (!residence) { flag = false }
+      if (valPassword(password)) { flag = false }
 
       // Se mete el usuario
       cUsers.doc(username).set({
@@ -321,7 +330,7 @@ router.delete('/:username', async (req, res) => {
 
       const resources = await cResources.get()
       resources.forEach(async (resource) => {
-        const { category, users } = resource.data()
+        const { users } = resource.data()
         const index = users.indexOf(username)
         if (index > -1) {
           users.splice(index, 1)

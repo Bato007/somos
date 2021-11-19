@@ -157,46 +157,11 @@ router.put('/accept/:id', async (req, res) => {
     const { email, contact, title } = (await cAnnouncements.doc(id).get()).data()
     const { subject, text } = acceptAnnouncementM
     let message = text.replace('$1', contact)
-    message = text.replace('$2', title)
+    message = message.replace('$2', title)
     res.statusCode = 200
     if (email) {
       sendMail(email, subject, message)
     }
-  } catch (error) {
-    res.statusCode = 404
-  } finally {
-    res.end()
-  }
-})
-
-/**
- * @swagger
- * /admin/announcements/deny/{id}:
- *  put:
- *    summary: Rechaza un anuncio
- *    tags: [Admin, Anuncios]
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: string
- *        required: true
- *        description: El id del anuncio
- *    responses:
- *      200:
- *        description: El anuncio fue rechazado
- *      404:
- *        description: El id no existe
- */
-router.put('/deny/:id', async (req, res) => {
-  const { id } = req.params
-  try {
-    await cAnnouncements.doc(id).update({
-      published: 2,
-    })
-    sendMail()
-    res.statusCode = 200
-    // Se manda el mail
   } catch (error) {
     res.statusCode = 404
   } finally {
@@ -232,10 +197,10 @@ router.delete('/:id', async (req, res) => {
     await cAnnouncements.doc(id).delete()
     res.statusCode = 200
 
-    const { subject, text } = rejectAnnouncementM
-    let message = text.replace('$1', contact)
-    message = text.replace('$2', title)
     if (email && published === 0) {
+      const { subject, text } = rejectAnnouncementM
+      let message = text.replace('$1', contact)
+      message = message.replace('$2', title)
       sendMail(email, subject, message)
     }
   } catch (error) {

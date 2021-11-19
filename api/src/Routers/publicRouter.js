@@ -1,12 +1,10 @@
-const e = require('express')
 const express = require('express')
 const Joi = require('joi').extend(require('@joi/date'))
-const customJoi = Joi.extend(require('joi-phone-number'))
 const keyGen = require('random-key')
 const tokenGenerator = require('uuid-v4')
-const nodemailer = require('nodemailer')
 const { cUsers, cKeys, cAnnouncements } = require('../DataBase/firebase')
-const { func } = require('joi')
+const { sendMail } = require('../Middleware/services')
+const { tokenRecived } = require('../../mails/messages.json')
 
 const router = express.Router()
 
@@ -119,14 +117,6 @@ router.post('/login', async (req, res) => {
  *
  */
 router.post('/recovery', async (req, res) => {
-  let transport = nodemailer.createTransport({
-    host: 'smtp.mailtrap.io',
-    port: 2525,
-    auth: {
-       user: 'cd7acd32f94db3',
-       pass: 'ee3d7ba6b930d5'
-    }
-  });
   const schema = Joi.object({
     email: Joi.string().min(5).required(),
   })
@@ -146,28 +136,11 @@ router.post('/recovery', async (req, res) => {
       }
 
       // Extrae informacion del usuario
-      const user = users.data()
-      const { username, name } = user
-      res.statusCode = 200
+      const { subject, text } = tokenRecived
       // Genera token ¿?
       const token = keyGen.generate(6)
-      const message = {
-        from: 'somos.check.auth@gmail.com', // Sender address
-        to: 'dele19270@uvg.edu.gt',         // List of recipients
-        subject: 'Test', // Subject line
-        text: { token }, // Plain text body
-      };
-      transport.sendMail(message, function(err,info){
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(info);
-        }
-      })
-
-      res.json({
-        username, name, token,
-      })
+      sendMail(email, subject, text)
+      res.status(200).end()
     } catch (error) {
       res.statusCode = 400
       switch (error.message) {

@@ -22,6 +22,6 @@
   },
   "tokenRecived": {
     "subject": "SOMOS envía token",
-    "text": "El token para restablecer tu contraseña es $1 \nPor motivos de seguridad, este enlace caducará inmediatamente después de que se haya restablecido tu contraseña."
+    "text": "El token para restablecer tu contraseña es $1 \nPor motivos de seguridad, este código caducará inmediatamente después de que se haya restablecido tu contraseña."
   }
 }
