@@ -49,17 +49,19 @@ const BotonesRecursos = ({ link, docType }) => {
   const [downloadResource, setDownload] = useState(false)
 
   useEffect(() => {
-    swal({
-      title: '¿Estás seguro de querer descargar el recurso?',
-      icon: 'warning',
-      buttons: ['Cancelar', 'Aceptar'],
-    }).then((response) => {
-      if (response) {
-        setDownload(true)
-      } else {
-        setDownload(false)
-      }
-    })
+    if (docType === 'xls' || docType === 'ppt' || docType === 'docx') {
+      swal({
+        title: '¿Estás seguro de querer descargar el recurso?',
+        icon: 'warning',
+        buttons: ['Cancelar', 'Aceptar'],
+      }).then((response) => {
+        if (response) {
+          setDownload(true)
+        } else {
+          setDownload(false)
+        }
+      })
+    }
   }, [])
 
   return (
