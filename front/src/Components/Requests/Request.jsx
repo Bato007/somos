@@ -7,7 +7,7 @@ import apiURL from '../fetch'
 import './Request.css'
 
 const Request = () => {
-  const [petitions, setPetitions] = useState([])
+  const [petitions, setPetitions] = useState([0, [{ '': '' }]])
 
   const getPetitions = async () => {
     const data = await fetch(`${apiURL}/admin/user/petitions`, {
@@ -18,7 +18,6 @@ const Request = () => {
     }).then((res) => res.json().then((out) => [res.status, out]))
 
     setPetitions(data)
-    console.log(data)
     // 0: es el status
     // 1: es la informacion
   }
@@ -85,19 +84,22 @@ const Request = () => {
 
   return (
     <div className="requests">
-      <div className="requestsTitles">
-        <h1>Nombre</h1>
-        <h1>Usuario</h1>
-        <h1>Descripción</h1>
-        <h1 />
-      </div>
-      <div className="requestsList">
-        { petitions[1]?.map((result) => (
+      { petitions[0] !== 404
+        ? (
           <>
-            <p>{result.name}</p>
-            <p>{result.username}</p>
-            <div className="requestInformation">
-              {
+            <div className="requestsTitles">
+              <h1>Nombre</h1>
+              <h1>Usuario</h1>
+              <h1>Descripción</h1>
+              <h1 />
+            </div>
+            <div className="requestsList">
+              { petitions[1]?.map((result) => (
+                <>
+                  <p>{result.name}</p>
+                  <p>{result.username}</p>
+                  <div className="requestInformation">
+                    {
                 result.added
                   ? (
                     <p>
@@ -107,7 +109,7 @@ const Request = () => {
                   )
                   : ''
               }
-              {
+                    {
                 result.removed
                   ? (
                     <p>
@@ -117,14 +119,21 @@ const Request = () => {
                   )
                   : ''
               }
-            </div>
-            <div className="requestButtons">
-              <Button id="accept" onClick={() => acceptPetition(result.username)} />
-              <Button id="decline" onClick={() => declinePetition(result.username)} />
+                  </div>
+                  <div className="requestButtons">
+                    <Button id="accept" onClick={() => acceptPetition(result.username)} />
+                    <Button id="decline" onClick={() => declinePetition(result.username)} />
+                  </div>
+                </>
+              ))}
             </div>
           </>
-        ))}
-      </div>
+        )
+        : (
+          <div className="requestsList">
+            <h1>Pareciera que aún no hay peticiones...</h1>
+          </div>
+        )}
     </div>
   )
 }
