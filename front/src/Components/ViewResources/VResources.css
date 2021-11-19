@@ -145,11 +145,10 @@
 .otherLine p{
   margin: 0 10px 0 0;
   display: inline-block;
-  background-color: #A7D8D7;
+  background-color: #212323;
   padding: 2px 10px;
   border-radius: 5px;
   color: white;
-  text-shadow: 2px 2px 4px #4a4a4a;
 }
 
 .saveButton{
