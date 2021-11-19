@@ -4,7 +4,7 @@ const {
   cUsers, cPetitions, cKeys, cCategories, cResources,
 } = require('../../DataBase/firebase')
 const { valPassword, valRegion } = require('../../Middleware/validation')
-const { sendMail, makeLower } = require('../../Middleware/services')
+const { sendMail, makeLower, createCategories } = require('../../Middleware/services')
 const { acceptPetitionM, rejectPetitionM } = require('../../../mails/messages.json')
 
 const router = express.Router()
@@ -134,14 +134,21 @@ router.post('/signup', async (req, res) => {
         phone, workplace, church,
       } = req.body
       let { categories, residence } = req.body
-      let flag = true
       categories = makeLower(categories)
+
+      // Verificando que el usuario no este ingresado
+      const users = await cUsers.where('username', '==', username).get()
+      if (!users.empty) {
+        throw { message: 'User Exists' }
+      }
 
       // Se valida la residencia
       residence = valRegion(residence)
-      if (!residence) { flag = false }
-      if (valPassword(password)) { flag = false }
+      if (!residence) { throw { message: 'Residence not Valid' } }
+      if (!valPassword(password)) { throw { message: 'No Valid Pass' } }
 
+      const response = createCategories(categories, username)
+      if (!response) { throw { message: 'ERROR' } }
       // Se mete el usuario
       cUsers.doc(username).set({
         username,
@@ -155,6 +162,9 @@ router.post('/signup', async (req, res) => {
         categories,
         active: true,
       })
+
+      // Ahora se agregan las categorias que no existen con su usuario
+
       answer.message = 'DONE'
       res.status(200).json(answer)
     } catch (error) {
@@ -176,6 +186,12 @@ router.post('/signup', async (req, res) => {
         answer.message = 'ERROR 109'
       } else if (err.indexOf('«fk_category_user»') !== -1) {
         answer.message = 'ERROR 110'
+      } else if (err === 'User Exists') {
+        answer.message = 'ERROR 111'
+      } else if (err === 'Residence not Valid') {
+        answer.message = 'ERROR 112'
+      } else if (err === 'No Valid Pass') {
+        answer.message = 'ERROR 113'
       } else {
         answer.message = 'ERROR'
       }

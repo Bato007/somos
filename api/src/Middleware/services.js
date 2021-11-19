@@ -40,6 +40,35 @@ const getArrayDiff = (original, modified) => {
   return difference
 }
 
+const createCategories = async (categories, username) => {
+  try {
+    const fCategories = await cCategories.get()
+
+    // Agregando categorias existentes
+    fCategories.forEach(async (element) => {
+      // Se verifica que no este
+      const { category, users } = element.data()
+      if (categories.includes(category)) {
+        users.push(username)
+        await cCategories.doc(category).update({ users })
+
+        // Se elimina al usuario de la lista de categories
+        const index = categories.indexOf(username)
+        categories.splice(index, 1)
+      }
+    })
+
+    // Se agregan todas las categorias que no existen
+    categories.forEach(async (category) => {
+      await cCategories.doc(category).set({ category, users: [username] })
+    })
+
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 const sendMail = (to, subject, text) => {
   let sended = false
   const transporter = nodemailer.createTransport(mail)
@@ -62,6 +91,7 @@ const sendMail = (to, subject, text) => {
 }
 
 module.exports = {
+  createCategories,
   sendMail,
   fixCapitalization,
   getArrayDiff,
