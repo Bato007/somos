@@ -39,7 +39,7 @@ const typeResource = (link, docType) => {
     return <embed className="pdfDoc" frameBorder="0" src={`${link}#toolbar=0&view=fitH,100`} type={`application/${docType}`} />
   }
   if (docType === 'MP4') {
-    return <iframe className="mp4See" title="video" src={`${link}`} type="vide/mp4" />
+    return <iframe className="mp4See" title="video" src={`${link}`} allowFullScreen type="video/mp4" />
   }
   return <img className="imgfromdoc" src={`${link}`} alt="img" />
 }
@@ -91,37 +91,59 @@ const BotonesRecursos = ({ link, docType }) => {
             >
               {({ zoomIn, zoomOut, resetTransform }) => (
                 <>
-                  <div className="containerB">
-                    <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
-                    <h1>|</h1>
-
-                    <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
-                    <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
-                    <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>
-                    <h1>|</h1>
-                    <button onClick={Full} id="enlarge" type="button" className="buttons expand" />
-                  </div>
-                  <hr />
-
-                  {(docType === 'pdf')
+                  {(docType !== 'MP4')
                     ? (
-                      <div className="docSpacePDF">
-                        <TransformComponent>
-                          <div id="documentV">
-                            {typeResource(link, docType)}
-                          </div>
-                        </TransformComponent>
-                      </div>
+                      <>
+
+                        <div className="containerB">
+                          <button onClick={() => rotateImg()} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
+                          <h1>|</h1>
+
+                          <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
+                          <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
+                          <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>
+                          <h1>|</h1>
+                          <button onClick={() => Full()} id="enlarge" type="button" className="buttons expand" />
+                        </div>
+                        <hr />
+
+                        {
+                          docType === 'pdf'
+
+                            ? (
+                              <div className="docSpacePDF">
+                                <TransformComponent>
+                                  <div id="documentV">
+                                    {typeResource(link, docType)}
+                                  </div>
+                                </TransformComponent>
+                              </div>
+                            )
+                            : (
+                              <div className="docSpace">
+                                <TransformComponent>
+                                  <div id="documentV">
+                                    {typeResource(link, docType)}
+                                  </div>
+                                </TransformComponent>
+                              </div>
+                            )
+                        }
+
+                      </>
                     )
-                    : (
-                      <div className="docSpace">
-                        <TransformComponent>
-                          <div id="documentV">
-                            {typeResource(link, docType)}
-                          </div>
-                        </TransformComponent>
-                      </div>
-                    )}
+                    : ''}
+
+                  {(docType === 'MP4') ? (
+                    <div className="videoSpace">
+                      <TransformComponent>
+                        <div id="documentV">
+                          {typeResource(link, docType)}
+                        </div>
+                      </TransformComponent>
+                    </div>
+                  )
+                    : ''}
                 </>
               )}
             </TransformWrapper>
