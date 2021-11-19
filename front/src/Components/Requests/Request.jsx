@@ -7,7 +7,7 @@ import apiURL from '../fetch'
 import './Request.css'
 
 const Request = () => {
-  const [petitions, setPetitions] = useState([0, [{ '': '' }]])
+  const [petitions, setPetitions] = useState([])
 
   const getPetitions = async () => {
     const data = await fetch(`${apiURL}/admin/user/petitions`, {
