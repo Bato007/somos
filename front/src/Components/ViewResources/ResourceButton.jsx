@@ -1,14 +1,13 @@
-import React from 'react'
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable no-nested-ternary */
+import React, { useState, useEffect } from 'react'
+import swal from 'sweetalert'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import PropTypes from 'prop-types'
 import less from '../../static/imagesViewResources/zoomOut.png'
-import lessDisable from '../../static/imagesViewResources/zoomOutDisable.png'
 import more from '../../static/imagesViewResources/zoomIn.png'
-import moreDisable from '../../static/imagesViewResources/zoomInDisable.png'
 import rotate from '../../static/imagesViewResources/rotate.png'
-import rotateDisable from '../../static/imagesViewResources/rotateDisable.png'
 import dowload from '../../static/imagesViewResources/dowload.png'
-import expandDisable from '../../static/imagesViewResources/expandDisable.png'
 /* El zoomIn y ZoomOut son parte de la libreria */
 
 // Funcion para rotar la imagen
@@ -39,74 +38,98 @@ const typeResource = (link, docType) => {
   if (docType === 'pdf') {
     return <embed className="pdfDoc" frameBorder="0" src={`${link}#toolbar=0&view=fitH,100`} type={`application/${docType}`} />
   }
-  if (docType === 'xls' || docType === 'ppt' || docType === 'docx') {
-    return (
-      <div className="office">
-        <img src={`${dowload}`} alt="img" />
-        <iframe title="oficeDocument" className="officeDocuments" src={`${link}`} />
-      </div>
-    )
-  }
   if (docType === 'MP4') {
     return <iframe className="mp4See" title="video" src={`${link}`} type="vide/mp4" />
   }
   return <img className="imgfromdoc" src={`${link}`} alt="img" />
 }
 
-const BotonesRecursos = ({ link, docType }) => (
-  link
-    ? (
-      <div id="previewRb">
-        <TransformWrapper
-          Scale={1}
-          defaultPositionX={100}
-          defaultPositionY={100}
-        >
-          {({ zoomIn, zoomOut, resetTransform }) => (
-            <>
-              <div className="containerB">
-                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
-                  ? <button type="button" className="buttonsDisable diableButton"><img src={rotateDisable} alt="previous" /></button>
-                  : <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>}
-                <h1>|</h1>
-                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
-                  ? <button type="button" className="buttonsDisable diableButton"><img src={lessDisable} alt="previous" /></button>
-                  : <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>}
-                <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
-                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
-                  ? <button type="button" className="buttonsDisable diableButton"><img src={moreDisable} alt="previous" /></button>
-                  : <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>}
-                <h1>|</h1>
-                {(docType === 'xls' || docType === 'ppt' || docType === 'docx')
-                  ? <button type="button" className="buttonsDisable diableButton"><img src={expandDisable} alt="previous" /></button>
-                  : <button onClick={Full} id="enlarge" type="button" className="buttons expand">a</button>}
+const BotonesRecursos = ({ link, docType }) => {
+  // eslint-disable-next-line no-unused-vars
+  const [downloadResource, setDownload] = useState(false)
+
+  useEffect(() => {
+    swal({
+      title: '¿Estás seguro de querer descargar el recurso?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
+    }).then((response) => {
+      if (response) {
+        setDownload(true)
+      } else {
+        setDownload(false)
+      }
+    })
+  }, [])
+
+  return (
+    link
+      ? (docType === 'xls' || docType === 'ppt' || docType === 'docx')
+        ? (
+          <div className="docSpace">
+            <div id="documentV">
+              <div className="office">
+                <img src={`${dowload}`} alt="img" />
+                {
+                  downloadResource
+                    ? <iframe title="oficeDocument" src={link} className="officeDocuments" />
+                    : <iframe title="oficeDocument" className="officeDocuments" />
+                }
               </div>
-              <hr />
-              {(docType === 'pdf')
-                ? (
-                  <div className="docSpacePDF">
-                    <TransformComponent>
-                      <div id="documentV">
-                        {typeResource(link, docType)}
-                      </div>
-                    </TransformComponent>
+            </div>
+          </div>
+        )
+
+        : (
+          <div id="previewRb">
+            <TransformWrapper
+              Scale={1}
+              defaultPositionX={100}
+              defaultPositionY={100}
+            >
+              {({ zoomIn, zoomOut, resetTransform }) => (
+                <>
+                  <div className="containerB">
+                    <button onClick={rotateImg} type="button" className="buttons"><img src={rotate} alt="rotate" /></button>
+                    <h1>|</h1>
+
+                    <button onClick={zoomOut} type="button" className="buttons"><img src={less} alt="zoom out" /></button>
+                    <button type="button" onClick={resetTransform} className="buttons"><p>ZOOM</p></button>
+                    <button onClick={zoomIn} type="button" className="buttons"><img src={more} alt="zoom in" /></button>
+                    <h1>|</h1>
+                    <button onClick={Full} id="enlarge" type="button" className="buttons expand" />
                   </div>
-                )
-                : (
-                  <div className="docSpace">
-                    <TransformComponent>
-                      <div id="documentV">
-                        {typeResource(link, docType)}
+                  <hr />
+
+                  {(docType === 'pdf')
+                    ? (
+                      <div className="docSpacePDF">
+                        <TransformComponent>
+                          <div id="documentV">
+                            {typeResource(link, docType)}
+                          </div>
+                        </TransformComponent>
                       </div>
-                    </TransformComponent>
-                  </div>
-                )}
-            </>
-          )}
-        </TransformWrapper>
-      </div>
-    ) : ''
-)
+                    )
+                    : (
+                      <div className="docSpace">
+                        <TransformComponent>
+                          <div id="documentV">
+                            {typeResource(link, docType)}
+                          </div>
+                        </TransformComponent>
+                      </div>
+                    )}
+                </>
+              )}
+            </TransformWrapper>
+          </div>
+        )
+
+      : ''
+
+  )
+}
 
 BotonesRecursos.propTypes = {
   docType: PropTypes.string.isRequired,
