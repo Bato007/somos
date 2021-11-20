@@ -12,6 +12,7 @@ import '../Upload/Upload.css'
 const EditResource = ({ resourceId }) => {
   const [categories, setCategories] = useState([])
   const [lastResult, setLastResult] = useState([])
+  const [lastResultAccount, setLastResultAccount] = useState([])
   const [accountsUsernames, setAccountUsernames] = useState([])
   const [similarTo, setSimilarTo] = useState([])
   const [resourceInfo, setResourceInfo] = useState({
@@ -36,7 +37,8 @@ const EditResource = ({ resourceId }) => {
         similarTo: json.tags,
       })
 
-      setLastResult(json.categories.concat(json.users))
+      setLastResult(json.categories)
+      setLastResultAccount(json.users)
 
       setCategories(json.categories)
       setAccountUsernames(json.users)
@@ -110,6 +112,7 @@ const EditResource = ({ resourceId }) => {
       <SearchBarTo
         setAccounts={setAccountUsernames}
         lastResult={lastResult}
+        lastResultUsers={lastResultAccount}
         setCategories={setCategories}
       />
       <h3>

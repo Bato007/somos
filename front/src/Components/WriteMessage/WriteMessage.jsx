@@ -114,11 +114,20 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
 
   return (
     <div className="writeAnnounce">
-      <h3>Título</h3>
+      <h3>
+        <span className="obligatory">* </span>
+        Título
+      </h3>
       <Input className="titleInput" type="text" name="title" placeholder="Titulo del anuncio" onChange={handleChange} />
-      <h3>Cuerpo</h3>
+      <h3>
+        <span className="obligatory">* </span>
+        Cuerpo
+      </h3>
       <textarea name="description" onChange={handleChange} />
-      <h3>Disponible hasta</h3>
+      <h3>
+        <span className="obligatory">* </span>
+        Disponible hasta
+      </h3>
 
       <div className="UploadEnd">
         <Input className="titleInput" type="date" name="duration" placeholder="Fecha de vigencia" onChange={handleChange} />

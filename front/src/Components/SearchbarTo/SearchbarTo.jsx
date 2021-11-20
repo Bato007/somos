@@ -21,9 +21,11 @@ import './SearchbarTo.css'
  *       creatingAccount es un bool: donde true permite ingresar nuevas categorias al hacer enter
  *       lastResult: es la lista anterior: usada por si el usuario regresa a la pantalla,
  *       mostrar las categorias seleccionadas con anterioridad
+ *       lastResultUsers: es la lista anterior: usada por si el usuario regresa a la pantalla,
+ *       mostrar los usuarios seleccionadas con anterioridad
  */
 const SearchbarTo = ({
-  setAccounts, setCategories, showSimilarTo, setSimilarTo, creatingAccount, lastResult,
+  setAccounts, setCategories, showSimilarTo, setSimilarTo, creatingAccount, lastResult, lastResultUsers,
 }) => {
   const refInput = useRef()
   const [results, setResults] = useState({ showTypes: false, showUsernames: false, actualSearch: undefined })
@@ -78,8 +80,14 @@ const SearchbarTo = ({
     if (setAccounts !== undefined) {
       refInput.current.value = ''
       const temporal = [...actualSendersAccount, ...sendToAccount]
-      setActualSendersAccount([...new Set(temporal)])
-      setAccounts([...new Set(temporal)])
+
+      if (lastResultUsers.length > 0 && temporal.length === 0) {
+        setActualSendersAccount(lastResultUsers)
+        setAccounts(lastResultUsers)
+      } else {
+        setActualSendersAccount([...new Set(temporal)])
+        setAccounts([...new Set(temporal)])
+      }
     }
   }, [sendToAccount])
 
@@ -101,10 +109,18 @@ const SearchbarTo = ({
   }, [sendToCategory])
 
   useEffect(() => {
+    if (lastResultUsers.length > 0 && setAccounts) {
+      setActualSendersAccount(lastResultUsers)
+      setAccounts(lastResultUsers)
+    }
+  }, [lastResultUsers])
+
+  useEffect(() => {
     if (lastResult.length > 0 && setCategories) {
       setActualSendersCategory(lastResult)
       setCategories(lastResult)
-    } else if (lastResult.length > 0 && showSimilarTo) {
+    }
+    if (lastResult.length > 0 && showSimilarTo) {
       setTagsSimilarTo(lastResult)
     }
   }, [lastResult])
@@ -148,6 +164,7 @@ SearchbarTo.propTypes = {
   showSimilarTo: PropTypes.bool,
   creatingAccount: PropTypes.bool,
   lastResult: PropTypes.arrayOf(PropTypes.string),
+  lastResultUsers: PropTypes.arrayOf(PropTypes.string),
 }
 
 SearchbarTo.defaultProps = {
@@ -157,6 +174,7 @@ SearchbarTo.defaultProps = {
   showSimilarTo: false,
   creatingAccount: false,
   lastResult: [],
+  lastResultUsers: [],
 }
 
 export default SearchbarTo
