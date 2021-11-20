@@ -42,27 +42,16 @@ const getArrayDiff = (original, modified) => {
 
 const createCategories = async (categories, username) => {
   try {
-    const fCategories = await cCategories.get()
-
-    // Agregando categorias existentes
-    fCategories.forEach(async (element) => {
-      // Se verifica que no este
-      const { category, users } = element.data()
-      if (categories.includes(category)) {
+    categories.forEach(async (category) => {
+      const fCategory = await cCategories.doc(category).get()
+      if (fCategory.exists) {
+        const { users } = fCategory.data()
         users.push(username)
         await cCategories.doc(category).update({ users })
-
-        // Se elimina al usuario de la lista de categories
-        const index = categories.indexOf(username)
-        categories.splice(index, 1)
+      } else {
+        await cCategories.doc(category).set({ category, users: [username] })
       }
     })
-
-    // Se agregan todas las categorias que no existen
-    categories.forEach(async (category) => {
-      await cCategories.doc(category).set({ category, users: [username] })
-    })
-
     return true
   } catch (error) {
     return false
@@ -92,41 +81,29 @@ const deleteCategories = async (categories, username) => {
 }
 
 const objectIncludes = (array, id) => {
-  let flag = false
-  let index = 0
-  array.forEach((element, i) => {
-    if (element.id === id) {
-      flag = true
-      index = i
-    }
-  })
-  return [flag, index]
+  let index = -1
+  if (array) {
+    array.forEach((element, i) => {
+      if (element.id === id) {
+        index = i
+      }
+    })
+  }
+  return index
 }
 
 const createTags = async (tags, information) => {
   try {
-    const fTags = await cTags.get()
-    const { id } = information
-
-    // Agregando categorias existentes
-    fTags.forEach(async (element) => {
-      // Se verifica que no este
-      const { resources, tag } = element.data()
-      const result = objectIncludes(resources, id)
-      if (result[0]) {
+    tags.forEach(async (tag) => {
+      const fTag = await cTags.doc(tag).get()
+      if (fTag.exists) {
+        const { resources } = fTag.data()
         resources.push(information)
-        await cCategories.doc(tag).update({ resources })
-
-        // Se elimina al usuario de la lista de categories
-        tags.splice(result[1], 1)
+        await cTags.doc(tag).update({ resources })
+      } else {
+        await cTags.doc(tag).set({ tag, resources: [information] })
       }
     })
-
-    // Se agregan todas las categorias que no existen
-    tags.forEach(async (tag) => {
-      await cCategories.doc(tag).set({ tag, users: [information] })
-    })
-
     return true
   } catch (error) {
     return false
@@ -141,21 +118,15 @@ const deleteTags = async (tags, information) => {
     fTags.forEach(async (element) => {
       const { resources, tag } = element.data()
       const result = objectIncludes(resources, id)
-      if (result[0] && result[1] > -1) {
+      if (tags.includes(tag) && result > -1) {
         resources.splice(result[1])
-        if (resources.length === resources) {
+        if (resources.length === 0) {
           await cTags.doc(tag).delete()
         } else {
-          await cCategories.doc(tag).update({ resources })
+          await cTags.doc(tag).update({ resources })
         }
       }
     })
-
-    // Se agregan todas las categorias que no existen
-    tags.forEach(async (tag) => {
-      await cCategories.doc(tag).set({ tag, users: [information] })
-    })
-
     return true
   } catch (error) {
     return false

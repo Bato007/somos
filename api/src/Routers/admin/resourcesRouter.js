@@ -2,8 +2,10 @@
 const express = require('express')
 const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
-
-const { cResources, bucket, cTags } = require('../../DataBase/firebase')
+const {
+  createTags, deleteTags, getArrayDiff, makeLower,
+} = require('../../Middleware/services')
+const { cResources, bucket } = require('../../DataBase/firebase')
 
 const router = express.Router()
 
@@ -28,8 +30,9 @@ router.post('/', async (req, res) => {
     res.json({ message: 'no se dirige a un usuario' })
   } else {
     const {
-      title, description, tags, category, users, date, filename,
+      title, description, category, users, date, filename,
     } = req.body
+    let { tags } = req.body
     try {
       const token = tokenGenerator()
       const uploaded = bucket.file(filename)
@@ -38,6 +41,10 @@ router.post('/', async (req, res) => {
         expires: date,
       })
       const type = filename.split('.')[1]
+
+      // Se agregan las tags
+      tags = makeLower(tags)
+      createTags(tags, { id: token, type, title })
 
       // Ahora se ingresa a la base de datos
       cResources.doc(token).set({
@@ -82,7 +89,7 @@ router.put('/', async (req, res) => {
     id: Joi.string().min(1).required(),
     title: Joi.string().min(1).max(50).required(),
     description: Joi.string().min(1).max(255).required(),
-    tags: Joi.array().min(1).required(),
+    tags: Joi.array().min(1),
     category: Joi.array().required(),
     users: Joi.array().required(),
     date: Joi.date().required(),
@@ -100,12 +107,27 @@ router.put('/', async (req, res) => {
     // Luego de validar todos los datos se pasa al try
     try {
       const {
-        id, title, description, tags, category, users, date,
+        id, title, description, users, date,
       } = req.body
+      let { tags, category } = req.body
+      category = makeLower(category)
+      tags = makeLower(tags)
 
       // Obteniendo el nombre del archivo
       const resources = await cResources.doc(id).get()
-      const { filename } = resources.data()
+      const data = resources.data()
+      const { filename } = data
+      const rTags = data.tags
+      const { added, removed } = getArrayDiff(rTags, tags)
+
+      // Se agregan las tags / eliminan
+      const tResource = {
+        id: data.id,
+        title: data.title,
+        type: data.type,
+      }
+      createTags(added, tResource)
+      deleteTags(removed, tResource)
 
       // Guardando la imagen en firebase
       const uploaded = bucket.file(filename)
@@ -137,35 +159,21 @@ router.put('/', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
+
   try {
-    const resource = await cResources.doc(id).get()
-    const allTags = await cTags.get()
-    const { tags, filename } = resource.data()
+    const resources = await cResources.doc(id).get()
+    const resource = resources.data()
 
     // Se borra del bucket
-    const file = bucket.file(filename)
+    deleteTags(resource.tags, {
+      id: resource.id,
+    })
+    const file = bucket.file(resource.filename)
     await file.delete()
 
     // Se borra de la base de datos
     await cResources.doc(id).delete()
 
-    // Borrando en tags
-    allTags.forEach(async (tag) => {
-      const data = tag.data()
-      const tagName = data.tag
-      const { resources } = data
-      if (tags.includes(tagName)) {
-        resources.forEach((obj, index) => {
-          if (obj.id === id) { resources.splice(index, 1) }
-        })
-        // Se elimina la categoria de tags si ya no hay
-        if (resources.length === 0) {
-          await cTags.doc(tagName).delete()
-        } else {
-          await cTags.doc(tagName).update({ resources })
-        }
-      }
-    })
     // Ahora se regresa el recurso
     res.status(200).end()
   } catch (error) {
