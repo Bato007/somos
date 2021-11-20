@@ -161,7 +161,10 @@ router.delete('/:id', async (req, res) => {
     const resource = resources.data()
 
     // Se borra del bucket
-    deleteTags()
+    console.log('hola222')
+    deleteTags(resource.tags, {
+      id: resource.id,
+    })
     const file = bucket.file(resource.filename)
     await file.delete()
 
