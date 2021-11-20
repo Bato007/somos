@@ -27,6 +27,9 @@
 
 .announcement h1, .announcement p {
     padding: 0 50px 0 50px;
+    max-width: 80vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .announcement p {

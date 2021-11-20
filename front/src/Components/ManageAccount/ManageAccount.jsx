@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+
+import Swal from 'sweetalert2'
 import swal from 'sweetalert'
+import withReactContent from 'sweetalert2-react-content'
+
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import SearchBarTo from '../SearchbarTo/SearchbarTo'
@@ -13,6 +17,7 @@ const ManageAccount = () => {
   })
   const [categories, setCategories] = useState([])
   const history = useHistory()
+  const MySwal = withReactContent(Swal)
 
   // Se obtiene la info del usuario y se coloca en el estado
   const getUserInfo = async () => {
@@ -32,6 +37,14 @@ const ManageAccount = () => {
   }
 
   const saveChanges = async () => {
+    MySwal.fire({
+      title: <p>Los cambios se están procesando...</p>,
+      didOpen: () => {
+        MySwal.showLoading()
+      },
+      allowOutsideClick: false,
+    })
+
     const {
       username, email, tel, password, confirmPassword, address,
     } = accountInfo
@@ -71,6 +84,7 @@ const ManageAccount = () => {
     }).then((res) => (res)).catch((e) => console.error('Error', e))
 
     const result = response?.message
+    MySwal.close()
     if (result) {
       if (result.includes('100')) {
         swal({
