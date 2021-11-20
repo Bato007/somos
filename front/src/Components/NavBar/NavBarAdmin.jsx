@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react'
+import swal from 'sweetalert'
 import { useHistory } from 'react-router-dom'
 import logo from '../../static/imagesNavBar/logo.png'
 import accountIcon from '../../static/imagesNavBar/account.png'
@@ -14,8 +15,17 @@ const NavBarAdmin = () => {
   const history = useHistory()
 
   const logout = () => {
-    localStorage.clear()
-    history.replace('/')
+    swal({
+      title: 'Cerrar sesión',
+      text: '¿Estás seguro de querer cerrar sesión?',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Aceptar'],
+    }).then(async (res) => {
+      if (res) {
+        localStorage.clear()
+        history.replace('/')
+      }
+    })
   }
 
   return (
