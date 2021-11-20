@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
+import Swal from 'sweetalert2'
 import swal from 'sweetalert'
+import withReactContent from 'sweetalert2-react-content'
+
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import apiURL from '../fetch'
@@ -18,6 +21,7 @@ const EditResource = ({ resourceId }) => {
   const [resourceInfo, setResourceInfo] = useState({
     filename: '', title: '', date: '', description: '', similarTo: [],
   })
+  const MySwal = withReactContent(Swal)
 
   const getResourceInfo = async () => {
     const json = await fetch(`${apiURL}/resources/${resourceId}`, {
@@ -52,6 +56,14 @@ const EditResource = ({ resourceId }) => {
   }, [])
 
   const editResource = async () => {
+    MySwal.fire({
+      title: <p>Se están procesando los cambios...</p>,
+      didOpen: () => {
+        MySwal.showLoading()
+      },
+      allowOutsideClick: false,
+    })
+
     await fetch(`${apiURL}/admin/resources`, {
       method: 'PUT',
       headers: {
@@ -69,6 +81,7 @@ const EditResource = ({ resourceId }) => {
         date: resourceInfo.date,
       }),
     }).then((res) => {
+      MySwal.close()
       if (res.status === 200) {
         swal({
           title: 'El recurso ha sido actualizado con éxito',

@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
+
+import Swal from 'sweetalert2'
 import swal from 'sweetalert'
+import withReactContent from 'sweetalert2-react-content'
+
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import apiURL from '../fetch'
@@ -12,6 +16,7 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
   const [completeAnnounce, setCompleteAnnounce] = useState({
     title: '', description: '', duration: '',
   })
+  const MySwal = withReactContent(Swal)
 
   // Leyendo el valor actual del input
   const handleChange = (event) => {
@@ -29,6 +34,14 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
       buttons: ['Cancelar', 'Aceptar'],
     }).then(async (res) => {
       if (res) {
+        MySwal.fire({
+          title: <p>Se está procesando el anuncio...</p>,
+          didOpen: () => {
+            MySwal.showLoading()
+          },
+          allowOutsideClick: false,
+        })
+
         // Fetch para mandar el anuncio a revision
         const response = await fetch(`${apiURL}/announcements/home`, {
           method: 'POST',
@@ -46,6 +59,7 @@ const WriteMessage = ({ setWritingAnnouncement }) => {
           return [403, 'Error']
         })
 
+        MySwal.close()
         switch (response[0]) {
           case 200:
             // Se agrego el anuncio con exito
