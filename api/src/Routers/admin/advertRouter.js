@@ -159,9 +159,9 @@ router.put('/accept/:id', async (req, res) => {
     let message = text.replace('$1', contact)
     message = message.replace('$2', title)
     res.statusCode = 200
-    if (email) {
-      sendMail(email, subject, message)
-    }
+    // if (email) {
+    //   sendMail(email, subject, message)
+    // }
   } catch (error) {
     res.statusCode = 404
   } finally {
@@ -197,12 +197,12 @@ router.delete('/:id', async (req, res) => {
     await cAnnouncements.doc(id).delete()
     res.statusCode = 200
 
-    if (email && published === 0) {
-      const { subject, text } = rejectAnnouncementM
-      let message = text.replace('$1', contact)
-      message = message.replace('$2', title)
-      sendMail(email, subject, message)
-    }
+    // if (email && published === 0) {
+    //   const { subject, text } = rejectAnnouncementM
+    //   let message = text.replace('$1', contact)
+    //   message = message.replace('$2', title)
+    //   sendMail(email, subject, message)
+    // }
   } catch (error) {
     res.statusCode = 400
   } finally {

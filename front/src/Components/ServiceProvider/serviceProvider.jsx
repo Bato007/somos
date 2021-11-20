@@ -27,23 +27,35 @@ const serviceProvider = () => {
     const data = Object.fromEntries(bufferArray)
 
     // response = [statuscode, message] ejmplo: [200, undefined] o [400, 'error']
-    const response = await fetch(`${apiURL}/announcements/help`, {
+    const res = await fetch(`${apiURL}/announcements/help`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         somoskey: `${localStorage.getItem('somoskey')}`,
       },
       body: JSON.stringify(data),
-    }).then((res) => res.json().then((resData) => [res.status, resData]))
-      .catch((error) => { console.log(error) })
-    console.log(response)
+    })
+
     // Se realiza la logica para los errores
-    if (response[0] === 200) {
-      // Mostrar mensaje de exito
-      history.replace('/')
-    } else if (response[0] === 500) {
+    if (res.status === 500) {
       // Mostrar mensaje de error insesperado
+      swal({
+        title: 'Upss, hubo un error inesperado.',
+        icon: 'error',
+        buttons: ['Aceptar'],
+      })
+    } else if (res.status === 200) {
+      swal({
+        title: '¡Tu anuncio se ha mandado a revisión con éxito!',
+        text: 'Te agradecemos por tu servicio. Se te informará cuando este sea aceptado',
+        icon: 'success',
+      }).then((out) => {
+        if (out) {
+          history.push('/')
+        }
+      })
     } else { // Es error 400
+      const { message } = await res.json()
       // Posibles errores:
       // ERROR 100 missing required fields || empty required field
       // ERROR 101 invalid email || phone must be an integer
@@ -51,57 +63,42 @@ const serviceProvider = () => {
       // ERROR 103 invalid size for title or description at least 10
       // ERROR 104 invalid date must be 'MM-DD-YYYY'
       // ERROR 105: Email or phone required
-
-      const result = response[1]?.message
-      if (result) {
-        if (result.includes('100')) {
-          swal({
-            title: 'Por favor, termina de llenar todos los campos',
-            icon: 'error',
-            buttons: ['Aceptar'],
-          })
-        } else if (result.includes('101')) {
-          swal({
-            title: 'Por favor, revisa que el correo/celular sean válidos',
-            icon: 'error',
-            buttons: ['Aceptar'],
-          })
-        } else if (result.includes('102')) {
-          swal({
-            title: 'Oops! Tu número de celular parece ser inválido',
-            icon: 'warning',
-            buttons: ['Aceptar'],
-          })
-        } else if (result.includes('103')) {
-          swal({
-            title: 'Oops! La descripción/título deben de tener al menos 10 caractéres',
-            icon: 'warning',
-            buttons: ['Aceptar'],
-          })
-        } else if (result.includes('104')) {
-          swal({
-            title: 'Oops! La fecha pareciera ser inválida',
-            text: 'Revisa que sea formato MM-DD-YYYY',
-            icon: 'warning',
-            buttons: ['Aceptar'],
-          })
-        } else if (result.includes('105')) {
-          swal({
-            title: 'Oops! Es necesario que ingreses número de celular o correo electrónico',
-            icon: 'error',
-            buttons: ['Aceptar'],
-          })
-        }
-      } else {
+      if (message.includes('100')) {
         swal({
-          title: '¡Tu anuncio se ha mandado a revisión con éxito!',
-          text: 'Te agradecemos por tu servicio. Se te informará cuando este sea aceptado',
-          icon: 'success',
-        }).then((res) => {
-          if (res) {
-            const path = window.location.href.split('/')[3]
-            history.push(`/${path}`)
-          }
+          title: 'Por favor, termina de llenar todos los campos',
+          icon: 'error',
+          buttons: ['Aceptar'],
+        })
+      } else if (message.includes('101')) {
+        swal({
+          title: 'Por favor, revisa que el correo/celular sean válidos',
+          icon: 'error',
+          buttons: ['Aceptar'],
+        })
+      } else if (message.includes('102')) {
+        swal({
+          title: 'Oops! Tu número de celular parece ser inválido',
+          icon: 'warning',
+          buttons: ['Aceptar'],
+        })
+      } else if (message.includes('103')) {
+        swal({
+          title: 'Oops! La descripción/título deben de tener al menos 10 caractéres',
+          icon: 'warning',
+          buttons: ['Aceptar'],
+        })
+      } else if (message.includes('104')) {
+        swal({
+          title: 'Oops! La fecha pareciera ser inválida',
+          text: 'Revisa que sea formato MM-DD-YYYY',
+          icon: 'warning',
+          buttons: ['Aceptar'],
+        })
+      } else if (message.includes('105')) {
+        swal({
+          title: 'Oops! Es necesario que ingreses número de celular o correo electrónico',
+          icon: 'error',
+          buttons: ['Aceptar'],
         })
       }
     }

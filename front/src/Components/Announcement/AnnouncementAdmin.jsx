@@ -40,6 +40,10 @@ const AnnouncementAdmin = () => {
   }
 
   useEffect(() => {
+    console.log(actualAnnounces)
+  }, [actualAnnounces])
+
+  useEffect(() => {
     getAnnounces()
   }, [])
 
@@ -47,63 +51,86 @@ const AnnouncementAdmin = () => {
    * Funcion usada para aceptar un anuncio: Se queda publicado y a los
    * administradores les saldra opcion de borrarlo
    */
-  const acceptAnnouncement = (result) => {
-    const temporalAnnounces = []
+  const acceptAnnouncement = (result, index) => {
+    swal({
+      title: 'Aceptar anuncio',
+      text: '¿Estas seguro de aceptar el anuncio?',
+      icon: 'success',
+      buttons: ['Cancelar', 'Aceptar'],
+    }).then(async (res) => {
+      if (res) {
+        const status = await fetch(`${apiURL}/admin/announcements/accept/${result.id}`, {
+          method: 'PUT',
+          headers: {
+            somoskey: `${localStorage.getItem('somoskey')}`,
+          },
+        }).then((response) => response.status)
 
-    for (let i = 0; i < actualAnnounces.length; i += 1) {
-      temporalAnnounces.push(actualAnnounces[i])
-
-      if (actualAnnounces[i] === result) {
-        swal({
-          title: 'Aceptar anuncio',
-          text: '¿Estas seguro de aceptar el anuncio?',
-          icon: 'success',
-          buttons: ['Cancelar', 'Aceptar'],
-        }).then(async (res) => {
-          if (res) {
-            await fetch(`${apiURL}/admin/announcements/accept/${result.id}`, {
-              method: 'PUT',
-              headers: {
-                somoskey: `${localStorage.getItem('somoskey')}`,
-              },
-            })
-            temporalAnnounces[i].published = 1
-          }
-        })
+        if (status === 200) {
+          // Se subio el archivo con exito
+          swal({
+            title: 'Se acepto el anuncio con éxito',
+            icon: 'success',
+          })
+          setActualAnnounces((oldValue) => {
+            console.log(oldValue, index, 76)
+            const value = { ...result, published: 1 }
+            oldValue.splice(index, 1)
+            console.log(oldValue, index, 80)
+            oldValue.push(value)
+            console.log(oldValue, index, 82)
+            return [...oldValue]
+          })
+        } else {
+          // Hubo un error con la subida de archivos
+          swal({
+            title: 'No se pudo completar la acción',
+            icon: 'error',
+          })
+        }
       }
-    }
-    setActualAnnounces(temporalAnnounces)
+    })
   }
 
   /**
    * Funcion usada para denegar un anuncio: Se elimina el anuncio
    */
-  const deleteAnnouncement = (result) => {
-    const temporalAnnounces = []
+  const deleteAnnouncement = (result, index) => {
+    swal({
+      title: 'Eliminar anuncio',
+      text: '¿Estas seguro de eliminar el anuncio? Este proceso es no revertible',
+      icon: 'warning',
+      buttons: ['Cancelar', 'Eliminar'],
+    }).then(async (res) => {
+      if (res) {
+        const status = await fetch(`${apiURL}/admin/announcements/${result.id}`, {
+          method: 'DELETE',
+          headers: {
+            somoskey: `${localStorage.getItem('somoskey')}`,
+          },
+        }).then((response) => response.status)
 
-    for (let i = 0; i < actualAnnounces.length; i += 1) {
-      temporalAnnounces.push(actualAnnounces[i])
-
-      if (actualAnnounces[i] === result) {
-        swal({
-          title: 'Eliminar anuncio',
-          text: '¿Estas seguro de eliminar el anuncio? Este proceso es no revertible',
-          icon: 'warning',
-          buttons: ['Cancelar', 'Eliminar'],
-        }).then(async (res) => {
-          if (res) {
-            await fetch(`${apiURL}/admin/announcements/${result.id}`, {
-              method: 'DELETE',
-              headers: {
-                somoskey: `${localStorage.getItem('somoskey')}`,
-              },
-            })
-            temporalAnnounces.splice(i, 1)
-          }
-        })
+        if (status === 200) {
+          // Se subio el archivo con exito
+          swal({
+            title: 'Se eliminó con éxito',
+            icon: 'success',
+          })
+          setActualAnnounces((old) => {
+            console.log(old, index, 120)
+            old.splice(index, 1)
+            console.log(old, index, 122)
+            return [...old]
+          })
+        } else {
+          // Hubo un error con la subida de archivos
+          swal({
+            title: 'No se pudo completar la acción',
+            icon: 'error',
+          })
+        }
       }
-    }
-    setActualAnnounces(temporalAnnounces)
+    })
   }
 
   /**
@@ -129,7 +156,7 @@ const AnnouncementAdmin = () => {
             </div>
           </label>
         </div>
-        {actualAnnounces.map((result) => (
+        {actualAnnounces.map((result, index) => (
           <>
             {result.published === actualStatus
               ? (
@@ -137,14 +164,14 @@ const AnnouncementAdmin = () => {
                   {result.published === 0
               && (
               <div className="announcementOptions">
-                <Button id="decline" onClick={() => deleteAnnouncement(result)} />
-                <Button id="accept" onClick={() => acceptAnnouncement(result)} />
+                <Button id="decline" onClick={() => deleteAnnouncement(result, index)} />
+                <Button id="accept" onClick={() => acceptAnnouncement(result, index)} />
               </div>
               ) }
                   {result.published > 0
               && (
               <div className="announcementOptions">
-                <Button id="remove" onClick={() => deleteAnnouncement(result)} />
+                <Button id="remove" onClick={() => deleteAnnouncement(result, index)} />
               </div>
               )}
                   <h1>{result.title}</h1>

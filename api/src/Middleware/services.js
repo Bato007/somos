@@ -69,6 +69,99 @@ const createCategories = async (categories, username) => {
   }
 }
 
+const deleteCategories = async (categories, username) => {
+  try {
+    const fCategories = await cCategories.get()
+    fCategories.forEach(async (element) => {
+      const { category, users } = element.data()
+      const index = users.indexOf(username)
+      if (categories.includes(category) && index > -1) {
+        users.splice(index, 1)
+        if (users.length === 0) {
+          await cCategories.doc(category).delete()
+        } else {
+          await cCategories.doc(category).update({ users })
+        }
+      }
+    })
+
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+const objectIncludes = (array, id) => {
+  let flag = false
+  let index = 0
+  array.forEach((element, i) => {
+    if (element.id === id) {
+      flag = true
+      index = i
+    }
+  })
+  return [flag, index]
+}
+
+const createTags = async (tags, information) => {
+  try {
+    const fTags = await cTags.get()
+    const { id } = information
+
+    // Agregando categorias existentes
+    fTags.forEach(async (element) => {
+      // Se verifica que no este
+      const { resources, tag } = element.data()
+      const result = objectIncludes(resources, id)
+      if (result[0]) {
+        resources.push(information)
+        await cCategories.doc(tag).update({ resources })
+
+        // Se elimina al usuario de la lista de categories
+        tags.splice(result[1], 1)
+      }
+    })
+
+    // Se agregan todas las categorias que no existen
+    tags.forEach(async (tag) => {
+      await cCategories.doc(tag).set({ tag, users: [information] })
+    })
+
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+const deleteTags = async (tags, information) => {
+  try {
+    const fTags = await cTags.get()
+    const { id } = information
+
+    fTags.forEach(async (element) => {
+      const { resources, tag } = element.data()
+      const result = objectIncludes(resources, id)
+      if (result[0] && result[1] > -1) {
+        resources.splice(result[1])
+        if (resources.length === resources) {
+          await cTags.doc(tag).delete()
+        } else {
+          await cCategories.doc(tag).update({ resources })
+        }
+      }
+    })
+
+    // Se agregan todas las categorias que no existen
+    tags.forEach(async (tag) => {
+      await cCategories.doc(tag).set({ tag, users: [information] })
+    })
+
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 const sendMail = (to, subject, text) => {
   let sended = false
   const transporter = nodemailer.createTransport(mail)
@@ -92,6 +185,9 @@ const sendMail = (to, subject, text) => {
 
 module.exports = {
   createCategories,
+  deleteCategories,
+  createTags,
+  deleteTags,
   sendMail,
   fixCapitalization,
   getArrayDiff,

@@ -2,7 +2,9 @@
 const express = require('express')
 const Joi = require('joi')
 const tokenGenerator = require('uuid-v4')
-
+const {
+  createTags, deleteTags, getArrayDiff, makeLower,
+} = require('../../Middleware/services')
 const { cResources, bucket } = require('../../DataBase/firebase')
 
 const router = express.Router()
@@ -87,6 +89,7 @@ router.put('/', async (req, res) => {
     date: Joi.date().required(),
     filename: Joi.string().required(),
   })
+  console.log('holaaaa')
 
   // Validar informacino
   const result = schema.validate(req.body)
@@ -99,12 +102,28 @@ router.put('/', async (req, res) => {
     // Luego de validar todos los datos se pasa al try
     try {
       const {
-        id, title, description, tags, category, users, date,
+        id, title, description, users, date,
       } = req.body
+      let { tags, category } = req.body
+      category = makeLower(category)
+      tags = makeLower(tags)
 
       // Obteniendo el nombre del archivo
       const resources = await cResources.doc(id).get()
-      const { filename } = resources.data()
+      const data = resources.data()
+      const { filename } = data
+      const rTags = data.tags
+      const { added, removed } = getArrayDiff(rTags, tags)
+      console.log(added, removed)
+
+      // Se agregan las tags / eliminan
+      const tResource = {
+        id: data.id,
+        title: data.title,
+        type: data.type,
+      }
+      createTags(added, tResource)
+      deleteTags(removed, tResource)
 
       // Guardando la imagen en firebase
       const uploaded = bucket.file(filename)
@@ -142,6 +161,7 @@ router.delete('/:id', async (req, res) => {
     const resource = resources.data()
 
     // Se borra del bucket
+    deleteTags()
     const file = bucket.file(resource.filename)
     await file.delete()
 

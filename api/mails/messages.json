@@ -9,11 +9,11 @@
   },
   "acceptPetitionM": {
     "subject": "SOMOS aprueba cambio de categoría",
-    "text": "Por este medio te informamos que el cambio de categorias fue aceptado con el siguiente resultado:",
-    "add": "• Se agregó la categoría: ",
-    "adds": "• La(s) categoría(s) agregada(s): ",
-    "remove": "• Se eliminó la categoría: ",
-    "removes": "• La(s) categoría(s) elimida(s): ",
+    "text": "Por este medio te informamos que el cambio de categorias fue aceptado con el siguiente resultado:\n",
+    "add": "• Se agregó la categoría: $1\n",
+    "adds": "• Las categorías agregadas: $1\n",
+    "remove": "• Se eliminó la categoría: $2\n",
+    "removes": "• Las categorías elimidas: $2\n",
     "finish": "Muchas gracias por participar. No responder a este mensaje ya que es automático."
   },
   "rejectPetitionM": {

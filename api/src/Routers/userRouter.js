@@ -1,6 +1,8 @@
 const express = require('express')
 const Joi = require('joi')
-const { getArrayDiff, makeLower } = require('../Middleware/services')
+const {
+  getArrayDiff, makeLower, createCategories, deleteCategories,
+} = require('../Middleware/services')
 const { valPassword, valRegion } = require('../Middleware/validation')
 const {
   cUsers, cKeys, cPetitions, FieldValue,
@@ -229,25 +231,29 @@ router.put('/information', async (req, res) => {
         if (!categories) { throw new Error() }
 
         // Ahora se verifica que si es un admin o un normal
+        const user = (await cUsers.doc(username).get()).data()
+        // Se verifica que categoria se elimino / agrego
+        const { added, removed } = getArrayDiff(user.categories, categories)
+
         if (key.isSomos) {
           await cUsers.doc(username).update({
             password, email, phone, residence: place, categories,
           })
+          // Actualizmos en la base de datos las categorias
+          createCategories(added, username)
+          deleteCategories(removed, username)
         } else {
           // No es un administrador de somos
-          const user = (await cUsers.doc(username).get()).data()
           await cUsers.doc(username).update({
             password, email, phone, residence: place,
           })
-
-          // Se verifica que categoria se elimino / agrego
-          const { added, removed } = getArrayDiff(user.categories, categories)
           await cPetitions.doc(username).set({
             name: user.name,
             added,
             removed,
           })
         }
+
         // Falta ver lo de las categorias
         res.statusCode = 200
         res.json()

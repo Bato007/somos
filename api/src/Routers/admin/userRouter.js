@@ -1,10 +1,12 @@
 const express = require('express')
 const Joi = require('joi')
 const {
-  cUsers, cPetitions, cKeys, cCategories, cResources,
+  cUsers, cPetitions, cKeys, cResources,
 } = require('../../DataBase/firebase')
 const { valPassword, valRegion } = require('../../Middleware/validation')
-const { sendMail, makeLower, createCategories } = require('../../Middleware/services')
+const {
+  sendMail, makeLower, createCategories, deleteCategories, getArrayDiff,
+} = require('../../Middleware/services')
 const { acceptPetitionM, rejectPetitionM } = require('../../../mails/messages.json')
 
 const router = express.Router()
@@ -200,6 +202,26 @@ router.post('/signup', async (req, res) => {
   }
 })
 
+router.put('/other/category', async (req, res) => {
+  const { username } = req.body
+  let { categories } = req.body
+  try {
+    const fUser = (await cUsers.doc(username).get()).data()
+    categories = makeLower(categories)
+
+    // Ahora verifico las diferencias
+    const { added, removed } = getArrayDiff(fUser.categories, categories)
+
+    createCategories(added, username)
+    deleteCategories(removed, username)
+
+    await cUsers.doc(username).update({ categories })
+    res.status(200).end()
+  } catch (error) {
+    res.status(500).end()
+  }
+})
+
 /*
   Esta funcion recibe un Json con el siguiente formato:
   {
@@ -280,13 +302,39 @@ router.put('/approve/:username', async (req, res) => {
         categories.splice(index, 1)
       })
 
+      // Actualizmos en la base de datos las categorias
+      createCategories(added, username)
+      deleteCategories(removed, username)
+
       await cUsers.doc(username).update({
         categories,
       })
       await cPetitions.doc(username).delete()
 
-      const { subject, text } = acceptPetitionM
-      sendMail(email, subject, text)
+      const {
+        subject, text, add, remove, adds, removes, finish,
+      } = acceptPetitionM
+      let message = text
+
+      // Mensaje cuando se agreguen categorias
+      if (added.length === 1) {
+        message += add.replace('$1', added[0])
+      } else if (added.length > 1) {
+        let addedT = ''
+        added.forEach((element) => { addedT += element })
+        message += adds.replace('$1', addedT)
+      }
+
+      // Mensaje cuando se quita
+      if (removed.length === 1) {
+        message += remove.replace('$1', removed[0])
+      } else if (removed.length > 1) {
+        let removedT = ''
+        removed.forEach((element) => { removedT += element })
+        message += removes.replace('$1', removedT)
+      }
+      message += finish
+      sendMail(email, subject, message)
 
       res.status(200).end()
     }
@@ -330,19 +378,7 @@ router.delete('/:username', async (req, res) => {
       await cPetitions.doc(username).delete()
 
       // Se borra de recursos y categorias
-      const ccategory = await cCategories.get()
-      ccategory.forEach(async (element) => {
-        const { category, users } = element.data()
-        const index = users.indexOf(username)
-        if (categories.includes(category) && index > -1) {
-          users.splice(index, 1)
-          if (users.length === 0) {
-            await cCategories.doc(category).delete()
-          } else {
-            await cCategories.doc(category).update({ users })
-          }
-        }
-      })
+      deleteCategories(categories, username)
 
       const resources = await cResources.get()
       resources.forEach(async (resource) => {
