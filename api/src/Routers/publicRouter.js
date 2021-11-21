@@ -199,7 +199,7 @@ router.put('/recovery/token', async (req, res) => {
         await cUsers.doc(username).update({
           password,
         })
-        // await cReset.doc(username).delete()
+        await cReset.doc(username).delete()
         res.statusCode = 200
       } else {
         res.statusCode = 400
