@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import apiURL from '../fetch'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import Error from '../Error/Error'
@@ -10,6 +11,7 @@ const TokenForgetPass = () => {
   const [pass, setPass] = useState('')
   const [conf, setConf] = useState('')
   const [error, setError] = useState('')
+  const [token, setToken] = useState('')
 
   const validarClave = (prueba) => {
     const largo = prueba.length
@@ -27,12 +29,15 @@ const TokenForgetPass = () => {
     return true
   }
 
-  const checkBasic = () => {
+  const changePassword = async () => {
     if (pass === '') {
       setError('No se ingresó contraseña')
       return
     } if (conf === '') {
       setError('No se ingresó confirmación')
+      return
+    } if (token === '') {
+      setError('No se ingresó el token')
       return
     } if (pass !== conf) {
       setError('Las contraseñas no coinciden')
@@ -41,7 +46,25 @@ const TokenForgetPass = () => {
       setError('La contraseña no cumple con las condiciones')
       return
     }
+
     setError('')
+    await fetch(`${apiURL}/recovery/token`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        password: pass,
+        confirmPassword: conf,
+        token,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        history.push('/')
+      } else {
+        setError('Token inválido')
+      }
+    })
   }
 
   return (
@@ -58,11 +81,11 @@ const TokenForgetPass = () => {
         </div>
         <div className="inputForget">
           <p>Ingrese token</p>
-          <Input name="token" type="text" />
+          <Input name="token" type="text" placeholder="Confirmación de contraseña" onChange={(event) => setToken(event.target.value)} />
         </div>
         <div className="buttonsFp">
           <Button id="returnToSignIn" name="Regresar" onClick={() => history.replace('/forgotPassword')} />
-          <Button id="SignIn" name="Guardar" onClick={checkBasic} />
+          <Button id="SignIn" name="Guardar" onClick={changePassword} />
         </div>
         <Error error={error} />
       </div>
