@@ -28,11 +28,6 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
 
-app.get('/', (req, res) => {
-  res.statusCode = 200
-  res.json({ message: 'Develop' })
-})
-
 // Routers Sin autenticacion
 app.use('/', publicRouter)
 app.use('/docs', serve, setup)

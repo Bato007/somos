@@ -208,13 +208,10 @@ router.put('/other/category', async (req, res) => {
   try {
     const fUser = (await cUsers.doc(username).get()).data()
     categories = makeLower(categories)
-
     // Ahora verifico las diferencias
     const { added, removed } = getArrayDiff(fUser.categories, categories)
-
     createCategories(added, username)
     deleteCategories(removed, username)
-
     await cUsers.doc(username).update({ categories })
     res.status(200).end()
   } catch (error) {
@@ -266,9 +263,6 @@ router.get('/petitions', async (req, res) => {
     if (!temp.empty) {
       const petitions = []
       temp.forEach((element) => {
-        const data = cUsers.doc(element.id).get().then((info) => info.data()).then((p) => p)
-        // console.log(username, name)
-        console.log(data)
         petitions.push({
           username: element.id,
           ...element.data(),

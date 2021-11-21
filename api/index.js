@@ -52,7 +52,7 @@ app.use('/', publicRouter)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
 
 // Routers Protegidos a los usuarios
-// app.use('/', authorizate)
+app.use('/', authorizate)
 app.use('/user', userRouter)
 app.use('/resources', resourcesRouter)
 app.use('/announcements', advertRouter)

@@ -75,8 +75,18 @@ const UserMgt = ({ display }) => {
     getUsersInfo()
   }
 
-  const updateCategories = (close) => {
+  const updateCategories = async (close, username) => {
+    console.log(close, username)
     close()
+    await fetch(`${apiURL}/admin/user/other/category`, {
+      method: 'PUT',
+      headers: {
+        somoskey: `${localStorage.getItem('somoskey')}`,
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ username, categories }),
+    })
+    getUsersInfo()
   }
 
   useEffect(() => {
@@ -123,7 +133,7 @@ const UserMgt = ({ display }) => {
                           />
                           <div className="popupButtons">
                             <Button id="CancelButton" name="Cancelar" onClick={close} />
-                            <Button id="UploadButton" name="Guardar" onClick={() => updateCategories(close)} />
+                            <Button id="UploadButton" name="Guardar" onClick={() => updateCategories(close, value.username)} />
                           </div>
                         </>
                       )}

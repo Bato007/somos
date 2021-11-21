@@ -26,8 +26,10 @@ const makeLower = (array) => {
   return fixed
 }
 
-const getArrayDiff = (original, modified) => {
+const getArrayDiff = (origin, mod) => {
   const difference = { added: [], removed: [] }
+  const original = [...origin]
+  const modified = [...mod]
 
   original.forEach((element) => {
     if (!modified.includes(element)) {

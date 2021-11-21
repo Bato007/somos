@@ -1,9 +1,13 @@
 const express = require('express')
-const Joi = require('joi')
-const customJoi = Joi.extend(require('joi-phone-number'))
+const Joi = require('joi').extend(require('@joi/date'))
 const keyGen = require('random-key')
 const tokenGenerator = require('uuid-v4')
-const { cUsers, cKeys, cAnnouncements } = require('../DataBase/firebase')
+const {
+  cUsers, cKeys, cAnnouncements, cReset,
+} = require('../DataBase/firebase')
+const { valPassword } = require('../Middleware/validation')
+const { sendMail } = require('../Middleware/services')
+const { tokenRecived } = require('../../mails/messages.json')
 
 const router = express.Router()
 
@@ -113,38 +117,44 @@ router.post('/login', async (req, res) => {
 
 /**
  * Account-Recovery
- * 
+ *
  */
 router.post('/recovery', async (req, res) => {
   const schema = Joi.object({
-    email: Joi.string().min(5).required()
+    email: Joi.string().email().required(),
   })
 
-  //Valida informacion
+  // Valida informacion
   const result = schema.validate(req.body)
   if (result.error) {
     const { message } = result.error.details[0]
     res.status(400).json({ email: 'ERROR', name: message })
   } else {
     // Localiza el usuario que desea cambiar contraseña
-    try{
+    try {
       const { email } = req.body
       const users = await cUsers.where('email', '==', email).get()
       if (users.empty) {
         throw { message: '101' }
       }
+      let username = ''
+      users.forEach((user) => {
+        if (username !== '') {
+          username = user.data().username
+        }
+      })
 
       // Extrae informacion del usuario
-      const user = users.data()
-      const { username, name } = user
-      res.statusCode = 200
-      // Genera token ¿?
-      const token = keyGen.generate(20)
+      const { subject, text } = tokenRecived
+      const token = keyGen.generate(6)
 
-      res.json({
-        username, name, token,
-      })
-    } catch (error){
+      // Se guarda en la base de datos
+      await cReset.doc(username).set({ token, username })
+
+      const message = text.replace('$1', token)
+      sendMail(email, subject, message)
+      res.status(200).end()
+    } catch (error) {
       res.statusCode = 400
       switch (error.message) {
         case '101':
@@ -160,12 +170,12 @@ router.post('/recovery', async (req, res) => {
 
 router.put('/recovery/token', async (req, res) => {
   const schema = Joi.object({
-  password: Joi.string().min(8).required(),
-  confirmPassword: Joi.string().required().valid(Joi.ref('password')),
-  token: Joi.string().min(6).required(),
+    password: Joi.string().min(8).required(),
+    confirmPassword: Joi.string().required().valid(Joi.ref('password')),
+    token: Joi.string().min(6).max(6).required(),
   })
 
-  //Valida informacion
+  // Valida informacion
   const result = schema.validate(req.body)
   if (result.error) {
     const { message } = result.error.details[0]
@@ -176,30 +186,32 @@ router.put('/recovery/token', async (req, res) => {
       const {
         password, confirmPassword, token,
       } = req.body
-      const { username, givenToken } = req.headers
-      
+      const fTokens = await cReset.where('token', '==', token).get()
+
+      // Verificando que este en la base de datos
+      let username = ''
+      fTokens.forEach((fToken) => {
+        username = (fToken.data()).username
+      })
+
       // Verifica el token dado con el ingresado
-      if (givenToken !== token) {
-        res.statusCode = 401
-        res.end()
-        // Verifica la contraseña con la confirmacion
-      } else if (password !== confirmPassword) {
-        res.statusCode = 400
-        res.end()
-      } else {
+      if (username !== '' && password === confirmPassword && valPassword(password)) {
         await cUsers.doc(username).update({
           password,
         })
+        await cReset.doc(username).delete()
         res.statusCode = 200
-        res.end()
+      } else {
+        res.statusCode = 400
       }
     } catch (error) {
+      console.log(error)
       res.statusCode = 500
+    } finally {
       res.end()
     }
   }
 })
-
 
 /**
  * @swagger
@@ -226,20 +238,23 @@ router.put('/recovery/token', async (req, res) => {
 router.post('/announcements/help', async (req, res) => {
   const schema = Joi.object({
     contact: Joi.string().min(1).required(),
-    phone: customJoi.string()
-      .phoneNumber({
-        defaultCountry: 'GT',
-        format: 'national',
-        strict: false, // Bajo visor
-      })
-      .required(),
-    email: Joi.string()
-      .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
-      .email({ tlds: { allow: false } })
-      .required(),
+    phone: Joi.number().min(10000000).max(99999999).messages({
+      'number.base': 'ERROR 101 phone must be an integer',
+    }),
+    email: Joi.string().email(),
     title: Joi.string().min(10).required(),
     description: Joi.string().min(10).required(),
-    date: Joi.date().required(),
+    date: Joi.date().required()
+      .messages({
+        'date.format': 'ERROR 104 invalid date must be \'MM-DD-YYYY\'',
+      }),
+  }).messages({
+    'any.required': 'ERROR 100 missing required fields',
+    'string.empty': 'ERROR 100 empty required field',
+    'string.email': 'ERROR 101 invalid email',
+    'number.min': 'ERROR 102 invalid phone number',
+    'number.max': 'ERROR 102 invalid phone number',
+    'string.min': 'ERROR 103 invalid size for title or description at least 10',
   })
 
   // Validar informacion
@@ -247,28 +262,32 @@ router.post('/announcements/help', async (req, res) => {
   if (result.error) {
     const { message } = result.error.details[0]
     res.status(400).json({ message })
-  }
+  } else {
+    try {
+      const {
+        contact, phone, email, title, description, date,
+      } = req.body
 
-  try {
-    const {
-      contact, phone, email, title, description, date,
-    } = req.body
-
-    const id = tokenGenerator()
-    await cAnnouncements.doc(id).set({
-      id,
-      contact,
-      phone,
-      email,
-      title,
-      description,
-      toDate: date,
-      type: 'help',
-      published: 0,
-    })
-    res.status(200).json({ message: 'Added' })
-  } catch (error) {
-    res.status(500).json({ message: 'Unexpected' })
+      if (!email && !phone) {
+        res.status(400).json({ message: 'ERROR 105: Email or phone required' })
+      } else {
+        const id = tokenGenerator()
+        await cAnnouncements.doc(id).set({
+          id,
+          contact,
+          phone,
+          email,
+          title,
+          description,
+          toDate: date,
+          type: 'help',
+          published: 0,
+        })
+        res.status(200).end()
+      }
+    } catch (error) {
+      res.status(500).end()
+    }
   }
 })
 

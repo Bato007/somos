@@ -1,5 +1,5 @@
 const express = require('express')
-const { cResources, cUsers } = require('../DataBase/firebase')
+const { cResources, cUsers, cTags } = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -23,6 +23,20 @@ router.get('/:id', async (req, res) => {
 
   try {
     const resources = await cResources.doc(id).get()
+
+    const resource = resources.data()
+    // Ahora se regresa el recurso
+    res.status(200).json(resource)
+  } catch (error) {
+    res.status(400).json({ message: 'No se encontro' })
+  }
+})
+
+router.get('/tags/:tag', async (req, res) => {
+  const { tag } = req.params
+
+  try {
+    const resources = await cTags.doc(tag).get()
 
     const resource = resources.data()
     // Ahora se regresa el recurso

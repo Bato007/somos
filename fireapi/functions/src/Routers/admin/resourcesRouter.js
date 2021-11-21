@@ -29,10 +29,11 @@ router.post('/', async (req, res) => {
   } else if ((req.body.category.length + req.body.users.length) < 1) {
     res.json({ message: 'no se dirige a un usuario' })
   } else {
+    const {
+      title, description, category, users, date, filename,
+    } = req.body
+    let { tags } = req.body
     try {
-      const {
-        title, description, tags, category, users, date, filename,
-      } = req.body
       const token = tokenGenerator()
       const uploaded = bucket.file(filename)
       const url = await uploaded.getSignedUrl({
@@ -40,6 +41,10 @@ router.post('/', async (req, res) => {
         expires: date,
       })
       const type = filename.split('.')[1]
+
+      // Se agregan las tags
+      tags = makeLower(tags)
+      createTags(tags, { id: token, type, title })
 
       // Ahora se ingresa a la base de datos
       cResources.doc(token).set({
@@ -58,7 +63,8 @@ router.post('/', async (req, res) => {
       res.statusCode = 200
       res.end()
     } catch (error) {
-      console.log(error)
+      const file = bucket.file(filename)
+      await file.delete()
       res.statusCode = 500
       res.json({ message: 'Unexpected' })
     }
@@ -89,7 +95,6 @@ router.put('/', async (req, res) => {
     date: Joi.date().required(),
     filename: Joi.string().required(),
   })
-  console.log('holaaaa')
 
   // Validar informacino
   const result = schema.validate(req.body)
@@ -114,7 +119,6 @@ router.put('/', async (req, res) => {
       const { filename } = data
       const rTags = data.tags
       const { added, removed } = getArrayDiff(rTags, tags)
-      console.log(added, removed)
 
       // Se agregan las tags / eliminan
       const tResource = {
@@ -161,7 +165,6 @@ router.delete('/:id', async (req, res) => {
     const resource = resources.data()
 
     // Se borra del bucket
-    console.log('hola222')
     deleteTags(resource.tags, {
       id: resource.id,
     })
@@ -172,7 +175,7 @@ router.delete('/:id', async (req, res) => {
     await cResources.doc(id).delete()
 
     // Ahora se regresa el recurso
-    res.status(200)
+    res.status(200).end()
   } catch (error) {
     res.status(500).json({ message: 'Error al borrar' })
   }
