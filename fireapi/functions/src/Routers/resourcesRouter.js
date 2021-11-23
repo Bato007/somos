@@ -1,5 +1,8 @@
 const express = require('express')
-const { cResources, cUsers, cTags } = require('../DataBase/firebase')
+const { addNewrelicEvent } = require('../Middleware/services')
+const {
+  cResources, cUsers, cTags, cKeys,
+} = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -20,13 +23,36 @@ const router = express.Router()
  */
 router.get('/:id', async (req, res) => {
   const { id } = req.params
+  const { somoskey } = req.headers
 
   try {
     const resources = await cResources.doc(id).get()
-
     const resource = resources.data()
     // Ahora se regresa el recurso
     res.status(200).json(resource)
+
+    // Ahora se realiza la parte de newrelic
+    try {
+      const fKeys = await cKeys.where('somoskey', '==', somoskey).get()
+      if (!fKeys.empty) {
+        let username = ''
+        fKeys.forEach((key) => {
+          username = key.id
+        })
+        const { residence, email, name } = (await cUsers.doc(username).get()).data()
+        addNewrelicEvent('VISTA_RECURSO', {
+          usuario: username,
+          nombre: name,
+          correo: email,
+          pais: residence,
+          idRecurso: id,
+          titulo: resource.title,
+          tipo: resource.type,
+        })
+      }
+    } catch (error) {
+      console.log('NRERROR', error)
+    }
   } catch (error) {
     res.status(400).json({ message: 'No se encontro' })
   }

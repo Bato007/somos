@@ -1,3 +1,4 @@
+require('newrelic')
 const express = require('express')
 const cors = require('cors')
 const swaggerUI = require('swagger-ui-express')
@@ -23,7 +24,6 @@ const adminTagsRouter = require('./src/Routers/admin/tagRouter')
 
 // Seguirdad
 const { authorizate } = require('./src/Middleware/authorization')
-const { acceptAnnouncementM, rejectAnnouncementM } = require('./mails/messages.json')
 
 const options = {
   definition: {

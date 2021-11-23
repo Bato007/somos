@@ -1,3 +1,4 @@
+const newrelic = require('newrelic')
 const nodemailer = require('nodemailer')
 const mail = require('../../mails/account.json')
 const { cCategories, cTags } = require('../DataBase/firebase')
@@ -156,7 +157,16 @@ const sendMail = (to, subject, text) => {
   return sended
 }
 
+const addNewrelicEvent = (name, attributes) => {
+  try {
+    newrelic.recordCustomEvent(name, attributes)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
+  addNewrelicEvent,
   createCategories,
   deleteCategories,
   createTags,
