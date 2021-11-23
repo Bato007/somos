@@ -1,7 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
+
+import Swal from 'sweetalert2'
 import swal from 'sweetalert'
+import withReactContent from 'sweetalert2-react-content'
+
 import apiURL from '../fetch'
 import Button from '../Button/Button'
 import './Announcement.css'
@@ -13,6 +17,7 @@ import './Announcement.css'
 const AnnouncementAdmin = () => {
   const [actualAnnounces, setActualAnnounces] = useState([])
   const [actualStatus, setActualStatus] = useState(0)
+  const MySwal = withReactContent(Swal)
 
   const getAnnounces = async () => {
     // fetch de los anuncios
@@ -55,6 +60,14 @@ const AnnouncementAdmin = () => {
       buttons: ['Cancelar', 'Aceptar'],
     }).then(async (res) => {
       if (res) {
+        MySwal.fire({
+          title: <p>Tu petición está siendo procesada...</p>,
+          didOpen: () => {
+            MySwal.showLoading()
+          },
+          allowOutsideClick: false,
+        })
+
         const status = await fetch(`${apiURL}/admin/announcements/accept/${result.id}`, {
           method: 'PUT',
           headers: {
@@ -62,6 +75,7 @@ const AnnouncementAdmin = () => {
           },
         }).then((response) => response.status)
 
+        MySwal.close()
         if (status === 200) {
           // Se subio el archivo con exito
           swal({
@@ -91,6 +105,14 @@ const AnnouncementAdmin = () => {
       buttons: ['Cancelar', 'Eliminar'],
     }).then(async (res) => {
       if (res) {
+        MySwal.fire({
+          title: <p>Tu petición está siendo procesada...</p>,
+          didOpen: () => {
+            MySwal.showLoading()
+          },
+          allowOutsideClick: false,
+        })
+
         const status = await fetch(`${apiURL}/admin/announcements/${result.id}`, {
           method: 'DELETE',
           headers: {
@@ -98,6 +120,7 @@ const AnnouncementAdmin = () => {
           },
         }).then((response) => response.status)
 
+        MySwal.close()
         if (status === 200) {
           // Se subio el archivo con exito
           swal({

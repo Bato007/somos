@@ -1,7 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+
+import Swal from 'sweetalert2'
 import swal from 'sweetalert'
+import withReactContent from 'sweetalert2-react-content'
+
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import apiURL from '../fetch'
@@ -12,8 +16,17 @@ const serviceProvider = () => {
   const [serviceInfo, setServiceInfo] = useState({
     title: '', description: '', email: '', date: '', phone: '', contact: '',
   })
+  const MySwal = withReactContent(Swal)
 
   const postAnnouncement = async () => {
+    MySwal.fire({
+      title: <p>Tu servicio está siendo procesado...</p>,
+      didOpen: () => {
+        MySwal.showLoading()
+      },
+      allowOutsideClick: false,
+    })
+
     const buffer = {
       title: serviceInfo.title,
       description: serviceInfo.description,
@@ -36,6 +49,7 @@ const serviceProvider = () => {
       body: JSON.stringify(data),
     })
 
+    MySwal.close()
     // Se realiza la logica para los errores
     if (res.status === 500) {
       // Mostrar mensaje de error insesperado
