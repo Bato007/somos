@@ -31,7 +31,7 @@ const ForgotPassword = () => {
       if (res.status === 200) {
         history.push('/forgotPassword/token')
       } else {
-        setError('Verifique su correo electrónico')
+        setError('Oops! Por favor, verifique su correo electrónico')
       }
     })
   }
