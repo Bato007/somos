@@ -18,6 +18,8 @@ const cAnnouncements = db.collection('announcements')
 const cKeys = db.collection('keys')
 const cCategories = db.collection('categories')
 const cTags = db.collection('tags')
+const cPetitions = db.collection('petitions')
+const cReset = db.collection('forgetpassword')
 
 module.exports = {
   admin,
@@ -28,5 +30,7 @@ module.exports = {
   bucket,
   cCategories,
   cTags,
+  cPetitions,
+  cReset,
   FieldValue,
 }

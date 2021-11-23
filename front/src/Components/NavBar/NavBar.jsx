@@ -7,6 +7,7 @@ import logo from '../../static/imagesNavBar/logo.png'
 import accountIcon from '../../static/imagesNavBar/account.png'
 import megaphoneIcon from '../../static/imagesNavBar/megaphone.png'
 import logoutIcon from '../../static/imagesNavBar/logout.png'
+import apiURL from '../fetch'
 import './NavBar.css'
 
 const NavBar = () => {
@@ -20,6 +21,10 @@ const NavBar = () => {
       buttons: ['Cancelar', 'Aceptar'],
     }).then(async (res) => {
       if (res) {
+        fetch(`${apiURL}/user/logout/${localStorage.getItem('username')}`, {
+          method: 'PUT',
+          headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
+        })
         localStorage.clear()
         history.replace('/')
       }

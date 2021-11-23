@@ -1,0 +1,27 @@
+{
+  "acceptAnnouncementM": {
+    "subject": "SOMOS aprueba el anuncio",
+    "text": "Muchas gracias $1 por estar interesado en ayudar a la comunidad de SOMOS.\nPor este medio te informamos que el anuncio '$2' ingresado a la plataforma de SOMOS fue publicado y todos los usuarios podrán ver leerlo.\nNo responder a este mensaje ya que es automático."
+  },
+  "rejectAnnouncementM": {
+    "subject": "SOMOS rechaza el anuncio",
+    "text": "Muchas gracias $1 por estar interesado en ayudar a la comunidad de SOMOS.\nPor este medio te informamos que el anuncio '$2' ingresado a la plataforma de SOMOS fue rechazado por no cumplir con los estándares de la organización.\nNo responder a este mensaje ya que es automático."
+  },
+  "acceptPetitionM": {
+    "subject": "SOMOS aprueba cambio de categoría",
+    "text": "Por este medio te informamos que el cambio de categorias fue aceptado con el siguiente resultado:\n",
+    "add": "• Se agregó la categoría: $1\n",
+    "adds": "• Las categorías agregadas: $1\n",
+    "remove": "• Se eliminó la categoría: $2\n",
+    "removes": "• Las categorías elimidas: $2\n",
+    "finish": "Muchas gracias por participar. No responder a este mensaje ya que es automático."
+  },
+  "rejectPetitionM": {
+    "subject": "SOMOS aprueba cambio de categoría",
+    "text": "Por este medio se te informa que no se ha autorizado el cambio de categoría.\nMuchas gracias por participar. Por favor, no responder a este mensaje ya que es automático."
+  },
+  "tokenRecived": {
+    "subject": "SOMOS envía token",
+    "text": "El token para restablecer tu contraseña es $1 \nPor motivos de seguridad, este código caducará inmediatamente después de que se haya restablecido tu contraseña."
+  }
+}

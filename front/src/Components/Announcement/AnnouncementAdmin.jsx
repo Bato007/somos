@@ -40,10 +40,6 @@ const AnnouncementAdmin = () => {
   }
 
   useEffect(() => {
-    console.log(actualAnnounces)
-  }, [actualAnnounces])
-
-  useEffect(() => {
     getAnnounces()
   }, [])
 
@@ -51,7 +47,7 @@ const AnnouncementAdmin = () => {
    * Funcion usada para aceptar un anuncio: Se queda publicado y a los
    * administradores les saldra opcion de borrarlo
    */
-  const acceptAnnouncement = (result, index) => {
+  const acceptAnnouncement = (result) => {
     swal({
       title: 'Aceptar anuncio',
       text: '¿Estas seguro de aceptar el anuncio?',
@@ -72,15 +68,7 @@ const AnnouncementAdmin = () => {
             title: 'Se acepto el anuncio con éxito',
             icon: 'success',
           })
-          setActualAnnounces((oldValue) => {
-            console.log(oldValue, index, 76)
-            const value = { ...result, published: 1 }
-            oldValue.splice(index, 1)
-            console.log(oldValue, index, 80)
-            oldValue.push(value)
-            console.log(oldValue, index, 82)
-            return [...oldValue]
-          })
+          getAnnounces()
         } else {
           // Hubo un error con la subida de archivos
           swal({
@@ -95,7 +83,7 @@ const AnnouncementAdmin = () => {
   /**
    * Funcion usada para denegar un anuncio: Se elimina el anuncio
    */
-  const deleteAnnouncement = (result, index) => {
+  const deleteAnnouncement = (result) => {
     swal({
       title: 'Eliminar anuncio',
       text: '¿Estas seguro de eliminar el anuncio? Este proceso es no revertible',
@@ -116,12 +104,7 @@ const AnnouncementAdmin = () => {
             title: 'Se eliminó con éxito',
             icon: 'success',
           })
-          setActualAnnounces((old) => {
-            console.log(old, index, 120)
-            old.splice(index, 1)
-            console.log(old, index, 122)
-            return [...old]
-          })
+          getAnnounces()
         } else {
           // Hubo un error con la subida de archivos
           swal({
@@ -156,7 +139,7 @@ const AnnouncementAdmin = () => {
             </div>
           </label>
         </div>
-        {actualAnnounces.map((result, index) => (
+        {actualAnnounces.map((result) => (
           <>
             {result.published === actualStatus
               ? (
@@ -164,14 +147,14 @@ const AnnouncementAdmin = () => {
                   {result.published === 0
               && (
               <div className="announcementOptions">
-                <Button id="decline" onClick={() => deleteAnnouncement(result, index)} />
-                <Button id="accept" onClick={() => acceptAnnouncement(result, index)} />
+                <Button id="decline" onClick={() => deleteAnnouncement(result)} />
+                <Button id="accept" onClick={() => acceptAnnouncement(result)} />
               </div>
               ) }
                   {result.published > 0
               && (
               <div className="announcementOptions">
-                <Button id="remove" onClick={() => deleteAnnouncement(result, index)} />
+                <Button id="remove" onClick={() => deleteAnnouncement(result)} />
               </div>
               )}
                   <h1>{result.title}</h1>

@@ -14,6 +14,36 @@ const router = express.Router()
 
 /**
  * @swagger
+ * /categories:
+ *  get:
+ *    summary: Retorna todas las categorias con sus usuarios
+ *    tags: [Categorias]
+ *    responses:
+ *      200:
+ *        description: Obtiene todas las categorias con los usuarios que pertenecen
+ *        content:
+ *          application/json:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/Category'
+ *      500:
+ *        description: Hubo un error del server
+ */
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await cCategories.get()
+    const aux = []
+    categories.forEach((category) => {
+      aux.push(category.data())
+    })
+    res.status(200).json(aux)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+})
+
+/**
+ * @swagger
  * /categories/name:
  *  get:
  *    summary: Retorna todos los nombres de las categorias

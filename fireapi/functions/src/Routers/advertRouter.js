@@ -2,7 +2,7 @@ const express = require('express')
 const Joi = require('joi')
 const customJoi = Joi.extend(require('joi-phone-number'))
 const tokenGenerator = require('uuid-v4')
-const { cAnnouncements } = require('../DataBase/firebase')
+const { cAnnouncements, cUsers } = require('../DataBase/firebase')
 
 const router = express.Router()
 
@@ -84,13 +84,11 @@ const router = express.Router()
  */
 router.get('/', async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.get()
+    const tempAnnouncements = await cAnnouncements.where('published', '==', 1).get()
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -116,46 +114,14 @@ router.get('/', async (req, res) => {
  */
 router.get('/help', async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where('type', '==', 'help').get()
+    const temp = cAnnouncements.where('type', '==', 'help')
+    const tempAnnouncements = await temp.where('published', '==', 1).get()
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
-  } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
-  }
-})
-
-/**
- * @swagger
- * /announcements/help/published:
- *  get:
- *    summary: Retorna todos los anuncios de los brindadores de servicio publicados
- *    tags: [Anuncios]
- *    responses:
- *      200:
- *        description: Obtiene los anuncios con published 1
- *        content:
- *          application/json:
- *            type: array
- *            items:
- *              $ref: '#/components/schemas/Anuncio'
- */
-router.get('/help/published', async (req, res) => {
-  try {
-    const aux = cAnnouncements.where('type', '==', 'help')
-    const tempAnnouncements = await aux.where('published', '==', 1).get()
-    const announcements = []
-    tempAnnouncements.forEach((announcement) => {
-      const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
-    })
   } catch (error) {
     res.status(400).json({ message: 'Unexpected' })
   }
@@ -178,45 +144,12 @@ router.get('/help/published', async (req, res) => {
  */
 router.get('/home', async (req, res) => {
   try {
-    const tempAnnouncements = await cAnnouncements.where('type', '==', 'home').get()
-    const announcements = []
-    tempAnnouncements.forEach((announcement) => {
-      const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
-    })
-    res.status(200).json(announcements)
-  } catch (error) {
-    res.status(400).json({ message: 'Unexpected' })
-  }
-})
-
-/**
- * @swagger
- * /announcements/home/published:
- *  get:
- *    summary: Retorna todos los anuncios de los hogares / iglesias publicados
- *    tags: [Anuncios]
- *    responses:
- *      200:
- *        description: Obtiene los anuncios con published 1
- *        content:
- *          application/json:
- *            type: array
- *            items:
- *              $ref: '#/components/schemas/Anuncio'
- */
-router.get('/home/published', async (req, res) => {
-  try {
     const aux = cAnnouncements.where('type', '==', 'home')
     const tempAnnouncements = await aux.where('published', '==', 1).get()
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -248,21 +181,15 @@ router.get('/home/published', async (req, res) => {
  */
 router.post('/home', async (req, res) => {
   const schema = Joi.object({
-    contact: Joi.string().min(1).required(),
-    phone: customJoi.string()
-      .phoneNumber({
-        defaultCountry: 'GT',
-        format: 'national',
-        strict: false, // Bajo visor
-      })
-      .required(),
-    email: Joi.string()
-      .min(6) // Se espera valores minimos de 1 caracter + @ + emailProvider + terminacion.min(3)
-      .email({ tlds: { allow: false } })
-      .required(),
+    username: Joi.string().required(),
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
-    date: Joi.date().required(),
+    duration: Joi.date().required().messages({
+      'date.format': 'ERROR 101 invalid date must be \'MM-DD-YYYY\'',
+    }),
+  }).messages({
+    'any.required': 'ERROR 100 missing required fields',
+    'string.empty': 'ERROR 100 empty required field',
   })
 
   // Validar informacion
@@ -273,24 +200,34 @@ router.post('/home', async (req, res) => {
   } else {
     try {
       const {
-        contact, phone, email, title, description, date,
+        title, description, duration, username,
       } = req.body
+      const {
+        name, email, phone, categories,
+      } = (await cUsers.doc(username).get()).data()
 
-      const id = tokenGenerator()
-      await cAnnouncements.doc(id).set({
-        id,
-        contact,
-        phone,
-        email,
-        title,
-        description,
-        toDate: date,
-        type: 'home',
-        published: 0,
-      })
-      res.status(200).json({ message: 'Added' })
+      // Se verifica si tiene la categoria necesaria
+      if (categories.includes('iglesia') || categories.includes('hogar')) {
+        const id = tokenGenerator()
+        await cAnnouncements.doc(id).set({
+          id,
+          contact: name,
+          phone,
+          email,
+          title,
+          description,
+          toDate: duration,
+          type: 'home',
+          published: 0,
+        })
+        res.status(200)
+      } else {
+        res.status(403)
+      }
     } catch (error) {
       res.status(500).json({ message: 'Unexpected' })
+    } finally {
+      res.end()
     }
   }
 })

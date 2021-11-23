@@ -2,7 +2,10 @@ const express = require('express')
 const Joi = require('joi').extend(require('@joi/date'))
 const keyGen = require('random-key')
 const tokenGenerator = require('uuid-v4')
-const { cUsers, cKeys, cAnnouncements } = require('../DataBase/firebase')
+const {
+  cUsers, cKeys, cAnnouncements, cReset,
+} = require('../DataBase/firebase')
+const { valPassword } = require('../Middleware/validation')
 const { sendMail } = require('../Middleware/services')
 const { tokenRecived } = require('../../mails/messages.json')
 
@@ -118,7 +121,7 @@ router.post('/login', async (req, res) => {
  */
 router.post('/recovery', async (req, res) => {
   const schema = Joi.object({
-    email: Joi.string().min(5).required(),
+    email: Joi.string().email().required(),
   })
 
   // Valida informacion
@@ -134,12 +137,22 @@ router.post('/recovery', async (req, res) => {
       if (users.empty) {
         throw { message: '101' }
       }
+      let username = ''
+      users.forEach((user) => {
+        if (username !== '') {
+          username = user.data().username
+        }
+      })
 
       // Extrae informacion del usuario
       const { subject, text } = tokenRecived
-      // Genera token ¿?
       const token = keyGen.generate(6)
-      sendMail(email, subject, text)
+
+      // Se guarda en la base de datos
+      await cReset.doc(username).set({ token, username })
+
+      const message = text.replace('$1', token)
+      sendMail(email, subject, message)
       res.status(200).end()
     } catch (error) {
       res.statusCode = 400
@@ -159,7 +172,7 @@ router.put('/recovery/token', async (req, res) => {
   const schema = Joi.object({
     password: Joi.string().min(8).required(),
     confirmPassword: Joi.string().required().valid(Joi.ref('password')),
-    token: Joi.string().min(6).required(),
+    token: Joi.string().min(6).max(6).required(),
   })
 
   // Valida informacion
@@ -173,25 +186,28 @@ router.put('/recovery/token', async (req, res) => {
       const {
         password, confirmPassword, token,
       } = req.body
-      const { username, givenToken } = req.headers
+      const fTokens = await cReset.where('token', '==', token).get()
+
+      // Verificando que este en la base de datos
+      let username = ''
+      fTokens.forEach((fToken) => {
+        username = (fToken.data()).username
+      })
 
       // Verifica el token dado con el ingresado
-      if (givenToken !== token) {
-        res.statusCode = 401
-        res.end()
-        // Verifica la contraseña con la confirmacion
-      } else if (password !== confirmPassword) {
-        res.statusCode = 400
-        res.end()
-      } else {
+      if (username !== '' && password === confirmPassword && valPassword(password)) {
         await cUsers.doc(username).update({
           password,
         })
+        await cReset.doc(username).delete()
         res.statusCode = 200
-        res.end()
+      } else {
+        res.statusCode = 400
       }
     } catch (error) {
+      console.log(error)
       res.statusCode = 500
+    } finally {
       res.end()
     }
   }

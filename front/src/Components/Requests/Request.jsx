@@ -32,7 +32,6 @@ const Request = () => {
     // 200 se acepto
     // 404 no se encontro la peticion
     // 500 error del sistema
-    console.log('el status es', status)
     if (status === 200) {
       // Se realizo la operacion
       swal({

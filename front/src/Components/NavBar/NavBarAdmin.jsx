@@ -3,6 +3,7 @@
 import React from 'react'
 import swal from 'sweetalert'
 import { useHistory } from 'react-router-dom'
+import apiURL from '../fetch'
 import logo from '../../static/imagesNavBar/logo.png'
 import accountIcon from '../../static/imagesNavBar/account.png'
 import createAccountIcon from '../../static/imagesNavBar/addAccount.png'
@@ -22,6 +23,10 @@ const NavBarAdmin = () => {
       buttons: ['Cancelar', 'Aceptar'],
     }).then(async (res) => {
       if (res) {
+        fetch(`${apiURL}/user/logout/${localStorage.getItem('username')}`, {
+          method: 'PUT',
+          headers: { 'Content-type': 'application/json', somoskey: `${localStorage.getItem('somoskey')}` },
+        })
         localStorage.clear()
         history.replace('/')
       }

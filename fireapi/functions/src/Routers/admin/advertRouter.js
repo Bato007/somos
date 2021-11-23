@@ -1,6 +1,7 @@
 const express = require('express')
 const { cAnnouncements } = require('../../DataBase/firebase')
 const { sendMail } = require('../../Middleware/services')
+const { acceptAnnouncementM, rejectAnnouncementM } = require('../../../mails/messages.json')
 
 const router = express.Router()
 
@@ -28,9 +29,7 @@ router.get('/', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -60,9 +59,7 @@ router.get('/nonpublished', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.statusCode = 200
     res.json(announcements)
@@ -94,9 +91,7 @@ router.get('/help/nonpublished', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -126,9 +121,7 @@ router.get('/home/nonpublished', async (req, res) => {
     const announcements = []
     tempAnnouncements.forEach((announcement) => {
       const data = announcement.data()
-      let { toDate } = data
-      toDate = toDate.toDate()
-      announcements.push({ ...data, toDate })
+      announcements.push(data)
     })
     res.status(200).json(announcements)
   } catch (error) {
@@ -161,44 +154,14 @@ router.put('/accept/:id', async (req, res) => {
     await cAnnouncements.doc(id).update({
       published: 1,
     })
-    sendMail()
+    const { email, contact, title } = (await cAnnouncements.doc(id).get()).data()
+    const { subject, text } = acceptAnnouncementM
+    let message = text.replace('$1', contact)
+    message = message.replace('$2', title)
     res.statusCode = 200
-    // Se manda el mail
-  } catch (error) {
-    res.statusCode = 404
-  } finally {
-    res.end()
-  }
-})
-
-/**
- * @swagger
- * /admin/announcements/deny/{id}:
- *  put:
- *    summary: Rechaza un anuncio
- *    tags: [Admin, Anuncios]
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: string
- *        required: true
- *        description: El id del anuncio
- *    responses:
- *      200:
- *        description: El anuncio fue rechazado
- *      404:
- *        description: El id no existe
- */
-router.put('/deny/:id', async (req, res) => {
-  const { id } = req.params
-  try {
-    await cAnnouncements.doc(id).update({
-      published: 2,
-    })
-    sendMail()
-    res.statusCode = 200
-    // Se manda el mail
+    if (email) {
+      sendMail(email, subject, message)
+    }
   } catch (error) {
     res.statusCode = 404
   } finally {
@@ -228,8 +191,18 @@ router.put('/deny/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
+    const {
+      email, contact, title, published,
+    } = (await cAnnouncements.doc(id).get()).data()
     await cAnnouncements.doc(id).delete()
     res.statusCode = 200
+
+    if (email && published === 0) {
+      const { subject, text } = rejectAnnouncementM
+      let message = text.replace('$1', contact)
+      message = message.replace('$2', title)
+      sendMail(email, subject, message)
+    }
   } catch (error) {
     res.statusCode = 400
   } finally {

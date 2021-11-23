@@ -1,6 +1,13 @@
 const express = require('express')
 const Joi = require('joi')
-const { cUsers } = require('../../DataBase/firebase')
+const {
+  cUsers, cPetitions, cKeys, cResources,
+} = require('../../DataBase/firebase')
+const { valPassword, valRegion } = require('../../Middleware/validation')
+const {
+  sendMail, makeLower, createCategories, deleteCategories, getArrayDiff,
+} = require('../../Middleware/services')
+const { acceptPetitionM, rejectPetitionM } = require('../../../mails/messages.json')
 
 const router = express.Router()
 
@@ -126,9 +133,24 @@ router.post('/signup', async (req, res) => {
     try {
       const {
         username, password, email, name,
-        phone, workplace, residence, church, categories,
+        phone, workplace, church,
       } = req.body
+      let { categories, residence } = req.body
+      categories = makeLower(categories)
 
+      // Verificando que el usuario no este ingresado
+      const users = await cUsers.where('username', '==', username).get()
+      if (!users.empty) {
+        throw { message: 'User Exists' }
+      }
+
+      // Se valida la residencia
+      residence = valRegion(residence)
+      if (!residence) { throw { message: 'Residence not Valid' } }
+      if (!valPassword(password)) { throw { message: 'No Valid Pass' } }
+
+      const response = createCategories(categories, username)
+      if (!response) { throw { message: 'ERROR' } }
       // Se mete el usuario
       cUsers.doc(username).set({
         username,
@@ -142,6 +164,9 @@ router.post('/signup', async (req, res) => {
         categories,
         active: true,
       })
+
+      // Ahora se agregan las categorias que no existen con su usuario
+
       answer.message = 'DONE'
       res.status(200).json(answer)
     } catch (error) {
@@ -163,11 +188,34 @@ router.post('/signup', async (req, res) => {
         answer.message = 'ERROR 109'
       } else if (err.indexOf('«fk_category_user»') !== -1) {
         answer.message = 'ERROR 110'
+      } else if (err === 'User Exists') {
+        answer.message = 'ERROR 111'
+      } else if (err === 'Residence not Valid') {
+        answer.message = 'ERROR 112'
+      } else if (err === 'No Valid Pass') {
+        answer.message = 'ERROR 113'
       } else {
         answer.message = 'ERROR'
       }
       res.status(400).json(answer)
     }
+  }
+})
+
+router.put('/other/category', async (req, res) => {
+  const { username } = req.body
+  let { categories } = req.body
+  try {
+    const fUser = (await cUsers.doc(username).get()).data()
+    categories = makeLower(categories)
+    // Ahora verifico las diferencias
+    const { added, removed } = getArrayDiff(fUser.categories, categories)
+    createCategories(added, username)
+    deleteCategories(removed, username)
+    await cUsers.doc(username).update({ categories })
+    res.status(200).end()
+  } catch (error) {
+    res.status(500).end()
   }
 })
 
@@ -209,9 +257,104 @@ router.put('/activate', async (req, res) => {
   }
 })
 
-router.put('/approve/:username')
+router.get('/petitions', async (req, res) => {
+  try {
+    const temp = await cPetitions.get()
+    if (!temp.empty) {
+      const petitions = []
+      temp.forEach((element) => {
+        petitions.push({
+          username: element.id,
+          ...element.data(),
+        })
+      })
+      res.status(200).json(petitions)
+    } else {
+      res.status(404).json({ message: 'Empty petitions' })
+    }
+  } catch (error) {
+    res.status(500).end()
+  }
+})
 
-router.put('/disapprove/:username')
+router.put('/approve/:username', async (req, res) => {
+  try {
+    const { username } = req.params
+    const petition = (await cPetitions.doc(username).get()).data()
+    if (petition.empty) {
+      res.status(404).end()
+    } else {
+      // Se enconro el request
+      const { added, removed } = petition
+      const { categories, email } = (await cUsers.doc(username).get()).data()
+
+      added.forEach((element) => {
+        categories.push(element)
+      })
+      removed.forEach((element) => {
+        const index = categories.indexOf(element)
+        categories.splice(index, 1)
+      })
+
+      // Actualizmos en la base de datos las categorias
+      createCategories(added, username)
+      deleteCategories(removed, username)
+
+      await cUsers.doc(username).update({
+        categories,
+      })
+      await cPetitions.doc(username).delete()
+
+      const {
+        subject, text, add, remove, adds, removes, finish,
+      } = acceptPetitionM
+      let message = text
+
+      // Mensaje cuando se agreguen categorias
+      if (added.length === 1) {
+        message += add.replace('$1', added[0])
+      } else if (added.length > 1) {
+        let addedT = ''
+        added.forEach((element) => { addedT += element })
+        message += adds.replace('$1', addedT)
+      }
+
+      // Mensaje cuando se quita
+      if (removed.length === 1) {
+        message += remove.replace('$1', removed[0])
+      } else if (removed.length > 1) {
+        let removedT = ''
+        removed.forEach((element) => { removedT += element })
+        message += removes.replace('$1', removedT)
+      }
+      message += finish
+      sendMail(email, subject, message)
+
+      res.status(200).end()
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).end()
+  }
+})
+
+router.put('/disapprove/:username', async (req, res) => {
+  try {
+    const { username } = req.params
+    const petition = (await cPetitions.doc(username).get()).data()
+    if (petition.empty) {
+      res.status(404).end()
+    } else {
+      await cPetitions.doc(username).delete()
+      const { email } = (await cUsers.doc(username).get()).data()
+      res.status(200).end()
+      const { subject, text } = rejectPetitionM
+      sendMail(email, subject, text)
+    }
+  } catch (error) {
+    res.status(500).end()
+  }
+})
 
 /*
   Esta funcion recibe el username de la que se quiere borrar
@@ -220,10 +363,34 @@ router.put('/disapprove/:username')
 router.delete('/:username', async (req, res) => {
   const { username } = req.params
   try {
-    await cUsers.doc(username).delete()
-    res.status(200).json()
+    // Se borran de lo normal
+    const user = (await cUsers.doc(username).get()).data()
+    if (user) {
+      const { categories } = user
+      await cUsers.doc(username).delete()
+      await cKeys.doc(username).delete()
+      await cPetitions.doc(username).delete()
+
+      // Se borra de recursos y categorias
+      deleteCategories(categories, username)
+
+      const resources = await cResources.get()
+      resources.forEach(async (resource) => {
+        const { users } = resource.data()
+        const index = users.indexOf(username)
+        if (index > -1) {
+          users.splice(index, 1)
+          await cResources.doc(resource.id).update({ users })
+        }
+      })
+      res.status(200)
+    } else {
+      res.status(404)
+    }
   } catch (error) {
-    res.status(400).json()
+    res.status(500)
+  } finally {
+    res.end()
   }
 })
 
