@@ -139,7 +139,7 @@ router.post('/recovery', async (req, res) => {
       }
       let username = ''
       users.forEach((user) => {
-        if (username !== '') {
+        if (username === '') {
           username = user.data().username
         }
       })
